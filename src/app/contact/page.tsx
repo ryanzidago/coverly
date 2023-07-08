@@ -3,7 +3,6 @@
 import TextInput from "@/components/text_input";
 import Button from "@/components/button";
 import Link from "next/link";
-import { saveContactForm } from "../actions/contact";
 
 export default function Contact() {
   return (
