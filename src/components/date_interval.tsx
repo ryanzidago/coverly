@@ -1,7 +1,11 @@
+import { useState } from "react";
+
 interface DateIntervalInputProps {
   label: string;
   placeholder?: string;
   value?: string;
+  id: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function DateIntervalInput(props: DateIntervalInputProps) {
@@ -12,13 +16,17 @@ export default function DateIntervalInput(props: DateIntervalInputProps) {
     yearOptions.push(i);
   }
 
+  const monthIntervalId = props.id + "_month";
+  const yearIntervalId = props.id + "_year";
+
   return (
     <div className="flex flex-row items-end w-full gap-8">
-      <label className="flex flex-col gap-2 w-full">
+      <label htmlFor={monthIntervalId} className="flex flex-col gap-2 w-full">
         <span>{props.label}</span>
         <select
-          name="month_interval"
-          id="month_interval"
+          name={monthIntervalId}
+          id={monthIntervalId}
+          onChange={props.onChange}
           className="cursor-pointer appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
         >
           <option value="january">January</option>
@@ -36,10 +44,11 @@ export default function DateIntervalInput(props: DateIntervalInputProps) {
         </select>
       </label>
 
-      <label className="flex flex-col w-full">
+      <label htmlFor={yearIntervalId} className="flex flex-col w-full">
         <select
-          name="year_interval"
-          id="year_interval"
+          name={yearIntervalId}
+          id={yearIntervalId}
+          onChange={props.onChange}
           className="cursor-pointer appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
         >
           {yearOptions.reverse().map((year) => (
