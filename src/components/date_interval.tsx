@@ -15,17 +15,15 @@ export default function DateIntervalInput(props: DateIntervalInputProps) {
   for (let i = startYear; i <= currentYear; i++) {
     yearOptions.push(i);
   }
-
-  const monthIntervalId = props.id + "_month";
-  const yearIntervalId = props.id + "_year";
+  const [interval, setInterval] = useState("");
 
   return (
     <div className="flex flex-row items-end w-full gap-8">
-      <label htmlFor={monthIntervalId} className="flex flex-col gap-2 w-full">
+      <label htmlFor="month" className="flex flex-col gap-2 w-full">
         <span>{props.label}</span>
         <select
-          name={monthIntervalId}
-          id={monthIntervalId}
+          name="month"
+          id="month"
           onChange={props.onChange}
           className="cursor-pointer appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
         >
@@ -44,10 +42,10 @@ export default function DateIntervalInput(props: DateIntervalInputProps) {
         </select>
       </label>
 
-      <label htmlFor={yearIntervalId} className="flex flex-col w-full">
+      <label htmlFor="year" className="flex flex-col w-full">
         <select
-          name={yearIntervalId}
-          id={yearIntervalId}
+          name="year"
+          id="year"
           onChange={props.onChange}
           className="cursor-pointer appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
         >
