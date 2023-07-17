@@ -6,8 +6,6 @@ import TextAreaInput from "@/components/text_area_input";
 import { ChangeEvent, Key, useEffect, useState } from "react";
 
 export default function WorkExperienceForm({ updateFields }) {
-  console.log(workExperiences);
-
   const defaultWorkExp = {
     title: "",
     companyName: "",
