@@ -14,7 +14,7 @@ export default function WorkExperienceForm({ updateFields }) {
     description: "",
   };
 
-  const [workExps, setWorkExps] = useState(defaultWorkExp);
+  const [workExps, setWorkExps] = useState([defaultWorkExp]);
 
   function isFirstWorkExp(index: number) {
     return index == 0;
@@ -34,7 +34,7 @@ export default function WorkExperienceForm({ updateFields }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workExps]);
 
-  return workExps.map((workExps: any, index) => (
+  return workExps.map((workExps, index) => (
     <div
       key={index}
       className="flex flex-col justify-center items-center gap-8 text-slate-700"
