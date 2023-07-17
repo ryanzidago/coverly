@@ -1,7 +1,7 @@
 "use client";
 
 import ContactForm from "@/components/forms/contact";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useMultistepForm } from "./hooks/use_multi_step_form";
 import WorkExperienceForm from "@/components/forms/work-experience";
 
@@ -19,27 +19,27 @@ type WorkExperienceFormData = {
   description: string;
 };
 
-type FormData = ContactFormData & WorkExperienceFormData;
+type FormData = ContactFormData & { workExperiences: WorkExperienceFormData[] };
 
 const INITIAL_DATA: FormData = {
   firstName: "",
   lastName: "",
   email: "",
-  title: "",
-  companyName: "",
-  startDate: "",
-  endDate: "",
-  description: "",
+  workExperiences: [
+    {
+      title: "",
+      companyName: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+    },
+  ],
 };
 
 export default function Layout() {
   const [formData, setFormData] = useState(INITIAL_DATA);
 
-  function updateFields({
-    target: { name, value },
-  }: ChangeEvent<HTMLInputElement>) {
-    const fields: Partial<FormData> = { [name]: value };
-
+  function updateFields(fields: Partial<FormData>) {
     setFormData((prev) => {
       return { ...prev, ...fields };
     });
