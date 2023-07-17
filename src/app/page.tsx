@@ -4,6 +4,7 @@ import ContactForm from "@/components/forms/contact";
 import { FormEvent, useState } from "react";
 import { useMultistepForm } from "./hooks/use_multi_step_form";
 import WorkExperienceForm from "@/components/forms/work-experience";
+import EducationEntries from "@/components/forms/education-entries";
 
 type ContactFormData = {
   firstName: string;
@@ -19,25 +20,37 @@ type WorkExperienceFormData = {
   description: string;
 };
 
-type FormData = ContactFormData & { workExperiences: WorkExperienceFormData[] };
-
-const INITIAL_DATA: FormData = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  workExperiences: [
-    {
-      title: "",
-      companyName: "",
-      startDate: "",
-      endDate: "",
-      description: "",
-    },
-  ],
+type EducationFormData = {
+  degree: string;
+  institutionName: string;
+  startDate: string;
+  endDate: string;
+  description: string;
 };
 
+type FormData = ContactFormData & {
+  workExperiences: WorkExperienceFormData[];
+  educationEntries: EducationFormData[];
+};
+
+// const INITIAL_DATA: FormData = {
+//   firstName: "",
+//   lastName: "",
+//   email: "",
+//   workExperiences: [
+//     {
+//       title: "",
+//       companyName: "",
+//       startDate: "",
+//       endDate: "",
+//       description: "",
+//     },
+//   ],
+
+// };
+
 export default function Layout() {
-  const [formData, setFormData] = useState(INITIAL_DATA);
+  const [formData, setFormData] = useState({});
 
   function updateFields(fields: Partial<FormData>) {
     setFormData((prev) => {
@@ -63,6 +76,11 @@ export default function Layout() {
       />,
       <WorkExperienceForm
         key="work-experience-form"
+        {...formData}
+        updateFields={updateFields}
+      />,
+      <EducationEntries
+        key="education-entries-form"
         {...formData}
         updateFields={updateFields}
       />,
