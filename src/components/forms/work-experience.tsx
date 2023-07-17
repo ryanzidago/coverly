@@ -6,7 +6,7 @@ import TextAreaInput from "@/components/text_area_input";
 import { ChangeEvent, Key, useEffect, useState } from "react";
 
 export default function WorkExperienceForm({ updateFields }) {
-  const defaultWorkExp = {
+  const defaultEntry = {
     title: "",
     companyName: "",
     startDate: "",
@@ -14,7 +14,7 @@ export default function WorkExperienceForm({ updateFields }) {
     description: "",
   };
 
-  const [workExps, setWorkExps] = useState([defaultWorkExp]);
+  const [entries, setEntries] = useState([defaultEntry]);
 
   function isFirstWorkExp(index: number) {
     return index == 0;
@@ -22,19 +22,19 @@ export default function WorkExperienceForm({ updateFields }) {
 
   function handleChange(event: ChangeEvent<HTMLInputElement>, index: number) {
     const { name: key, value } = event.target;
-    setWorkExps((prevWorkExps) => {
-      const updatedWorkExps = [...prevWorkExps];
-      updatedWorkExps[index] = { ...prevWorkExps[index], [key]: value };
-      return updatedWorkExps;
+    setEntries((prevEntries) => {
+      const updatedEntries = [...prevEntries];
+      updatedEntries[index] = { ...prevEntries[index], [key]: value };
+      return updatedEntries;
     });
   }
 
   useEffect(() => {
-    updateFields({ workExperiences: workExps });
+    updateFields({ workEntries: entries });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [workExps]);
+  }, [entries]);
 
-  return workExps.map((workExp, index) => (
+  return entries.map((workExp, index) => (
     <div
       key={index}
       className="flex flex-col justify-center items-center gap-8 text-slate-700"
@@ -72,7 +72,7 @@ export default function WorkExperienceForm({ updateFields }) {
       />
       <button
         type="button"
-        onClick={(e) => setWorkExps([...workExps, defaultWorkExp])}
+        onClick={(e) => setEntries([...entries, defaultEntry])}
         className={"transition duration-200 hover:text-slate-500"}
       >
         Add work experience

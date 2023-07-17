@@ -29,7 +29,7 @@ type EducationFormData = {
 };
 
 type FormData = ContactFormData & {
-  workExperiences: WorkExperienceFormData[];
+  workEntries: WorkExperienceFormData[];
   educationEntries: EducationFormData[];
 };
 
