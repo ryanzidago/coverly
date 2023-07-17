@@ -34,7 +34,7 @@ export default function WorkExperienceForm({ updateFields }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workExps]);
 
-  return workExps.map((workExps, index) => (
+  return workExps.map((workExp, index) => (
     <div
       key={index}
       className="flex flex-col justify-center items-center gap-8 text-slate-700"
