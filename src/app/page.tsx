@@ -1,10 +1,10 @@
 "use client";
 
-import ContactForm from "@/components/forms/contact";
+import ContactForm from "@/components/steps/contact";
 import { FormEvent, useState } from "react";
 import { useMultistepForm } from "./hooks/use_multi_step_form";
-import WorkExperienceForm from "@/components/forms/work-experience";
-import EducationEntries from "@/components/forms/education-entries";
+import WorkExperienceForm from "@/components/steps/work-experience";
+import EducationEntries from "@/components/steps/education-entries";
 
 type ContactFormData = {
   firstName: string;
@@ -32,22 +32,6 @@ type FormData = ContactFormData & {
   workEntries: WorkExperienceFormData[];
   educationEntries: EducationFormData[];
 };
-
-// const INITIAL_DATA: FormData = {
-//   firstName: "",
-//   lastName: "",
-//   email: "",
-//   workExperiences: [
-//     {
-//       title: "",
-//       companyName: "",
-//       startDate: "",
-//       endDate: "",
-//       description: "",
-//     },
-//   ],
-
-// };
 
 export default function Layout() {
   const [formData, setFormData] = useState({});
@@ -100,7 +84,6 @@ export default function Layout() {
         >
           Back
         </button>
-
         <button type="submit">Next</button>
       </div>
     </form>
