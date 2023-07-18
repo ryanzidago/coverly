@@ -20,8 +20,7 @@ export default function EducationEntries({ updateFields }) {
     return index == 0;
   }
 
-  function handleChange(event, index: number) {
-    const { name: key, value } = event.target;
+  function handleChange(key: string, value: string, index: number) {
     setEntries((prevEntries) => {
       const updatedEntries = [...prevEntries];
       updatedEntries[index] = { ...prevEntries[index], [key]: value };
@@ -43,32 +42,34 @@ export default function EducationEntries({ updateFields }) {
       <TextInput
         id="degree"
         label="Degree"
-        onChange={(e) => handleChange(e, index)}
+        onChange={(e) => handleChange("degree", e.target.value, index)}
       />
       <TextInput
         id="institutionName"
         label="Institution Name"
-        onChange={(e) => handleChange(e, index)}
+        onChange={(e) => handleChange("institutionName", e.target.value, index)}
       />
       <TextInput
         id="location"
         label="Location"
-        onChange={(e) => handleChange(e, index)}
+        onChange={(e) => handleChange("location", e.target.value, index)}
       />
       <DateIntervalInput
         id="startDate"
         label="Start date"
-        onChange={(e) => handleChange(e, index)}
+        index={index}
+        onChange={handleChange}
       />
       <DateIntervalInput
         id="endDate"
         label="End date"
-        onChange={(e) => handleChange(e, index)}
+        index={index}
+        onChange={handleChange}
       />
       <TextAreaInput
         id="description"
         label="Description"
-        onChange={(e) => handleChange(e, index)}
+        onChange={(e) => handleChange("description", e.target.value, index)}
       />
       <button
         type="button"

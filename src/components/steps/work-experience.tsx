@@ -20,8 +20,7 @@ export default function WorkExperienceForm({ updateFields }) {
     return index == 0;
   }
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>, index: number) {
-    const { name: key, value } = event.target;
+  function handleChange(key: string, value: string, index: number) {
     setEntries((prevEntries) => {
       const updatedEntries = [...prevEntries];
       updatedEntries[index] = { ...prevEntries[index], [key]: value };
@@ -43,32 +42,34 @@ export default function WorkExperienceForm({ updateFields }) {
       <TextInput
         id="title"
         label="Title"
-        onChange={(e) => handleChange(e, index)}
+        onChange={(e) => handleChange("title", e.target.value, index)}
       />
       <TextInput
         id="companyName"
         label="Company name"
-        onChange={(e) => handleChange(e, index)}
+        onChange={(e) => handleChange("companyName", e.target.value, index)}
       />
       <TextInput
         id="location"
         label="Location"
-        onChange={(e) => handleChange(e, index)}
+        onChange={(e) => handleChange("location", e.target.value, index)}
       />
       <DateIntervalInput
         id="startDate"
         label="Start date"
-        onChange={(e) => handleChange(e, index)}
+        index={index}
+        onChange={handleChange}
       />
       <DateIntervalInput
         id="endDate"
         label="End date"
-        onChange={(e) => handleChange(e, index)}
+        index={index}
+        onChange={handleChange}
       />
       <TextAreaInput
         id="description"
         label="Description"
-        onChange={(e) => handleChange(e, index)}
+        onChange={(e) => handleChange("description", e.target.value, index)}
       />
       <button
         type="button"

@@ -1,7 +1,6 @@
 "use client";
 
 import TextInput from "@/components/text_input";
-import { useState } from "react";
 
 export default function ContactForm({ updateFields }) {
   return (
