@@ -1,6 +1,7 @@
 "use client";
 
 import TextInput from "@/components/text_input";
+import URLInput from "../url_input";
 
 export default function ContactForm({ updateFields }) {
   return (
@@ -17,9 +18,24 @@ export default function ContactForm({ updateFields }) {
         onChange={(e) => updateFields({ lastName: e.target.value })}
       />
       <TextInput
+        id="label"
+        label="Title"
+        onChange={(e) => updateFields({ label: e.target.value })}
+      />
+      <TextInput
         id="email"
         label="Email"
         onChange={(e) => updateFields({ email: e.target.value })}
+      />
+      <TextInput
+        id="phoneNumber"
+        label="Phone number"
+        onChange={(e) => updateFields({ phoneNumber: e.target.value })}
+      />
+      <URLInput
+        id="website"
+        label="Website"
+        onChange={(e) => updateFields({ webiste: e.target.value })}
       />
     </div>
   );

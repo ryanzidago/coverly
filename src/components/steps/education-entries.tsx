@@ -40,9 +40,14 @@ export default function EducationEntries({ updateFields }) {
     >
       {isFirstEntry(index) && <h1 className="text-xl">Education</h1>}
       <TextInput
-        id="degree"
-        label="Degree"
+        id="area"
+        label="Area"
         onChange={(e) => handleChange("degree", e.target.value, index)}
+      />
+      <TextInput
+        id="studyType"
+        label="Degree / Study type"
+        onChange={(e) => handleChange("studyType", e.target.value, index)}
       />
       <TextInput
         id="institutionName"
@@ -65,6 +70,11 @@ export default function EducationEntries({ updateFields }) {
         label="End date"
         index={index}
         onChange={handleChange}
+      />
+      <TextInput
+        id="grade"
+        label="Grade"
+        onChange={(e) => handleChange("grade", e.target.value, index)}
       />
       <TextAreaInput
         id="description"
