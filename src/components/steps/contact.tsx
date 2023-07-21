@@ -1,7 +1,7 @@
 "use client";
 
-import TextInput from "@/components/text_input";
-import URLInput from "../url_input";
+import TextInput from "@/components/text-input";
+import URLInput from "../url-input";
 
 export default function ContactForm({ updateFields }) {
   return (

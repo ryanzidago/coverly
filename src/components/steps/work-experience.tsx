@@ -1,8 +1,8 @@
 "use client";
 
-import TextInput from "@/components/text_input";
-import DateIntervalInput from "@/components/date_interval";
-import TextAreaInput from "@/components/text_area_input";
+import TextInput from "@/components/text-input";
+import DateIntervalInput from "@/components/date-interval";
+import TextAreaInput from "@/components/text-area-input";
 import { ChangeEvent, Key, useEffect, useState } from "react";
 
 export default function WorkExperienceForm({ updateFields }) {

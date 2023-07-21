@@ -72,7 +72,6 @@ const LINK_CLASS = "text-sky-500 font-light hover:text-sky-400 duration-150";
 
 export default function Page() {
   const resume = DUMMY_DATA;
-  console.log(resume.workEntries[0]);
 
   return (
     <div className="flex flex-col gap-2 text-zinc-800 w-[70vh] drop-shadow-sm shadow print:shadow-none rounded-sm p-10 text-sm">

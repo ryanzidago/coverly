@@ -1,8 +1,8 @@
 "use client";
 
-import TextInput from "../text_input";
-import DateIntervalInput from "../date_interval";
-import TextAreaInput from "../text_area_input";
+import TextInput from "../text-input";
+import DateIntervalInput from "../date-interval";
+import TextAreaInput from "../text-area-input";
 import { useEffect, useState } from "react";
 
 export default function EducationEntries({ updateFields }) {

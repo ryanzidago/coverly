@@ -2,7 +2,7 @@
 
 import ContactForm from "@/components/steps/contact";
 import { FormEvent, useState } from "react";
-import { useMultistepForm } from "./hooks/use_multi_step_form";
+import { useMultistepForm } from "./hooks/use-multi-step-form";
 import WorkExperienceForm from "@/components/steps/work-experience";
 import EducationEntries from "@/components/steps/education-entries";
 
