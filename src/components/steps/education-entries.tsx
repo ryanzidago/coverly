@@ -4,6 +4,7 @@ import TextInput from "../text-input";
 import DateIntervalInput from "../date-interval";
 import TextAreaInput from "../text-area-input";
 import { useEffect, useState } from "react";
+import URLInput from "../url-input";
 
 export default function EducationEntries({ updateFields }) {
   const defaultEntry = {
@@ -49,11 +50,20 @@ export default function EducationEntries({ updateFields }) {
         label="Degree / Study type"
         onChange={(e) => handleChange("studyType", e.target.value, index)}
       />
-      <TextInput
-        id="institutionName"
-        label="Institution Name"
-        onChange={(e) => handleChange("institutionName", e.target.value, index)}
-      />
+      <div className="flex flex-row w-full gap-8">
+        <TextInput
+          id="institutionName"
+          label="Institution Name"
+          onChange={(e) =>
+            handleChange("institutionName", e.target.value, index)
+          }
+        />
+        <URLInput
+          label="Website"
+          id="website"
+          onChange={(e) => handleChange("website", e.target.value, index)}
+        />
+      </div>
       <TextInput
         id="location"
         label="Location"

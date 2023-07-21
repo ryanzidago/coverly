@@ -10,11 +10,17 @@ type ContactFormData = {
   firstName: string;
   lastName: string;
   email: string;
+  location: string;
+  title: string;
+  phoneNumber: string;
+  website: string;
 };
 
 type WorkExperienceFormData = {
   title: string;
   companyName: string;
+  website: string;
+  location: string;
   startDate: string;
   endDate: string;
   description: string;
@@ -23,6 +29,9 @@ type WorkExperienceFormData = {
 type EducationFormData = {
   degree: string;
   institutionName: string;
+  website: string;
+  location: string;
+  grade: string;
   startDate: string;
   endDate: string;
   description: string;

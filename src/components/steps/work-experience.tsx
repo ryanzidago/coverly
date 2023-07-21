@@ -3,7 +3,8 @@
 import TextInput from "@/components/text-input";
 import DateIntervalInput from "@/components/date-interval";
 import TextAreaInput from "@/components/text-area-input";
-import { ChangeEvent, Key, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import URLInput from "../url-input";
 
 export default function WorkExperienceForm({ updateFields }) {
   const defaultEntry = {
@@ -44,11 +45,19 @@ export default function WorkExperienceForm({ updateFields }) {
         label="Title"
         onChange={(e) => handleChange("title", e.target.value, index)}
       />
-      <TextInput
-        id="companyName"
-        label="Company name"
-        onChange={(e) => handleChange("companyName", e.target.value, index)}
-      />
+      <div className="flex flex-row w-full gap-8">
+        <TextInput
+          id="companyName"
+          label="Company name"
+          onChange={(e) => handleChange("companyName", e.target.value, index)}
+        />
+
+        <URLInput
+          label="Website"
+          id="website"
+          onChange={(e) => handleChange("website", e.target.value, index)}
+        />
+      </div>
       <TextInput
         id="location"
         label="Location"
