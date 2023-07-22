@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { useMultistepForm } from "./hooks/use-multi-step-form";
 import WorkExperienceForm from "@/components/steps/work-experience";
 import EducationEntries from "@/components/steps/education-entries";
+import FormDataToFile from "@/utils/form-data-to-file";
 
 type ContactFormData = {
   firstName: string;
@@ -55,7 +56,7 @@ export default function Layout() {
     e.preventDefault();
     if (!isLastStep) return next();
     if (isLastStep) {
-      console.log(formData);
+      FormDataToFile(formData);
     }
     alert("Successful Account Creation");
   }
