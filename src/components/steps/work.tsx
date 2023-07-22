@@ -1,23 +1,23 @@
 "use client";
 
-import TextInput from "../text-input";
-import DateInput from "../date-input";
-import TextAreaInput from "../text-area-input";
+import TextInput from "@/components/text-input";
+import DateInput from "@/components/date-input";
+import TextAreaInput from "@/components/text-area-input";
 import { useEffect, useState } from "react";
 import URLInput from "../url-input";
 
-export default function EducationEntries({ updateFields }) {
+export default function Work({ updateFields }) {
   const defaultEntry = {
-    degree: "",
-    institutionName: "",
-    startDate: "",
-    endDate: "",
+    title: "",
+    companyName: "",
+    startDate: null,
+    endDate: null,
     description: "",
   };
 
   const [entries, setEntries] = useState([defaultEntry]);
 
-  function isFirstEntry(index: number) {
+  function isFirstWorkExp(index: number) {
     return index == 0;
   }
 
@@ -30,34 +30,28 @@ export default function EducationEntries({ updateFields }) {
   }
 
   useEffect(() => {
-    updateFields({ educationEntries: entries });
+    updateFields({ workEntries: entries });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entries]);
 
-  return entries.map((entry, index) => (
+  return entries.map((workExp, index) => (
     <div
       key={index}
       className="flex flex-col justify-center items-center gap-8 text-slate-700"
     >
-      {isFirstEntry(index) && <h1 className="text-xl">Education</h1>}
+      {isFirstWorkExp(index) && <h1 className="text-xl">Work Experience</h1>}
       <TextInput
-        id="area"
-        label="Area"
-        onChange={(e) => handleChange("degree", e.target.value, index)}
-      />
-      <TextInput
-        id="studyType"
-        label="Degree / Study type"
-        onChange={(e) => handleChange("studyType", e.target.value, index)}
+        id="title"
+        label="Title"
+        onChange={(e) => handleChange("title", e.target.value, index)}
       />
       <div className="flex flex-row w-full gap-8">
         <TextInput
-          id="institutionName"
-          label="Institution Name"
-          onChange={(e) =>
-            handleChange("institutionName", e.target.value, index)
-          }
+          id="companyName"
+          label="Company name"
+          onChange={(e) => handleChange("companyName", e.target.value, index)}
         />
+
         <URLInput
           label="Website"
           id="website"
@@ -81,11 +75,6 @@ export default function EducationEntries({ updateFields }) {
         index={index}
         onChange={handleChange}
       />
-      <TextInput
-        id="grade"
-        label="Grade"
-        onChange={(e) => handleChange("grade", e.target.value, index)}
-      />
       <TextAreaInput
         id="description"
         label="Description"
@@ -94,9 +83,9 @@ export default function EducationEntries({ updateFields }) {
       <button
         type="button"
         onClick={(e) => setEntries([...entries, defaultEntry])}
-        className="transition duration-200 hover:text-slate-500"
+        className={"transition duration-200 hover:text-slate-500"}
       >
-        Add education
+        Add work experience
       </button>
     </div>
   ));

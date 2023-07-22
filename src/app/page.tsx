@@ -1,10 +1,10 @@
 "use client";
 
-import ContactForm from "@/components/steps/contact";
+import Contact from "@/components/steps/contact";
 import { FormEvent, useState } from "react";
 import { useMultistepForm } from "./hooks/use-multi-step-form";
-import WorkExperienceForm from "@/components/steps/work-experience";
-import EducationEntries from "@/components/steps/education-entries";
+import Work from "@/components/steps/work";
+import Education from "@/components/steps/education";
 import FormDataToFile from "@/utils/form-data-to-file";
 import { processFormData } from "@/utils/process-form-data";
 
@@ -65,17 +65,13 @@ export default function Layout() {
 
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
-      // <ContactForm
-      //   key="contact-form"
-      //   {...formData}
-      //   updateFields={updateFields}
-      // />,
-      <WorkExperienceForm
+      <Contact key="contact-form" {...formData} updateFields={updateFields} />,
+      <Work
         key="work-experience-form"
         {...formData}
         updateFields={updateFields}
       />,
-      <EducationEntries
+      <Education
         key="education-entries-form"
         {...formData}
         updateFields={updateFields}
@@ -83,12 +79,12 @@ export default function Layout() {
     ]);
 
   return (
-    <form className="w-full max-w-xl" onSubmit={onSubmit}>
+    <form className="w-full max-w-xl text-slate-700" onSubmit={onSubmit}>
       <div>
         {currentStepIndex + 1} / {steps.length}
       </div>
       {step}
-      <div className="flex w-full justify-between">
+      <div className="flex w-full justify-between text-slate-700">
         <button
           className={isFirstStep ? "invisible" : ""}
           type="button"
@@ -96,7 +92,9 @@ export default function Layout() {
         >
           Back
         </button>
-        <button type="submit">Next</button>
+        <button className="" type="submit">
+          Next
+        </button>
       </div>
     </form>
   );

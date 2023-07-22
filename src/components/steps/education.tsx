@@ -1,23 +1,23 @@
 "use client";
 
-import TextInput from "@/components/text-input";
-import DateInput from "@/components/date-input";
-import TextAreaInput from "@/components/text-area-input";
+import TextInput from "../text-input";
+import DateInput from "../date-input";
+import TextAreaInput from "../text-area-input";
 import { useEffect, useState } from "react";
 import URLInput from "../url-input";
 
-export default function WorkExperienceForm({ updateFields }) {
+export default function Education({ updateFields }) {
   const defaultEntry = {
-    title: "",
-    companyName: "",
-    startDate: null,
-    endDate: null,
+    degree: "",
+    institutionName: "",
+    startDate: "",
+    endDate: "",
     description: "",
   };
 
   const [entries, setEntries] = useState([defaultEntry]);
 
-  function isFirstWorkExp(index: number) {
+  function isFirstEntry(index: number) {
     return index == 0;
   }
 
@@ -30,28 +30,34 @@ export default function WorkExperienceForm({ updateFields }) {
   }
 
   useEffect(() => {
-    updateFields({ workEntries: entries });
+    updateFields({ educationEntries: entries });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entries]);
 
-  return entries.map((workExp, index) => (
+  return entries.map((entry, index) => (
     <div
       key={index}
       className="flex flex-col justify-center items-center gap-8 text-slate-700"
     >
-      {isFirstWorkExp(index) && <h1 className="text-xl">Work Experience</h1>}
+      {isFirstEntry(index) && <h1 className="text-xl">Education</h1>}
       <TextInput
-        id="title"
-        label="Title"
-        onChange={(e) => handleChange("title", e.target.value, index)}
+        id="area"
+        label="Area"
+        onChange={(e) => handleChange("degree", e.target.value, index)}
+      />
+      <TextInput
+        id="studyType"
+        label="Degree / Study type"
+        onChange={(e) => handleChange("studyType", e.target.value, index)}
       />
       <div className="flex flex-row w-full gap-8">
         <TextInput
-          id="companyName"
-          label="Company name"
-          onChange={(e) => handleChange("companyName", e.target.value, index)}
+          id="institutionName"
+          label="Institution Name"
+          onChange={(e) =>
+            handleChange("institutionName", e.target.value, index)
+          }
         />
-
         <URLInput
           label="Website"
           id="website"
@@ -75,6 +81,11 @@ export default function WorkExperienceForm({ updateFields }) {
         index={index}
         onChange={handleChange}
       />
+      <TextInput
+        id="grade"
+        label="Grade"
+        onChange={(e) => handleChange("grade", e.target.value, index)}
+      />
       <TextAreaInput
         id="description"
         label="Description"
@@ -83,9 +94,9 @@ export default function WorkExperienceForm({ updateFields }) {
       <button
         type="button"
         onClick={(e) => setEntries([...entries, defaultEntry])}
-        className={"transition duration-200 hover:text-slate-500"}
+        className="transition duration-200 hover:text-slate-500"
       >
-        Add work experience
+        Add education
       </button>
     </div>
   ));
