@@ -1,12 +1,12 @@
-const DUMMY_DATA = require("@/data/resume.json");
+import EntryDescription from "./entry-description";
+import EntryHeader from "./entry-header";
+import Link from "./link";
+import Section from "./section";
 
-const SECTION_TITLE_CLASS =
-  "text-xl font-light w-full divide border-b border-slate-20 mb-4";
-
-const LINK_CLASS = "text-sky-500 font-light hover:text-sky-400 duration-150";
+const RESUME = require("@/data/resume.json");
 
 export default function Page() {
-  const resume = DUMMY_DATA;
+  const resume = RESUME;
 
   return (
     <div className="flex flex-col gap-2 text-zinc-800 w-[70vh] drop-shadow-sm shadow print:shadow-none rounded-sm p-10 text-sm">
@@ -20,15 +20,12 @@ export default function Page() {
         </div>
         <div className="flex flex-col items-center mt-2 gap-2">
           <div className="flex flex-row space-x-8">
-            <a className={LINK_CLASS} href={`mailto:${resume.email}`}>
-              {resume.email}
-            </a>
-            <a
-              className={LINK_CLASS}
+            <Link href={`mailto:${resume.email}`}>{resume.email}</Link>
+            <Link
               href={`tel:${resume.phoneNumber.countryCode} ${resume.phoneNumber.number}`}
             >
               {resume.phoneNumber.countryCode} {resume.phoneNumber.number}
-            </a>
+            </Link>
           </div>
           <p>
             {resume.location.city}, {resume.location.country}
@@ -36,77 +33,48 @@ export default function Page() {
         </div>
       </div>
       {/* work section*/}
-      <div className="flex flex-col gap-2 w-full">
-        <h2 className={SECTION_TITLE_CLASS}>Work Experience</h2>
+      <Section title="Work Experience">
         {resume.workEntries.map((work, index) => (
           // work entry container
           <div key={index}>
             {/* work header */}
-            <div className="flex flex-row justify-between">
-              <div className="flex flex-col gap-1">
-                <div className="font-medium">{work.title}</div>
-                <a className={LINK_CLASS} href={work.website} target="_blank">
-                  {work.companyName}
-                </a>
-              </div>
-              <div className="flex flex-col gap-1">
-                <div>
-                  {work.startDate} - {work.endDate}
-                </div>
-                <div className="self-end">{work.location}</div>
-              </div>
-            </div>
+            <EntryHeader
+              title={work.title}
+              subtitle={work.companyName}
+              link={work.website}
+              startDate={work.startDate}
+              endDate={work.endDate}
+              location={work.location}
+            />
             {/* work description container */}
-            <ul className="p-4 indent-4">
-              {work.description.map((description, index) => (
-                <li key={`${index}-work-description`} className="text-justify">
-                  {description}
-                </li>
-              ))}
-            </ul>
+            <EntryDescription descriptions={work.description} index={index} />
           </div>
         ))}
-      </div>
+      </Section>
 
       {/* education section */}
-      <div className="flex flex-col gap-2 w-full">
-        <h2 className={SECTION_TITLE_CLASS}>Education</h2>
+      <Section title="Educaation">
         {resume.educationEntries.map((education, index) => (
           // education container
           <div key={index}>
             {/* education header */}
-            <div className="flex flex-row justify-between">
-              <div className="flex flex-col gap-1">
-                <div className="font-medium">{education.degree}</div>
-                <a
-                  href={education.website}
-                  className={LINK_CLASS}
-                  target="_blank"
-                >
-                  {education.institutionName}
-                </a>
-              </div>
-              <div className="flex flex-col gap-1">
-                <div className="">
-                  {education.startDate} - {education.endDate}
-                </div>
-                <div className="self-end">{education.location} </div>
-              </div>
-            </div>
+            <EntryHeader
+              title={education.degree}
+              link={education.website}
+              subtitle={education.institutionName}
+              startDate={education.startDate}
+              endDate={education.endDate}
+              location={education.location}
+            />
 
-            {/* work description container */}
-            <ul className="p-4 indent-4">
-              {education.description.map((description, inner_index) => (
-                <>
-                  <li key={index + inner_index} className="text-justify">
-                    {description}
-                  </li>
-                </>
-              ))}
-            </ul>
+            {/* education description container */}
+            <EntryDescription
+              descriptions={education.description}
+              index={index}
+            />
           </div>
         ))}
-      </div>
+      </Section>
     </div>
   );
 }
