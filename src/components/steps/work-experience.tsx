@@ -10,8 +10,8 @@ export default function WorkExperienceForm({ updateFields }) {
   const defaultEntry = {
     title: "",
     companyName: "",
-    startDate: "",
-    endDate: "",
+    startDate: null,
+    endDate: null,
     description: "",
   };
 

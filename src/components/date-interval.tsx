@@ -19,11 +19,15 @@ export default function DateIntervalInput(props: DateIntervalInputProps) {
     yearOptions.push(i);
   }
 
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
+  const [month, setMonth] = useState(null);
+  const [year, setYear] = useState(null);
 
   useEffect(() => {
-    props.onChange(props.id, `${month} ${year}`, props.index);
+    if (year && month) {
+      const date = new Date(year, month, 1, 0, 0, 0);
+      props.onChange(props.id, date, props.index);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [month, year]);
 
@@ -37,18 +41,19 @@ export default function DateIntervalInput(props: DateIntervalInputProps) {
           onChange={(e) => setMonth(e.target.value)}
           className="cursor-pointer appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
         >
-          <option value="january">January</option>
-          <option value="february">February</option>
-          <option value="march">March</option>
-          <option value="april">April</option>
-          <option value="may">May</option>
-          <option value="june">June</option>
-          <option value="july">July</option>
-          <option value="august">August</option>
-          <option value="september">September</option>
-          <option value="october">October</option>
-          <option value="november">November</option>
-          <option value="december">December</option>
+          {/* dates are zero-based in js */}
+          <option value={0}>January</option>
+          <option value={1}>February</option>
+          <option value={2}>March</option>
+          <option value={3}>April</option>
+          <option value={4}>May</option>
+          <option value={5}>June</option>
+          <option value={6}>July</option>
+          <option value={7}>August</option>
+          <option value={8}>September</option>
+          <option value={9}>October</option>
+          <option value={10}>November</option>
+          <option value={11}>December</option>
         </select>
       </label>
 

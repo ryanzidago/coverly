@@ -23,8 +23,8 @@ type WorkExperienceFormData = {
   companyName: string;
   website: string;
   location: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   description: string;
 };
 
@@ -34,8 +34,8 @@ type EducationFormData = {
   website: string;
   location: string;
   grade: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   description: string;
 };
 
@@ -65,11 +65,11 @@ export default function Layout() {
 
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
-      <ContactForm
-        key="contact-form"
-        {...formData}
-        updateFields={updateFields}
-      />,
+      // <ContactForm
+      //   key="contact-form"
+      //   {...formData}
+      //   updateFields={updateFields}
+      // />,
       <WorkExperienceForm
         key="work-experience-form"
         {...formData}
