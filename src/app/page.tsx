@@ -65,7 +65,7 @@ export default function Layout() {
 
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
-      <Contact key="contact-form" {...formData} updateFields={updateFields} />,
+      // <Contact key="contact-form" {...formData} updateFields={updateFields} />,
       <Work
         key="work-experience-form"
         {...formData}

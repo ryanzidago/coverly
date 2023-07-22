@@ -5,8 +5,11 @@ import DateInput from "@/components/date-input";
 import TextAreaInput from "@/components/text-area-input";
 import { useEffect, useState } from "react";
 import URLInput from "../url-input";
+import Toggle from "../toggle";
 
 export default function Work({ updateFields }) {
+  const [currentWork, setCurrentWork] = useState(false);
+
   const defaultEntry = {
     title: "",
     companyName: "",
@@ -69,12 +72,23 @@ export default function Work({ updateFields }) {
         index={index}
         onChange={handleChange}
       />
+      <Toggle
+        label="Current position"
+        checked={currentWork}
+        onChange={() => setCurrentWork((currentWork) => !currentWork)}
+      />
+
       <DateInput
         id="endDate"
         label="End date"
+        className={`transition duration-200 ease-in-out ${
+          currentWork ? "opacity-60" : "opacity-100"
+        }`}
         index={index}
+        disabled={currentWork}
         onChange={handleChange}
       />
+
       <TextAreaInput
         id="description"
         label="Description"

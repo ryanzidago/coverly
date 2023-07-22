@@ -7,6 +7,9 @@ interface DateInputProps {
   id: string;
   fieldId?: any;
   index: number;
+  className?: string;
+  currentPosition?: boolean;
+  disabled?: boolean;
   onChange?: any;
 }
 
@@ -32,14 +35,17 @@ export default function DateInput(props: DateInputProps) {
   }, [month, year]);
 
   return (
-    <div className="flex flex-row items-end w-full gap-8">
+    <div
+      className={"flex flex-row items-end w-full gap-8" + " " + props.className}
+    >
       <label htmlFor="month" className="flex flex-col gap-2 w-full">
         <span>{props.label}</span>
         <select
+          disabled={props.disabled}
           name="month"
           id="month"
           onChange={(e) => setMonth(e.target.value)}
-          className="cursor-pointer appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
+          className="cursor-pointer disabled:cursor-not-allowed appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
         >
           {/* dates are zero-based in js */}
           {month ? null : <option></option>}
@@ -62,8 +68,9 @@ export default function DateInput(props: DateInputProps) {
         <select
           name="year"
           id="year"
+          disabled={props.disabled}
           onChange={(e) => setYear(e.target.value)}
-          className="cursor-pointer appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
+          className="cursor-pointer disabled:cursor-not-allowed appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
         >
           {year ? null : <option></option>}
           {yearOptions.reverse().map((year) => (

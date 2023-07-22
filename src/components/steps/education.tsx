@@ -3,10 +3,13 @@
 import TextInput from "../text-input";
 import DateInput from "../date-input";
 import TextAreaInput from "../text-area-input";
-import { useEffect, useState } from "react";
 import URLInput from "../url-input";
+import Toggle from "../toggle";
+import { useEffect, useState } from "react";
 
 export default function Education({ updateFields }) {
+  const [currentEducation, setCurrentEducation] = useState(false);
+
   const defaultEntry = {
     degree: "",
     institutionName: "",
@@ -75,12 +78,24 @@ export default function Education({ updateFields }) {
         index={index}
         onChange={handleChange}
       />
+      <Toggle
+        label="Current education"
+        checked={currentEducation}
+        onChange={() =>
+          setCurrentEducation((currentEducation) => !currentEducation)
+        }
+      />
       <DateInput
         id="endDate"
         label="End date"
+        className={`transition duration-200 ease-in-out ${
+          currentEducation ? "opacity-60" : "opacity-100"
+        }`}
         index={index}
+        disabled={currentEducation}
         onChange={handleChange}
       />
+
       <TextInput
         id="grade"
         label="Grade"
