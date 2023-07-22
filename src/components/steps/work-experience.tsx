@@ -1,7 +1,7 @@
 "use client";
 
 import TextInput from "@/components/text-input";
-import DateIntervalInput from "@/components/date-interval";
+import DateInput from "@/components/date-input";
 import TextAreaInput from "@/components/text-area-input";
 import { useEffect, useState } from "react";
 import URLInput from "../url-input";
@@ -63,13 +63,13 @@ export default function WorkExperienceForm({ updateFields }) {
         label="Location"
         onChange={(e) => handleChange("location", e.target.value, index)}
       />
-      <DateIntervalInput
+      <DateInput
         id="startDate"
         label="Start date"
         index={index}
         onChange={handleChange}
       />
-      <DateIntervalInput
+      <DateInput
         id="endDate"
         label="End date"
         index={index}

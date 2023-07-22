@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-
-interface DateIntervalInputProps {
+interface DateInputProps {
   label: string;
   placeholder?: string;
   value?: string;
@@ -11,7 +10,7 @@ interface DateIntervalInputProps {
   onChange?: any;
 }
 
-export default function DateIntervalInput(props: DateIntervalInputProps) {
+export default function DateInput(props: DateInputProps) {
   const startYear: number = 1900;
   const currentYear: number = new Date().getFullYear();
   const yearOptions: number[] = [];
