@@ -53,7 +53,7 @@ export default function Page() {
       </Section>
 
       {/* education section */}
-      <Section title="Educaation">
+      <Section title="Education">
         {resume.educationEntries.map((education, index) => (
           // education container
           <div key={index}>
