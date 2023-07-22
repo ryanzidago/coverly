@@ -6,6 +6,7 @@ import { useMultistepForm } from "./hooks/use-multi-step-form";
 import WorkExperienceForm from "@/components/steps/work-experience";
 import EducationEntries from "@/components/steps/education-entries";
 import FormDataToFile from "@/utils/form-data-to-file";
+import { processFormData } from "@/utils/process-form-data";
 
 type ContactFormData = {
   firstName: string;
@@ -56,7 +57,8 @@ export default function Layout() {
     e.preventDefault();
     if (!isLastStep) return next();
     if (isLastStep) {
-      FormDataToFile(formData);
+      const processedFormData = processFormData(formData);
+      FormDataToFile(processedFormData);
     }
     alert("Successful Account Creation");
   }
