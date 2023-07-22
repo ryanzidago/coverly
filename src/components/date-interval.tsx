@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+
 interface DateIntervalInputProps {
   label: string;
   placeholder?: string;
@@ -42,6 +43,7 @@ export default function DateIntervalInput(props: DateIntervalInputProps) {
           className="cursor-pointer appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
         >
           {/* dates are zero-based in js */}
+          {month ? null : <option></option>}
           <option value={0}>January</option>
           <option value={1}>February</option>
           <option value={2}>March</option>
@@ -64,6 +66,7 @@ export default function DateIntervalInput(props: DateIntervalInputProps) {
           onChange={(e) => setYear(e.target.value)}
           className="cursor-pointer appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
         >
+          {year ? null : <option></option>}
           {yearOptions.reverse().map((year) => (
             <option key={year} value={year}>
               {year}
