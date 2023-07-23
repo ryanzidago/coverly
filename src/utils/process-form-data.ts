@@ -1,5 +1,6 @@
 export function processFormData(formData) {
   const processedFormData = {
+    ...formData,
     workEntries: formData.workEntries.map((entry) => ({
       ...entry,
       description: entry.description

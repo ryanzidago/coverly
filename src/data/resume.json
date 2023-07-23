@@ -1,19 +1,4 @@
 {
-  "firstName": "Ryan",
-  "lastName": "Zidago",
-  "email": "ryanzidago@coverly.com",
-  "lastTitle": "Software Engineer",
-  "phoneNumber": {
-    "countryCode": "+49",
-    "number": "123 456 78 909"
-  },
-  "location": {
-    "country": "Germany",
-    "city": "Cologne",
-    "street": "Leipzigerstraße 1",
-    "postalCode": "50123",
-    "timezone": "Europe/Berlin"
-  },
   "workEntries": [
     {
       "title": "Fullstack Software Engineer",
@@ -47,6 +32,12 @@
       "location": "Cologne, Germany"
     }
   ],
+  "firstName": "Ryan",
+  "lastName": "Zidago",
+  "label": "Software Engineer",
+  "email": "ryanzidago@coverly.com",
+  "phoneNumber": "+49 123 456 78987",
+  "webiste": "https://coverly.com",
   "educationEntries": [
     {
       "degree": "Web Development",
