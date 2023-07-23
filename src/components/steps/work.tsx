@@ -6,6 +6,7 @@ import TextAreaInput from "@/components/text-area-input";
 import { useEffect, useState } from "react";
 import URLInput from "../url-input";
 import Toggle from "../toggle";
+import LocationInput from "../location-input";
 
 export default function Work({ updateFields }) {
   const [currentWork, setCurrentWork] = useState(false);
@@ -61,10 +62,11 @@ export default function Work({ updateFields }) {
           onChange={(e) => handleChange("website", e.target.value, index)}
         />
       </div>
-      <TextInput
+      <LocationInput
         id="location"
         label="Location"
-        onChange={(e) => handleChange("location", e.target.value, index)}
+        index={index}
+        onChange={handleChange}
       />
       <DateInput
         id="startDate"

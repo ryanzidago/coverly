@@ -7,12 +7,13 @@ import Work from "@/components/steps/work";
 import Education from "@/components/steps/education";
 import FormDataToFile from "@/utils/form-data-to-file";
 import { processFormData } from "@/utils/process-form-data";
+import { Location } from "@/types/location-type";
 
 type ContactFormData = {
   firstName: string;
   lastName: string;
   email: string;
-  location: string;
+  location: Location;
   title: string;
   phoneNumber: string;
   website: string;
@@ -22,7 +23,7 @@ type WorkExperienceFormData = {
   title: string;
   companyName: string;
   website: string;
-  location: string;
+  location: Location;
   startDate: Date;
   endDate: Date;
   description: string;
@@ -32,7 +33,7 @@ type EducationFormData = {
   degree: string;
   institutionName: string;
   website: string;
-  location: string;
+  location: Location;
   grade: string;
   startDate: Date;
   endDate: Date;

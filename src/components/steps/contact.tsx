@@ -2,6 +2,7 @@
 
 import TextInput from "@/components/text-input";
 import URLInput from "../url-input";
+import LocationInput from "../location-input";
 
 export default function Contact({ updateFields }) {
   return (
@@ -36,6 +37,12 @@ export default function Contact({ updateFields }) {
         id="website"
         label="Website"
         onChange={(e) => updateFields({ webiste: e.target.value })}
+      />
+      <LocationInput
+        id="location"
+        label="Location"
+        displayStreet={true}
+        onChange={updateFields}
       />
     </div>
   );

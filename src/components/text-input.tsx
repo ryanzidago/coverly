@@ -3,12 +3,19 @@ interface TextInputProps {
   placeholder?: string;
   value?: string;
   id: string;
+  className?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function TextInput(props: TextInputProps) {
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div
+      className={
+        "flex flex-col items-center justify-center w-full" +
+        " " +
+        props.className
+      }
+    >
       <label htmlFor={props.id} className="flex flex-col gap-2 w-full">
         <span>{props.label}</span>
         <input
