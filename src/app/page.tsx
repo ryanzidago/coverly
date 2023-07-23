@@ -61,7 +61,6 @@ export default function Layout() {
       const processedFormData = processFormData(formData);
       FormDataToFile(processedFormData);
     }
-    alert("Successful Account Creation");
   }
 
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =

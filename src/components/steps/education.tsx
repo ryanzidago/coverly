@@ -8,7 +8,7 @@ import Toggle from "../toggle";
 import { useEffect, useState } from "react";
 
 export default function Education({ updateFields }) {
-  const [currentEducation, setCurrentEducation] = useState(false);
+  const [currentEducation, setCurrentEducation] = useState<number | null>(null);
 
   const defaultEntry = {
     degree: "",
@@ -80,19 +80,21 @@ export default function Education({ updateFields }) {
       />
       <Toggle
         label="Current education"
-        checked={currentEducation}
+        checked={currentEducation === index}
         onChange={() =>
-          setCurrentEducation((currentEducation) => !currentEducation)
+          setCurrentEducation((prev) => {
+            return prev === index ? null : index;
+          })
         }
       />
       <DateInput
         id="endDate"
         label="End date"
         className={`transition duration-200 ease-in-out ${
-          currentEducation ? "opacity-60" : "opacity-100"
+          currentEducation === index ? "opacity-60" : "opacity-100"
         }`}
         index={index}
-        disabled={currentEducation}
+        disabled={currentEducation === index}
         onChange={handleChange}
       />
 

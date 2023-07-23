@@ -9,7 +9,7 @@ import Toggle from "../toggle";
 import LocationInput from "../location-input";
 
 export default function Work({ updateFields }) {
-  const [currentWork, setCurrentWork] = useState(false);
+  const [currentWork, setCurrentWork] = useState<number | null>(null);
 
   const defaultEntry = {
     title: "",
@@ -76,18 +76,22 @@ export default function Work({ updateFields }) {
       />
       <Toggle
         label="Current position"
-        checked={currentWork}
-        onChange={() => setCurrentWork((currentWork) => !currentWork)}
+        checked={currentWork === index}
+        onChange={() => {
+          setCurrentWork((prev) => {
+            return prev === index ? null : index;
+          });
+        }}
       />
 
       <DateInput
         id="endDate"
         label="End date"
         className={`transition duration-200 ease-in-out ${
-          currentWork ? "opacity-60" : "opacity-100"
+          currentWork === index ? "opacity-60" : "opacity-100"
         }`}
         index={index}
-        disabled={currentWork}
+        disabled={currentWork === index}
         onChange={handleChange}
       />
 
