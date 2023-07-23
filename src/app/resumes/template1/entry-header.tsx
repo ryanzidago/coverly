@@ -1,4 +1,5 @@
 import Link from "./link";
+import { formatDate } from "@/utils/datetime-formatter";
 
 type EntryProps = {
   title: string;
@@ -20,10 +21,12 @@ export default function EntryHeader(props: EntryProps) {
       </div>
       <div className="flex flex-col gap-1">
         <div>
-          {props.startDate} - {props.endDate}
+          {formatDate(props.startDate)} -{" "}
+          {props.endDate ? formatDate(props.endDate) : "now"}
         </div>
         <div className="self-end">{props.location}</div>
       </div>
     </div>
   );
 }
+ 
