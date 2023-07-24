@@ -63,6 +63,7 @@ export default function Work({ updateFields }) {
         />
       </div>
       <LocationInput
+        displayRemote={true}
         id="location"
         label="Location"
         index={index}

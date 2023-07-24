@@ -7,6 +7,7 @@ type LocationProps = {
   id: string;
   label: string;
   displayStreet?: boolean;
+  displayRemote?: boolean;
   onChange: any;
   index?: number;
 };
@@ -45,11 +46,13 @@ export default function LocationInput(props: LocationProps) {
     <div className="flex flex-col gap-4 w-full">
       <div className="flex flex-row justify-between">
         {props.label}{" "}
-        <Toggle
-          label="Remote"
-          checked={location.remote}
-          onChange={handleToggleRemote}
-        />
+        {props.displayRemote && (
+          <Toggle
+            label="Remote"
+            checked={location.remote}
+            onChange={handleToggleRemote}
+          />
+        )}
       </div>
       <div
         className={

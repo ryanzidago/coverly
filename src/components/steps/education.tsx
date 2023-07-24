@@ -6,6 +6,7 @@ import TextAreaInput from "../text-area-input";
 import URLInput from "../url-input";
 import Toggle from "../toggle";
 import { useEffect, useState } from "react";
+import LocationInput from "../location-input";
 
 export default function Education({ updateFields }) {
   const [currentEducation, setCurrentEducation] = useState<number | null>(null);
@@ -67,10 +68,12 @@ export default function Education({ updateFields }) {
           onChange={(e) => handleChange("website", e.target.value, index)}
         />
       </div>
-      <TextInput
+      <LocationInput
+        displayRemote={true}
         id="location"
         label="Location"
-        onChange={(e) => handleChange("location", e.target.value, index)}
+        index={index}
+        onChange={handleChange}
       />
       <DateInput
         id="startDate"
