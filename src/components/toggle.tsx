@@ -1,5 +1,5 @@
 export default function Toggle(props) {
-  console.log(props.checked);
+  console.log("CHECKED", props.checked);
   
   return (
     <label className="self-start relative inline-flex items-center cursor-pointer">

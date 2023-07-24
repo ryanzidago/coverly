@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import TextInput from "./text-input";
 import { Location } from "@/types/location-type";
+import Toggle from "./toggle";
 
 type LocationProps = {
   id: string;
@@ -11,12 +12,10 @@ type LocationProps = {
 };
 
 export default function LocationInput(props: LocationProps) {
-  const [location, setLocation] = useState({} as Location);
+  const [location, setLocation] = useState<Location>({ remote: false });
 
   useEffect(() => {
-    if (location.city && location.country) {
-      console.log("LOCATION", location);
-
+    if ((location.city && location.country) || location.remote) {
       if (props.index) {
         props.onChange("location", location, props.index);
       } else {
@@ -26,42 +25,85 @@ export default function LocationInput(props: LocationProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
+  function handleChange(key: keyof Location, value: string) {
+    setLocation((prevLocation) => ({
+      ...prevLocation,
+      [key]: value,
+    }));
+  }
+
+  function handleToggleRemote() {
+    setLocation((prevLocation) => {
+      return {
+        ...prevLocation,
+        remote: !prevLocation.remote,
+      };
+    });
+  }
+
   return (
-    <label className="flex flex-col gap-4 w-full">
-      {props.label}
-      <div className="flex flex-col items-center justify-center w-full gap-4">
-        <div className="flex flex-row gap-4 w-full">
+    <div className="flex flex-col gap-4 w-full">
+      <div className="flex flex-row justify-between">
+        {props.label}{" "}
+        <Toggle
+          label="Remote"
+          checked={location.remote}
+          onChange={handleToggleRemote}
+        />
+      </div>
+      <div
+        className={
+          "flex flex-col items-center justify-center w-full gap-4 transform-all duration-200"
+        }
+      >
+        <div
+          className={
+            "flex flex-row gap-4 w-full transform-all duration-200 ease-in-out " +
+            `${location.remote ? "opacity-50" : "opacity-100"}`
+          }
+        >
           <TextInput
             id="city"
             label="City"
-            onChange={(e) =>
-              setLocation((location) => ({ ...location, city: e.target.value }))
-            }
+            disabled={location.remote}
+            onChange={(e) => handleChange("city", e.target.value)}
           />
           <TextInput
             id="country"
             label="Country"
-            onChange={(e) =>
-              setLocation((location) => ({
-                ...location,
-                country: e.target.value,
-              }))
-            }
+            disabled={location.remote}
+            onChange={(e) => handleChange("country", e.target.value)}
           />
         </div>
 
         {props.displayStreet && (
-          <div className="grid grid-cols-8 gap-4">
-            <TextInput className="col-span-2" id="number" label="Number" />
-            <TextInput className="col-span-4" id="street" label="Street" />
+          <div
+            className={
+              "grid grid-cols-8 gap-4 transform-all duration-200 ease-in-out " +
+              `${location.remote ? "opacity-50" : "opacity-100"}`
+            }
+          >
+            <TextInput
+              className="col-span-2"
+              id="number"
+              label="Number"
+              disabled={location.remote}
+            />
+            <TextInput
+              className="col-span-4"
+              id="street"
+              label="Street"
+              disabled={location.remote}
+            />
             <TextInput
               className="col-span-2"
               id="postcalCode"
               label="Postal Code"
+              disabled={location.remote}
             />
           </div>
         )}
       </div>
-    </label>
+    </div>
   );
 }

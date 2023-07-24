@@ -4,6 +4,7 @@ interface TextInputProps {
   value?: string;
   id: string;
   className?: string;
+  disabled?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -23,8 +24,9 @@ export default function TextInput(props: TextInputProps) {
           name={props.id}
           type="text"
           placeholder={props.placeholder}
-          className="border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
+          className="border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200 disabled:cursor-not-allowed"
           onChange={props.onChange}
+          disabled={props.disabled}
         />
       </label>
     </div>
