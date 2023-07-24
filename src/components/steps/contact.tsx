@@ -3,6 +3,7 @@
 import TextInput from "@/components/text-input";
 import URLInput from "../url-input";
 import LocationInput from "../location-input";
+import PhoneNumberInput from "../phone-number-input";
 
 export default function Contact({ updateFields }) {
   return (
@@ -28,11 +29,16 @@ export default function Contact({ updateFields }) {
         label="Email"
         onChange={(e) => updateFields({ email: e.target.value })}
       />
-      <TextInput
+      <PhoneNumberInput
+        id="phoneNumber"
+        label="Phone Number"
+        onChange={updateFields}
+      />
+      {/* <TextInput
         id="phoneNumber"
         label="Phone number"
         onChange={(e) => updateFields({ phoneNumber: e.target.value })}
-      />
+      /> */}
       <URLInput
         id="website"
         label="Website"

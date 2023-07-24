@@ -8,6 +8,7 @@ import Education from "@/components/steps/education";
 import FormDataToFile from "@/utils/form-data-to-file";
 import { processFormData } from "@/utils/process-form-data";
 import { Location } from "@/types/location-type";
+import { PhoneNumber } from "@/types/phone-number-type";
 
 type ContactFormData = {
   firstName: string;
@@ -15,7 +16,7 @@ type ContactFormData = {
   email: string;
   location: Location;
   title: string;
-  phoneNumber: string;
+  phoneNumber: PhoneNumber;
   website: string;
 };
 

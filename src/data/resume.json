@@ -1,56 +1,20 @@
 {
   "workEntries": [
     {
-      "title": "Fullstack Software Engineer",
-      "companyName": "Sona",
-      "startDate": "2022-04-30T22:00:00.000Z",
+      "title": "",
+      "companyName": "",
+      "startDate": null,
       "endDate": null,
-      "description": [
-        "Making the experience of working with shifts easier for frontline and deskless workers in health, social care, retail, hospitality, and the voluntary sector by programming Sona's people operating system"
-      ],
-      "website": "https://getsona.com",
-      "location": "Remote"
-    },
-    {
-      "title": "Software Engineer",
-      "companyName": "JobValley",
-      "startDate": "2020-08-31T22:00:00.000Z",
-      "endDate": "2022-03-31T22:00:00.000Z",
-      "description": [
-        "Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features."
-      ],
-      "website": "https://jobvalley.com",
-      "location": "Remote"
-    },
-    {
-      "title": "Software Engineer Trainee",
-      "companyName": "JobValley",
-      "startDate": "2019-10-31T23:00:00.000Z",
-      "endDate": "2020-07-31T22:00:00.000Z",
-      "description": [],
-      "website": "https://jobvalley.com",
-      "location": "Cologne, Germany"
+      "description": []
     }
   ],
-  "firstName": "Ryan",
-  "lastName": "Zidago",
-  "label": "Software Engineer",
-  "email": "ryanzidago@coverly.com",
-  "phoneNumber": "+49 123 456 78987",
-  "webiste": "https://coverly.com",
   "educationEntries": [
     {
-      "degree": "Web Development",
-      "institutionName": "The Hacking Project",
-      "startDate": "2015-06-30T22:00:00.000Z",
-      "endDate": "2019-10-31T23:00:00.000Z",
-      "description": [
-        "11-week intensive coding bootcamp; teaching methodology based on peer-learning and pair-programming",
-        "Tech stack: Ruby, Ruby on Rails, Python, OpenCV, PostgreSQL, Heroku"
-      ],
-      "studyType": "Bootcamp",
-      "website": "https://thehackingproject.com",
-      "location": "Paris, FRance"
+      "degree": "",
+      "institutionName": "",
+      "startDate": "",
+      "endDate": "",
+      "description": []
     }
   ]
 }
