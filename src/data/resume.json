@@ -1,20 +1,78 @@
 {
+  "firstName": "Ryan",
+  "lastName": "Zidago",
+  "email": "ryanzidago@coverly.com",
+  "lastTitle": "Software Engineer",
+  "phoneNumber": {
+    "countryCode": "+49",
+    "number": "123 456 78 909"
+  },
+  "location": {
+    "country": "Germany",
+    "city": "Cologne",
+    "number": "1",
+    "street": "Leipzigerstraße",
+    "postalCode": "50123",
+    "timezone": "Europe/Berlin",
+    "remote": false
+  },
   "workEntries": [
     {
-      "title": "",
-      "companyName": "",
-      "startDate": null,
-      "endDate": null,
-      "description": []
+      "title": "Fullstack Software Engineer",
+      "companyName": "Sona",
+      "website": "https://www.getsona.com/",
+      "startDate": "may 2022",
+      "endDate": "now",
+      "description": [
+        "Making the experience of working with shifts easier for frontline and deskless workers in health, social care, retail, hospitality, and the voluntary sector by programming Sona's people operating system"
+      ],
+      "location": {
+        "remote": true
+      }
+    },
+    {
+      "title": "Software Engineer",
+      "companyName": "JobValley",
+      "website": "https://jobvalley.com/en-de/",
+      "startDate": "september 2020",
+      "endDate": "april 2022",
+      "description": [
+        "Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features.Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features."
+      ],
+      "location": {
+        "remote": true
+      }
+    },
+    {
+      "title": "Software Engineer Trainee",
+      "companyName": "JobValley",
+      "website": "https://jobvalley.com/en-de/",
+      "startDate": "august 2020",
+      "endDate": "november 2019",
+      "description": [],
+      "location": {
+        "city": "Cologne",
+        "country": "Germany",
+        "remote": false
+      }
     }
   ],
   "educationEntries": [
     {
-      "degree": "",
-      "institutionName": "",
-      "startDate": "",
-      "endDate": "",
-      "description": []
+      "degree": "Bootcamp",
+      "institutionName": "The Hacking Project",
+      "website": "https://www.thehackingproject.org/",
+      "startDate": "july 2015",
+      "endDate": "may 2019",
+      "description": [
+        "11-week intensive coding bootcamp; teaching methodology based on peer-learning and pair-programming",
+        "Tech stack: Ruby, Ruby on Rails, Python, OpenCV, PostgreSQL, Heroku"
+      ],
+      "location": {
+        "city": "Paris",
+        "country": "France",
+        "remote": false
+      }
     }
   ]
 }

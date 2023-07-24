@@ -1,3 +1,4 @@
+import { Location } from "@/types/location-type";
 import Link from "./link";
 import { formatDate } from "@/utils/datetime-formatter";
 
@@ -6,11 +7,15 @@ type EntryProps = {
   subtitle: string;
   startDate: string;
   endDate: string;
-  location: string;
+  location: Location;
   link: string;
 };
 
 export default function EntryHeader(props: EntryProps) {
+  function buildLocation(location: Location) {
+    return location.remote ? "Remote" : location.city + " " + location.country;
+  }
+
   return (
     <div className="flex flex-row justify-between">
       <div className="flex flex-col gap-1">
@@ -24,9 +29,8 @@ export default function EntryHeader(props: EntryProps) {
           {formatDate(props.startDate)} -{" "}
           {props.endDate ? formatDate(props.endDate) : "now"}
         </div>
-        <div className="self-end">{props.location}</div>
+        <div className="self-end">{buildLocation(props.location)}</div>
       </div>
     </div>
   );
 }
- 
