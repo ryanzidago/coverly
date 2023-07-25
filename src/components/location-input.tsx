@@ -17,9 +17,11 @@ export default function LocationInput(props: LocationProps) {
 
   useEffect(() => {
     if ((location.city && location.country) || location.remote) {
-      if (props.index) {
+      if ("index" in props) {
         props.onChange("location", location, props.index);
       } else {
+        console.log("LOCATION WITHOUT INDEX", location);
+
         props.onChange({ location: location });
       }
     }
@@ -91,18 +93,21 @@ export default function LocationInput(props: LocationProps) {
               id="number"
               label="Number"
               disabled={location.remote}
+              onChange={(e) => handleChange("number", e.target.value)}
             />
             <TextInput
               className="col-span-4"
               id="street"
               label="Street"
               disabled={location.remote}
+              onChange={(e) => handleChange("street", e.target.value)}
             />
             <TextInput
               className="col-span-2"
               id="postcalCode"
               label="Postal Code"
               disabled={location.remote}
+              onChange={(e) => handleChange("postalCode", e.target.value)}
             />
           </div>
         )}

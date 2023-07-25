@@ -14,9 +14,10 @@ export default function Education({ updateFields }) {
   const defaultEntry = {
     degree: "",
     institutionName: "",
-    startDate: "",
-    endDate: "",
+    startDate: null,
+    endDate: null,
     description: "",
+    location: { remote: false },
   };
 
   const [entries, setEntries] = useState([defaultEntry]);

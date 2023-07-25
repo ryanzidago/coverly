@@ -4,5 +4,5 @@ export type Location = {
   number?: string;
   street?: string;
   postalCode?: string;
-  remote?: boolean;
+  remote: boolean;
 };

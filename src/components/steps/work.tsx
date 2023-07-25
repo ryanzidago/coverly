@@ -17,6 +17,7 @@ export default function Work({ updateFields }) {
     startDate: null,
     endDate: null,
     description: "",
+    location: { remote: false },
   };
 
   const [entries, setEntries] = useState([defaultEntry]);
