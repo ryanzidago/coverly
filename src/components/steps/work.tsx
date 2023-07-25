@@ -102,13 +102,28 @@ export default function Work({ updateFields }) {
         label="Description"
         onChange={(e) => handleChange("description", e.target.value, index)}
       />
-      <button
-        type="button"
-        onClick={(e) => setEntries([...entries, defaultEntry])}
-        className={"transition duration-200 hover:text-slate-500"}
-      >
-        Add work experience
-      </button>
+      <div className="flex flex-row justify-around w-full">
+        <button
+          type="button"
+          onClick={(e) => setEntries([...entries, defaultEntry])}
+          className="transition duration-200 hover:text-slate-500"
+        >
+          Add work experience
+        </button>
+        {entries.length >= 2 && (
+          <button
+            type="button"
+            onClick={(e) => {
+              const updatedEntries = [...entries];
+              updatedEntries.splice(index, 1);
+              setEntries(updatedEntries);
+            }}
+            className="transition duration-200 hover:text-slate-500"
+          >
+            Remove work experience
+          </button>
+        )}
+      </div>
     </div>
   ));
 }

@@ -82,7 +82,10 @@ export default function Layout() {
     ]);
 
   return (
-    <form className="w-full max-w-xl text-slate-700" onSubmit={onSubmit}>
+    <form
+      className="flex flex-col gap-16 w-full max-w-xl text-slate-700"
+      onSubmit={onSubmit}
+    >
       <div>
         {currentStepIndex + 1} / {steps.length}
       </div>
