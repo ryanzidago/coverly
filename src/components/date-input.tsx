@@ -22,8 +22,8 @@ export default function DateInput(props: DateInputProps) {
     yearOptions.push(i);
   }
 
-  const [month, setMonth] = useState(null);
-  const [year, setYear] = useState(null);
+  const [month, setMonth] = useState<string | null>(null);
+  const [year, setYear] = useState<number | null>(null);
 
   useEffect(() => {
     if (year && month) {
@@ -65,20 +65,16 @@ export default function DateInput(props: DateInputProps) {
       </label>
 
       <label htmlFor="year" className="flex flex-col w-full">
-        <select
+        <input
+          type="number"
           name="year"
           id="year"
           disabled={props.disabled}
-          onChange={(e) => setYear(e.target.value)}
+          onChange={(e) =>
+            e.target.value.length === 4 ? setYear(e.target.value) : null
+          }
           className="cursor-pointer disabled:cursor-not-allowed appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
-        >
-          {year ? null : <option></option>}
-          {yearOptions.reverse().map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
+        />
       </label>
     </div>
   );
