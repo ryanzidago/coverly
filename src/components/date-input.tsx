@@ -73,6 +73,15 @@ export default function DateInput(props: DateInputProps) {
           onChange={(e) =>
             e.target.value.length === 4 ? setYear(e.target.value) : null
           }
+          onKeyDown={(e) => {
+            if (
+              e.key !== "Backspace" &&
+              e.key !== "Enter" &&
+              !/[0-9]/.test(e.key)
+            ) {
+              e.preventDefault();
+            }
+          }}
           className="cursor-pointer disabled:cursor-not-allowed appearance-none bg-white border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
         />
       </label>
