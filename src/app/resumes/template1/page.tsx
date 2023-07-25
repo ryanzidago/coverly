@@ -16,7 +16,7 @@ export default function Page() {
           <h1 className="text-4xl text-zinc-700 font-semibold">
             {resume.firstName} {resume.lastName}
           </h1>
-          <h2 className="text-md">{resume.lastTitle}</h2>
+          <h2 className="text-md">{resume.label}</h2>
         </div>
         <div className="flex flex-col items-center mt-2 gap-2">
           <div className="flex flex-row space-x-8">
