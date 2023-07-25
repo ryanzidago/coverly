@@ -7,14 +7,11 @@
     "countryCode": "+49",
     "number": "123 456 78909"
   },
-  "webiste": "https://coverly.com",
+  "website": "https://coverly.com",
   "location": {
     "remote": false,
-    "city": "Paris",
-    "country": "France",
-    "number": "1",
-    "street": "Rue du Lac",
-    "postalCode": "75001"
+    "city": "Cologne",
+    "country": "Germany"
   },
   "workEntries": [
     {
@@ -36,7 +33,7 @@
       "startDate": "2020-08-31T22:00:00.000Z",
       "endDate": "2022-03-31T22:00:00.000Z",
       "description": [
-        "Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features.Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features."
+        " Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features.Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features."
       ],
       "location": {
         "remote": true
@@ -46,8 +43,8 @@
     {
       "title": "Software Engineer Trainee",
       "companyName": "JobValley",
-      "startDate": "2020-07-31T22:00:00.000Z",
-      "endDate": "2019-10-31T23:00:00.000Z",
+      "startDate": "2019-10-31T23:00:00.000Z",
+      "endDate": "2020-07-31T22:00:00.000Z",
       "description": [],
       "location": {
         "remote": false,

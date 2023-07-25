@@ -59,8 +59,6 @@ export default function Layout() {
     e.preventDefault();
     if (!isLastStep) return next();
     if (isLastStep) {
-      console.log("FORM_DATA", formData);
-      
       const processedFormData = processFormData(formData);
       FormDataToFile(processedFormData);
     }

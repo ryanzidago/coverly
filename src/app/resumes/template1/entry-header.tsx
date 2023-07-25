@@ -13,8 +13,6 @@ type EntryProps = {
 
 export default function EntryHeader(props: EntryProps) {
   function buildLocation(location: Location) {
-    console.log(location);
-    
     return location.remote ? "Remote" : location.city + " " + location.country;
   }
 

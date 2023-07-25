@@ -20,8 +20,6 @@ export default function LocationInput(props: LocationProps) {
       if ("index" in props) {
         props.onChange("location", location, props.index);
       } else {
-        console.log("LOCATION WITHOUT INDEX", location);
-
         props.onChange({ location: location });
       }
     }
