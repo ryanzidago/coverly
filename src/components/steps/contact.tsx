@@ -42,7 +42,7 @@ export default function Contact({ updateFields }) {
       <URLInput
         id="website"
         label="Website"
-        onChange={(e) => updateFields({ webiste: e.target.value })}
+        onChange={(e) => updateFields({ website: e.target.value })}
       />
       <LocationInput
         id="location"
