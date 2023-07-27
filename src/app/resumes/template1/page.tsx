@@ -1,3 +1,5 @@
+"use client";
+
 import EntryDescription from "./entry-description";
 import EntryHeader from "./entry-header";
 import Link from "./link";
@@ -8,8 +10,18 @@ const RESUME = require("@/data/resume.json");
 export default function Page() {
   const resume = RESUME;
 
+  function saveAsPDF() {
+    window.print();
+  }
+
   return (
-    <div className="flex flex-col gap-2 text-zinc-800 w-[70vh] drop-shadow-sm shadow print:shadow-none rounded-sm p-10 text-sm">
+    <div
+      id="template1"
+      className="flex flex-col gap-2 text-zinc-800 w-[70vh] drop-shadow-sm shadow print:shadow-none rounded-sm p-10 text-sm"
+    >
+      <button className="print:hidden" type="button" onClick={saveAsPDF}>
+        Save as PDF
+      </button>
       {/* // contact section */}
       <div className="flex flex-col items-center gap-4">
         <div className="flex flex-col items-center gap-2">
@@ -51,7 +63,6 @@ export default function Page() {
           </div>
         ))}
       </Section>
-
       {/* education section */}
       <Section title="Education">
         {resume.educationEntries.map((education, index) => (
