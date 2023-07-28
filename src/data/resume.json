@@ -1,26 +1,26 @@
 {
   "firstName": "Ryan",
   "lastName": "Zidago",
-  "label": "Software Engineer",
   "email": "ryanzidago@coverly.com",
-  "phoneNumber": {
-    "countryCode": "+49",
-    "number": "123 456 78909"
-  },
-  "website": "https://coverly.com",
   "location": {
     "remote": false,
     "city": "Cologne",
     "country": "Germany"
   },
+  "title": "",
+  "phoneNumber": {
+    "countryCode": "+49",
+    "number": "123 456 78909"
+  },
+  "website": "https://coverly.com",
   "workEntries": [
     {
       "title": "Fullstack Software Engineer",
       "companyName": "Sona",
       "startDate": "2022-04-30T22:00:00.000Z",
       "endDate": null,
-      "description": [
-        "Making the experience of working with shifts easier for frontline and deskless workers in health, social care, retail, hospitality, and the voluntary sector by programming Sona's people operating system"
+      "descriptions": [
+        "    Making the experience of working with shifts easier for frontline and deskless workers in health, social care, retail, hospitality, and the voluntary sector by programming Sona's people operating system"
       ],
       "location": {
         "remote": true
@@ -32,8 +32,8 @@
       "companyName": "JobValley",
       "startDate": "2020-08-31T22:00:00.000Z",
       "endDate": "2022-03-31T22:00:00.000Z",
-      "description": [
-        " Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features.Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features."
+      "descriptions": [
+        "     Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features.Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features."
       ],
       "location": {
         "remote": true
@@ -45,7 +45,9 @@
       "companyName": "JobValley",
       "startDate": "2019-10-31T23:00:00.000Z",
       "endDate": "2020-07-31T22:00:00.000Z",
-      "description": [],
+      "descriptions": [
+        ""
+      ],
       "location": {
         "remote": false,
         "city": "Cologne",
@@ -60,17 +62,19 @@
       "institutionName": "The Hacking Project",
       "startDate": "2019-04-30T22:00:00.000Z",
       "endDate": "2019-06-30T22:00:00.000Z",
-      "description": [
-        "11-week intensive coding bootcamp; teaching methodology based on peer-learning and pair-programming",
-        "Tech stack: Ruby, Ruby on Rails, Python, OpenCV, PostgreSQL, Heroku"
-      ],
+      "description": "",
       "location": {
         "remote": false,
         "city": "Paris",
         "country": "France"
       },
       "studyType": "Bootcamp",
-      "website": "https://thehackingproject.com"
+      "website": "https://thehackingproject.com",
+      "descriptions": [
+        "11-week intensive coding bootcamp; teaching methodology based on peer-learning and pair-programming",
+        "Tech stack: Ruby, Ruby on Rails, Python, OpenCV, PostgreSQL, Heroku"
+      ]
     }
-  ]
+  ],
+  "label": "Software Engineer"
 }

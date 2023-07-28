@@ -6,48 +6,42 @@ import { useMultistepForm } from "./hooks/use-multi-step-form";
 import Work from "@/components/steps/work";
 import Education from "@/components/steps/education";
 import FormDataToFile from "@/utils/form-data-to-file";
-import { processFormData } from "@/utils/process-form-data";
-import { Location } from "@/types/location-type";
-import { PhoneNumber } from "@/types/phone-number-type";
 
-type ContactFormData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  location: Location;
-  title: string;
-  phoneNumber: PhoneNumber;
-  website: string;
-};
-
-type WorkExperienceFormData = {
-  title: string;
-  companyName: string;
-  website: string;
-  location: Location;
-  startDate: Date;
-  endDate: Date;
-  description: string;
-};
-
-type EducationFormData = {
-  degree: string;
-  institutionName: string;
-  website: string;
-  location: Location;
-  grade: string;
-  startDate: Date;
-  endDate: Date;
-  description: string;
-};
-
-type FormData = ContactFormData & {
-  workEntries: WorkExperienceFormData[];
-  educationEntries: EducationFormData[];
+const DEFAULT_FORM_DATA = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  location: { city: "", country: "", remote: false },
+  title: "",
+  phoneNumber: { countryCode: "", number: "" },
+  website: "",
+  workEntries: [
+    {
+      title: "",
+      companyName: "",
+      website: "",
+      location: { city: "", country: "", remote: false },
+      startDate: "",
+      endDate: "",
+      descriptions: [""],
+    },
+  ],
+  educationEntries: [
+    {
+      degree: "",
+      institutionName: "",
+      website: "",
+      location: { city: "", country: "", remote: false },
+      grade: "",
+      startDate: "",
+      endDate: "",
+      descriptions: [""],
+    },
+  ],
 };
 
 export default function Layout() {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
 
   function updateFields(fields: Partial<FormData>) {
     setFormData((prev) => {
@@ -56,11 +50,12 @@ export default function Layout() {
   }
 
   function onSubmit(e: FormEvent) {
+    console.log("FORM_DATA", formData);
+
     e.preventDefault();
     if (!isLastStep) return next();
     if (isLastStep) {
-      const processedFormData = processFormData(formData);
-      FormDataToFile(processedFormData);
+      FormDataToFile(formData);
     }
   }
 

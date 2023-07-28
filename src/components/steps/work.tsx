@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import URLInput from "../url-input";
 import Toggle from "../toggle";
 import LocationInput from "../location-input";
+import { parseDescriptions } from "@/utils/process-form-data";
 
 export default function Work({ updateFields }) {
   const [currentWork, setCurrentWork] = useState<number | null>(null);
@@ -16,7 +17,7 @@ export default function Work({ updateFields }) {
     companyName: "",
     startDate: null,
     endDate: null,
-    description: "",
+    descriptions: [""],
     location: { remote: false },
   };
 
@@ -26,7 +27,7 @@ export default function Work({ updateFields }) {
     return index == 0;
   }
 
-  function handleChange(key: string, value: string, index: number) {
+  function handleChange(key: string, value: string | string[], index: number) {
     setEntries((prevEntries) => {
       const updatedEntries = [...prevEntries];
       updatedEntries[index] = { ...prevEntries[index], [key]: value };
@@ -100,7 +101,10 @@ export default function Work({ updateFields }) {
       <TextAreaInput
         id="description"
         label="Description"
-        onChange={(e) => handleChange("description", e.target.value, index)}
+        onChange={(e) => {
+          const descriptions = parseDescriptions(e.target.value);
+          handleChange("descriptions", descriptions, index);
+        }}
       />
       <div className="flex flex-row justify-around w-full">
         <button

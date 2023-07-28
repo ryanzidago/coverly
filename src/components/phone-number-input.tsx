@@ -22,12 +22,14 @@ export default function PhoneNumberInput(props) {
           className="col-span-1"
           id="countryCode"
           label="Country Code"
+          value={props.value?.countryCode}
           onChange={(e) => setCountryCode(e.target.value)}
         />
         <TextInput
           className="col-span-3"
           id="number"
           label="Number"
+          value={props.value?.number}
           onChange={(e) => setNumber(e.target.value)}
         />
       </div>

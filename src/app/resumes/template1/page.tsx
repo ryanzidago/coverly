@@ -1,9 +1,11 @@
 "use client";
 
+import { Work } from "@/types/work";
 import EntryDescription from "./entry-description";
 import EntryHeader from "./entry-header";
 import Link from "./link";
 import Section from "./section";
+import { Education } from "@/types/education";
 
 const RESUME = require("@/data/resume.json");
 
@@ -46,7 +48,7 @@ export default function Page() {
       </div>
       {/* work section*/}
       <Section title="Work Experience">
-        {resume.workEntries.map((work, index) => (
+        {resume.workEntries.map((work: Work, index: number) => (
           // work entry container
           <div key={index}>
             {/* work header */}
@@ -59,13 +61,13 @@ export default function Page() {
               location={work.location}
             />
             {/* work description container */}
-            <EntryDescription descriptions={work.description} index={index} />
+            <EntryDescription descriptions={work.descriptions} index={index} />
           </div>
         ))}
       </Section>
       {/* education section */}
       <Section title="Education">
-        {resume.educationEntries.map((education, index) => (
+        {resume.educationEntries.map((education: Education, index: number) => (
           // education container
           <div key={index}>
             {/* education header */}
@@ -80,7 +82,7 @@ export default function Page() {
 
             {/* education description container */}
             <EntryDescription
-              descriptions={education.description}
+              descriptions={education.descriptions}
               index={index}
             />
           </div>

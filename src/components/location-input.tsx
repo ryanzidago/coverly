@@ -9,6 +9,7 @@ type LocationProps = {
   displayStreet?: boolean;
   displayRemote?: boolean;
   onChange: any;
+  value?: Location;
   index?: number;
 };
 
@@ -49,6 +50,7 @@ export default function LocationInput(props: LocationProps) {
         {props.displayRemote && (
           <Toggle
             label="Remote"
+            value={props.value?.remote}
             checked={location.remote}
             onChange={handleToggleRemote}
           />
@@ -69,12 +71,14 @@ export default function LocationInput(props: LocationProps) {
             id="city"
             label="City"
             disabled={location.remote}
+            value={props.value?.city}
             onChange={(e) => handleChange("city", e.target.value)}
           />
           <TextInput
             id="country"
             label="Country"
             disabled={location.remote}
+            value={props.value?.country}
             onChange={(e) => handleChange("country", e.target.value)}
           />
         </div>
