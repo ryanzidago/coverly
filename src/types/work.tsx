@@ -1,3 +1,4 @@
+import { DateSimple } from "./date-simple";
 import { Location } from "./location-type";
 
 export type Work = {
@@ -5,7 +6,7 @@ export type Work = {
   companyName: string;
   website: string;
   location: Location;
-  startDate: Date | string;
-  endDate: Date | string;
-  descriptions: string[];
+  startDate: DateSimple;
+  endDate: DateSimple;
+  descriptions: string;
 };

@@ -1,12 +1,14 @@
 import { Location } from "./location-type";
+import { DateSimple } from "./date-simple";
 
 export type Education = {
-  degree: string;
+  area: string;
+  studyType: string;
   institutionName: string;
   website: string;
   location: Location;
   grade: string;
-  startDate: Date | string;
-  endDate: Date | string;
-  descriptions: string[];
+  startDate: DateSimple;
+  endDate: DateSimple;
+  descriptions: string;
 };

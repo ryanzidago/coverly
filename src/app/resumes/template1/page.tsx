@@ -6,11 +6,12 @@ import EntryHeader from "./entry-header";
 import Link from "./link";
 import Section from "./section";
 import { Education } from "@/types/education";
+import { processFormData } from "@/utils/process-form-data";
 
 const RESUME = require("@/data/resume.json");
 
 export default function Page() {
-  const resume = RESUME;
+  const resume = processFormData(RESUME);
 
   function saveAsPDF() {
     window.print();
@@ -72,7 +73,7 @@ export default function Page() {
           <div key={index}>
             {/* education header */}
             <EntryHeader
-              title={education.degree}
+              title={education.area}
               link={education.website}
               subtitle={education.institutionName}
               startDate={education.startDate}

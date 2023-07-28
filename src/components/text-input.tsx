@@ -1,7 +1,7 @@
 interface TextInputProps {
   label: string;
   placeholder?: string;
-  value?: string;
+  value: string;
   id: string;
   className?: string;
   disabled?: boolean;

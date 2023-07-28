@@ -1,8 +1,8 @@
 export type Location = {
-  city?: string;
-  country?: string;
-  number?: string;
-  street?: string;
-  postalCode?: string;
+  city: string;
+  country: string;
+  number: string;
+  street: string;
+  postalCode: string;
   remote: boolean;
 };

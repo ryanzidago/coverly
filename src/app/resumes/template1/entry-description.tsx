@@ -4,8 +4,6 @@ type EntryDescriptionProps = {
 };
 
 export default function EntryDescription(props: EntryDescriptionProps) {
-  console.log("PROPS", props);
-
   return (
     <ul className="p-4">
       {props.descriptions.map((description: string, index: number) => (

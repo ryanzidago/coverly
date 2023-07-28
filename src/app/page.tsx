@@ -6,13 +6,21 @@ import { useMultistepForm } from "./hooks/use-multi-step-form";
 import Work from "@/components/steps/work";
 import Education from "@/components/steps/education";
 import FormDataToFile from "@/utils/form-data-to-file";
+import { FormData } from "@/types/form-data";
 
-const DEFAULT_FORM_DATA = {
+const DEFAULT_FORM_DATA: FormData = {
   firstName: "",
   lastName: "",
   email: "",
-  location: { city: "", country: "", remote: false },
-  title: "",
+  location: {
+    city: "",
+    country: "",
+    postalCode: "",
+    street: "",
+    number: "",
+    remote: false,
+  },
+  label: "",
   phoneNumber: { countryCode: "", number: "" },
   website: "",
   workEntries: [
@@ -20,22 +28,49 @@ const DEFAULT_FORM_DATA = {
       title: "",
       companyName: "",
       website: "",
-      location: { city: "", country: "", remote: false },
-      startDate: "",
-      endDate: "",
-      descriptions: [""],
+      location: {
+        city: "",
+        country: "",
+        postalCode: "",
+        street: "",
+        number: "",
+        remote: false,
+      },
+      startDate: {
+        month: "",
+        year: "",
+      },
+      endDate: {
+        month: "",
+        year: "",
+      },
+      descriptions: "",
     },
   ],
   educationEntries: [
     {
-      degree: "",
+      area: "",
+      studyType: "",
       institutionName: "",
       website: "",
-      location: { city: "", country: "", remote: false },
+      location: {
+        city: "",
+        country: "",
+        postalCode: "",
+        street: "",
+        number: "",
+        remote: false,
+      },
       grade: "",
-      startDate: "",
-      endDate: "",
-      descriptions: [""],
+      startDate: {
+        month: "",
+        year: "",
+      },
+      endDate: {
+        month: "",
+        year: "",
+      },
+      descriptions: "",
     },
   ],
 };

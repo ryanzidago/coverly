@@ -3,7 +3,7 @@ interface TextAreaInputProps {
   placeholder?: string;
   id: string;
   value?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent) => void;
 }
 
 export default function TextAreaInput(props: TextAreaInputProps) {
@@ -14,6 +14,7 @@ export default function TextAreaInput(props: TextAreaInputProps) {
         <textarea
           id={props.id}
           name={props.id}
+          value={props.value}
           onChange={props.onChange}
           className="border border-slate-200 drop-shadow-sm p-2 rounded-md focus:outline focus:outline-sky-200"
         />

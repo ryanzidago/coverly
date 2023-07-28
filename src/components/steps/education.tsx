@@ -7,27 +7,44 @@ import URLInput from "../url-input";
 import Toggle from "../toggle";
 import { useEffect, useState } from "react";
 import LocationInput from "../location-input";
-import { parseDescriptions } from "@/utils/process-form-data";
+import { Education } from "@/types/education";
 
-export default function Education({ updateFields }) {
+type EducationProps = {
+  updateFields: any;
+  educationEntries: Education[];
+};
+
+const EMPTY_ENTRY: Education = {
+  area: "",
+  studyType: "",
+  institutionName: "",
+  startDate: { year: "", month: "" },
+  endDate: { year: "", month: "" },
+  descriptions: "",
+  website: "",
+  grade: "",
+  location: {
+    city: "",
+    country: "",
+    number: "",
+    street: "",
+    postalCode: "",
+    remote: false,
+  },
+};
+
+export default function Education({
+  updateFields,
+  educationEntries,
+}: EducationProps) {
   const [currentEducation, setCurrentEducation] = useState<number | null>(null);
-
-  const defaultEntry = {
-    degree: "",
-    institutionName: "",
-    startDate: null,
-    endDate: null,
-    description: "",
-    location: { remote: false },
-  };
-
-  const [entries, setEntries] = useState([defaultEntry]);
+  const [entries, setEntries] = useState(educationEntries);
 
   function isFirstEntry(index: number) {
     return index == 0;
   }
 
-  function handleChange(key: string, value: string | string[], index: number) {
+  function handleChange(key: string, value: string, index: number) {
     setEntries((prevEntries) => {
       const updatedEntries = [...prevEntries];
       updatedEntries[index] = { ...prevEntries[index], [key]: value };
@@ -40,7 +57,7 @@ export default function Education({ updateFields }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entries]);
 
-  return entries.map((entry, index) => (
+  return entries.map((entry: Education, index: number) => (
     <div
       key={index}
       className="flex flex-col justify-center items-center gap-8 text-slate-700"
@@ -49,17 +66,20 @@ export default function Education({ updateFields }) {
       <TextInput
         id="area"
         label="Area"
-        onChange={(e) => handleChange("degree", e.target.value, index)}
+        value={entry.area}
+        onChange={(e) => handleChange("area", e.target.value, index)}
       />
       <TextInput
         id="studyType"
-        label="Degree / Study type"
+        label="Study type"
+        value={entry.studyType}
         onChange={(e) => handleChange("studyType", e.target.value, index)}
       />
       <div className="flex flex-row w-full gap-8">
         <TextInput
           id="institutionName"
           label="Institution Name"
+          value={entry.institutionName}
           onChange={(e) =>
             handleChange("institutionName", e.target.value, index)
           }
@@ -67,6 +87,7 @@ export default function Education({ updateFields }) {
         <URLInput
           label="Website"
           id="website"
+          value={entry.website}
           onChange={(e) => handleChange("website", e.target.value, index)}
         />
       </div>
@@ -75,17 +96,19 @@ export default function Education({ updateFields }) {
         id="location"
         label="Location"
         index={index}
+        value={entry.location}
         onChange={handleChange}
       />
       <DateInput
         id="startDate"
         label="Start date"
         index={index}
+        value={entry.startDate}
         onChange={handleChange}
       />
       <Toggle
         label="Current education"
-        checked={currentEducation === index}
+        value={currentEducation === index}
         onChange={() =>
           setCurrentEducation((prev) => {
             return prev === index ? null : index;
@@ -95,6 +118,7 @@ export default function Education({ updateFields }) {
       <DateInput
         id="endDate"
         label="End date"
+        value={entry.endDate}
         className={`transition duration-200 ease-in-out ${
           currentEducation === index ? "opacity-60" : "opacity-100"
         }`}
@@ -106,20 +130,21 @@ export default function Education({ updateFields }) {
       <TextInput
         id="grade"
         label="Grade"
+        value={entry.grade}
         onChange={(e) => handleChange("grade", e.target.value, index)}
       />
       <TextAreaInput
         id="description"
         label="Description"
+        value={entry.descriptions}
         onChange={(e) => {
-          const descriptions = parseDescriptions(e.target.value);
-          handleChange("descriptions", descriptions, index);
+          handleChange("descriptions", e.target.value, index);
         }}
       />
       <div className="flex flex-row justify-around w-full">
         <button
           type="button"
-          onClick={(e) => setEntries([...entries, defaultEntry])}
+          onClick={(e) => setEntries([...entries, EMPTY_ENTRY])}
           className="transition duration-200 hover:text-slate-500"
         >
           Add education

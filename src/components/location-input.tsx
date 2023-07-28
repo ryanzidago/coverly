@@ -9,19 +9,26 @@ type LocationProps = {
   displayStreet?: boolean;
   displayRemote?: boolean;
   onChange: any;
-  value?: Location;
+  value: Location;
   index?: number;
 };
 
-export default function LocationInput(props: LocationProps) {
-  const [location, setLocation] = useState<Location>({ remote: false });
+export default function LocationInput({
+  label,
+  displayStreet,
+  displayRemote,
+  onChange,
+  value,
+  index,
+}: LocationProps) {
+  const [location, setLocation] = useState<Location>(value);
 
   useEffect(() => {
     if ((location.city && location.country) || location.remote) {
-      if ("index" in props) {
-        props.onChange("location", location, props.index);
+      if (index) {
+        onChange("location", location, index);
       } else {
-        props.onChange({ location: location });
+        onChange({ location: location });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,12 +53,11 @@ export default function LocationInput(props: LocationProps) {
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="flex flex-row justify-between">
-        {props.label}{" "}
-        {props.displayRemote && (
+        {label}{" "}
+        {displayRemote && (
           <Toggle
             label="Remote"
-            value={props.value?.remote}
-            checked={location.remote}
+            value={location.remote}
             onChange={handleToggleRemote}
           />
         )}
@@ -71,19 +77,19 @@ export default function LocationInput(props: LocationProps) {
             id="city"
             label="City"
             disabled={location.remote}
-            value={props.value?.city}
+            value={location.city}
             onChange={(e) => handleChange("city", e.target.value)}
           />
           <TextInput
             id="country"
             label="Country"
             disabled={location.remote}
-            value={props.value?.country}
+            value={location.country}
             onChange={(e) => handleChange("country", e.target.value)}
           />
         </div>
 
-        {props.displayStreet && (
+        {displayStreet && (
           <div
             className={
               "grid grid-cols-8 gap-4 transform-all duration-200 ease-in-out " +
@@ -94,6 +100,7 @@ export default function LocationInput(props: LocationProps) {
               className="col-span-2"
               id="number"
               label="Number"
+              value={location.number}
               disabled={location.remote}
               onChange={(e) => handleChange("number", e.target.value)}
             />
@@ -101,6 +108,7 @@ export default function LocationInput(props: LocationProps) {
               className="col-span-4"
               id="street"
               label="Street"
+              value={location.street}
               disabled={location.remote}
               onChange={(e) => handleChange("street", e.target.value)}
             />
@@ -108,6 +116,7 @@ export default function LocationInput(props: LocationProps) {
               className="col-span-2"
               id="postcalCode"
               label="Postal Code"
+              value={location.postalCode}
               disabled={location.remote}
               onChange={(e) => handleChange("postalCode", e.target.value)}
             />

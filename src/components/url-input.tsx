@@ -15,6 +15,7 @@ export default function URLInput(props: URLInputProps) {
           id={props.id}
           name={props.id}
           type="url"
+          value={props.value}
           className="border border-slate-200 drop-shadow-sm rounded-md p-2 focus:outline focus:outline-sky-200"
           onChange={props.onChange}
         />

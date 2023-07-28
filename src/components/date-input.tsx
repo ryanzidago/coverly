@@ -1,9 +1,10 @@
+import { DateSimple } from "@/types/date-simple";
 import { useEffect, useState } from "react";
 
 interface DateInputProps {
   label: string;
   placeholder?: string;
-  value?: string;
+  value: DateSimple;
   id: string;
   fieldId?: any;
   index: number;
@@ -13,7 +14,18 @@ interface DateInputProps {
   onChange?: any;
 }
 
-export default function DateInput(props: DateInputProps) {
+export default function DateInput({
+  label,
+  placeholder,
+  value,
+  id,
+  fieldId,
+  index,
+  className,
+  currentPosition,
+  disabled,
+  onChange,
+}: DateInputProps) {
   const startYear: number = 1900;
   const currentYear: number = new Date().getFullYear();
   const yearOptions: number[] = [];
@@ -22,26 +34,25 @@ export default function DateInput(props: DateInputProps) {
     yearOptions.push(i);
   }
 
-  const [month, setMonth] = useState<string | null>(null);
-  const [year, setYear] = useState<number | null>(null);
+  const [month, setMonth] = useState<string>(value.month);
+  const [year, setYear] = useState<string>(value.year);
 
   useEffect(() => {
     if (year && month) {
-      const date = new Date(year, month, 1, 0, 0, 0);
-      props.onChange(props.id, date, props.index);
+      const date = { year: year, month: month };
+      onChange(id, date, index);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [month, year]);
 
   return (
-    <div
-      className={"flex flex-row items-end w-full gap-8" + " " + props.className}
-    >
+    <div className={"flex flex-row items-end w-full gap-8" + " " + className}>
       <label htmlFor="month" className="flex flex-col gap-2 w-full">
-        <span>{props.label}</span>
+        <span>{label}</span>
         <select
-          disabled={props.disabled}
+          value={month}
+          disabled={disabled}
           name="month"
           id="month"
           onChange={(e) => setMonth(e.target.value)}
@@ -49,18 +60,18 @@ export default function DateInput(props: DateInputProps) {
         >
           {/* dates are zero-based in js */}
           {month ? null : <option></option>}
-          <option value={0}>January</option>
-          <option value={1}>February</option>
-          <option value={2}>March</option>
-          <option value={3}>April</option>
-          <option value={4}>May</option>
-          <option value={5}>June</option>
-          <option value={6}>July</option>
-          <option value={7}>August</option>
-          <option value={8}>September</option>
-          <option value={9}>October</option>
-          <option value={10}>November</option>
-          <option value={11}>December</option>
+          <option value={1}>January</option>
+          <option value={2}>February</option>
+          <option value={3}>March</option>
+          <option value={4}>April</option>
+          <option value={5}>May</option>
+          <option value={6}>June</option>
+          <option value={7}>July</option>
+          <option value={8}>August</option>
+          <option value={9}>September</option>
+          <option value={10}>October</option>
+          <option value={11}>November</option>
+          <option value={12}>December</option>
         </select>
       </label>
 
@@ -69,10 +80,9 @@ export default function DateInput(props: DateInputProps) {
           type="number"
           name="year"
           id="year"
-          disabled={props.disabled}
-          onChange={(e) =>
-            e.target.value.length === 4 ? setYear(e.target.value) : null
-          }
+          value={year}
+          disabled={disabled}
+          onChange={(e) => setYear(e.target.value)}
           onKeyDown={(e) => {
             if (
               e.key !== "Backspace" &&
