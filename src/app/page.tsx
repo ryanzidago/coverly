@@ -6,7 +6,7 @@ import { useMultistepForm } from "./hooks/use-multi-step-form";
 import Work from "@/components/steps/work";
 import Education from "@/components/steps/education";
 import FormDataToFile from "@/utils/form-data-to-file";
-import { FormData } from "@/types/form-data";
+import { FormData } from "@/types/form-data-type";
 
 const DEFAULT_FORM_DATA: FormData = {
   firstName: "",

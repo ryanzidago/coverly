@@ -7,7 +7,7 @@ import URLInput from "../url-input";
 import Toggle from "../toggle";
 import { useEffect, useState } from "react";
 import LocationInput from "../location-input";
-import { Education } from "@/types/education";
+import { Education } from "@/types/education-type";
 
 type EducationProps = {
   updateFields: any;

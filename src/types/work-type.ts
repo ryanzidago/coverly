@@ -1,13 +1,11 @@
+import { DateSimple } from "./date-simple-type";
 import { Location } from "./location-type";
-import { DateSimple } from "./date-simple";
 
-export type Education = {
-  area: string;
-  studyType: string;
-  institutionName: string;
+export type Work = {
+  title: string;
+  companyName: string;
   website: string;
   location: Location;
-  grade: string;
   startDate: DateSimple;
   endDate: DateSimple;
   descriptions: string;

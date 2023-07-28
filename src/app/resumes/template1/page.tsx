@@ -1,11 +1,11 @@
 "use client";
 
-import { Work } from "@/types/work";
+import { Work } from "@/types/work-type";
 import EntryDescription from "./entry-description";
 import EntryHeader from "./entry-header";
 import Link from "./link";
 import Section from "./section";
-import { Education } from "@/types/education";
+import { Education } from "@/types/education-type";
 import { processFormData } from "@/utils/process-form-data";
 
 const RESUME = require("@/data/resume.json");

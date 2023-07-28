@@ -1,4 +1,4 @@
-import { DateSimple } from "@/types/date-simple";
+import { DateSimple } from "@/types/date-simple-type";
 import { useEffect, useState } from "react";
 
 interface DateInputProps {

@@ -1,4 +1,4 @@
-import { FormData } from "@/types/form-data";
+import { FormData } from "@/types/form-data-type";
 
 export function processFormData(formData: FormData) {
   return {

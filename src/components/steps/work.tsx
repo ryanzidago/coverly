@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import URLInput from "../url-input";
 import Toggle from "../toggle";
 import LocationInput from "../location-input";
-import { Work } from "@/types/work";
+import { Work } from "@/types/work-type";
 
 type WorkProps = {
   updateFields: any;
