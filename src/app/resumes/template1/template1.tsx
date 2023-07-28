@@ -1,9 +1,17 @@
+import { FormData } from "@/types/form-data-type";
 import EntryDescription from "./entry-description";
 import EntryHeader from "./entry-header";
 import Link from "./link";
 import Section from "./section";
+import { processFormData } from "@/utils/process-form-data";
 
-export default function Template1({ resume }) {
+type Template1Props = {
+  formData: FormData;
+};
+
+export default function Template1({ formData }: Template1Props) {
+  const resume = processFormData(formData);
+
   function saveAsPDF() {
     window.print();
   }
