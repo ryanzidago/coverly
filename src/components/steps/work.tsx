@@ -37,7 +37,7 @@ export default function Work({
   workEntries,
   className,
 }: WorkProps) {
-  const [currentWork, setCurrentWork] = useState<number | null>(0);
+  const [currentWork, setCurrentWork] = useState<number | null>(null);
   const [entries, setEntries] = useState(workEntries);
 
   function isFirstWorkExp(index: number) {
