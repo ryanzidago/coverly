@@ -85,6 +85,11 @@ export default function DateInput({
           onChange={(e) => setYear(e.target.value)}
           onKeyDown={(e) => {
             if (
+              e.key !== "ArrowUp" &&
+              e.key !== "ArrowDown" &&
+              e.key !== "ArrowLeft" &&
+              e.key !== "ArrowRight" &&
+              e.key !== "Tab" &&
               e.key !== "Backspace" &&
               e.key !== "Enter" &&
               !/[0-9]/.test(e.key)
