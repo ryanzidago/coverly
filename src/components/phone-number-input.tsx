@@ -22,18 +22,18 @@ export default function PhoneNumberInput(props: PhoneNumberInputType) {
   }, [countryCode, number]);
 
   return (
-    <label className="flex flex-col gap-4 w-full">
+    <label className="flex flex-col gap-2 w-full">
       {props.label}
-      <div className="grid grid-cols-4 gap-2">
+      <div className="flex flex-row gap-4 items-end ">
         <TextInput
-          className="col-span-1"
+          className="col-span-1 w-[30%]"
           id="countryCode"
           label="Country Code"
           value={props.value.countryCode}
           onChange={(e) => setCountryCode(e.target.value)}
         />
         <TextInput
-          className="col-span-3"
+          className="col-span-3 w-[70%]"
           id="number"
           label="Number"
           value={props.value.number}

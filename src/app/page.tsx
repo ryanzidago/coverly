@@ -7,6 +7,7 @@ import Work from "@/components/steps/work";
 import Education from "@/components/steps/education";
 import FormDataToFile from "@/utils/form-data-to-file";
 import { FormData } from "@/types/form-data-type";
+import Template1 from "./resumes/template1/template1";
 
 const DEFAULT_FORM_DATA: FormData = {
   firstName: "",
@@ -94,42 +95,58 @@ export default function Layout() {
     }
   }
 
+  const stepClassName =
+    "flex flex-col justify-center items-center gap-4 w-[32rem] text-slate-700";
+
   const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
     useMultistepForm([
-      <Contact key="contact-form" {...formData} updateFields={updateFields} />,
+      <Contact
+        key="contact-form"
+        {...formData}
+        updateFields={updateFields}
+        className={stepClassName}
+      />,
       <Work
         key="work-experience-form"
         {...formData}
         updateFields={updateFields}
+        className={stepClassName}
       />,
       <Education
         key="education-entries-form"
         {...formData}
         updateFields={updateFields}
+        className={stepClassName}
       />,
     ]);
 
   return (
-    <form
-      className="flex flex-col gap-16 w-full max-w-xl text-slate-700"
-      onSubmit={onSubmit}
-    >
-      <div>
-        {currentStepIndex + 1} / {steps.length}
+    <div className="flex flex-row  gap-16 h-screen">
+      <div className="basis-2/12 w-full">Sidebar</div>
+      <form
+        className="basis-3/12 gap-16 flex flex-col w-full text-slate-700 "
+        onSubmit={onSubmit}
+      >
+        <div>
+          {currentStepIndex + 1} / {steps.length}
+        </div>
+        {step}
+        <div className="flex w-full h-full justify-between text-slate-700">
+          <button
+            className={isFirstStep ? "invisible" : "self-end"}
+            type="button"
+            onClick={back}
+          >
+            Back
+          </button>
+          <button className="self-end" type="submit">
+            Next
+          </button>
+        </div>
+      </form>
+      <div className="basis-4/12 w-full">
+        <Template1 formData={formData} />
       </div>
-      {step}
-      <div className="flex w-full justify-between text-slate-700">
-        <button
-          className={isFirstStep ? "invisible" : ""}
-          type="button"
-          onClick={back}
-        >
-          Back
-        </button>
-        <button className="" type="submit">
-          Next
-        </button>
-      </div>
-    </form>
+    </div>
   );
 }

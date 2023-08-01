@@ -6,6 +6,7 @@ import LocationInput from "../location-input";
 import PhoneNumberInput from "../phone-number-input";
 import { PhoneNumber } from "@/types/phone-number-type";
 import { Location } from "@/types/location-type";
+import TextAreaInput from "../text-area-input";
 
 type ContactProps = {
   updateFields: (data: any) => void;
@@ -16,6 +17,7 @@ type ContactProps = {
   phoneNumber: PhoneNumber;
   website: string;
   location: Location;
+  className: string;
 };
 
 export default function Contact({
@@ -27,9 +29,10 @@ export default function Contact({
   phoneNumber,
   website,
   location,
+  className,
 }: ContactProps) {
   return (
-    <div className="flex flex-col justify-center items-center gap-8 w-full max-w-xl text-slate-700">
+    <div className={className}>
       <h1 className="text-xl">Personal Information</h1>
       <TextInput
         id="firstName"
@@ -37,18 +40,21 @@ export default function Contact({
         value={firstName}
         onChange={(e) => updateFields({ firstName: e.target.value })}
       />
+
       <TextInput
         id="lastName"
         label="Last name"
         value={lastName}
         onChange={(e) => updateFields({ lastName: e.target.value })}
       />
+
       <TextInput
         id="label"
         label="Title"
         value={label}
         onChange={(e) => updateFields({ label: e.target.value })}
       />
+
       <TextInput
         id="email"
         label="Email"
@@ -71,7 +77,7 @@ export default function Contact({
         id="location"
         label="Location"
         value={location}
-        displayStreet={true}
+        displayStreet={false}
         onChange={updateFields}
       />
     </div>

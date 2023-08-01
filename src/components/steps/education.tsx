@@ -11,6 +11,7 @@ import { Education } from "@/types/education-type";
 
 type EducationProps = {
   updateFields: any;
+  className: string;
   educationEntries: Education[];
 };
 
@@ -36,6 +37,7 @@ const EMPTY_ENTRY: Education = {
 export default function Education({
   updateFields,
   educationEntries,
+  className,
 }: EducationProps) {
   const [currentEducation, setCurrentEducation] = useState<number | null>(null);
   const [entries, setEntries] = useState(educationEntries);
@@ -58,10 +60,7 @@ export default function Education({
   }, [entries]);
 
   return entries.map((entry: Education, index: number) => (
-    <div
-      key={index}
-      className="flex flex-col justify-center items-center gap-8 text-slate-700"
-    >
+    <div key={index} className={className}>
       {isFirstEntry(index) && <h1 className="text-xl">Education</h1>}
       <TextInput
         id="area"
@@ -125,13 +124,6 @@ export default function Education({
         index={index}
         disabled={currentEducation === index}
         onChange={handleChange}
-      />
-
-      <TextInput
-        id="grade"
-        label="Grade"
-        value={entry.grade}
-        onChange={(e) => handleChange("grade", e.target.value, index)}
       />
       <TextAreaInput
         id="description"

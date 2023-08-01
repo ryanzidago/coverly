@@ -11,6 +11,7 @@ import { Work } from "@/types/work-type";
 
 type WorkProps = {
   updateFields: any;
+  className: string;
   workEntries: Work[];
 };
 
@@ -31,7 +32,11 @@ const EMPTY_ENTRY = {
   descriptions: "",
 };
 
-export default function Work({ updateFields, workEntries }: WorkProps) {
+export default function Work({
+  updateFields,
+  workEntries,
+  className,
+}: WorkProps) {
   const [currentWork, setCurrentWork] = useState<number | null>(0);
   const [entries, setEntries] = useState(workEntries);
 
@@ -53,11 +58,9 @@ export default function Work({ updateFields, workEntries }: WorkProps) {
   }, [entries]);
 
   return entries.map((workExp: Work, index: number) => (
-    <div
-      key={index}
-      className="flex flex-col justify-center items-center gap-8 text-slate-700"
-    >
+    <div key={index} className={className}>
       {isFirstWorkExp(index) && <h1 className="text-xl">Work Experience</h1>}
+
       <TextInput
         id="title"
         label="Title"
