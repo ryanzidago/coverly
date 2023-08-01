@@ -5,9 +5,9 @@
   "location": {
     "city": "Cologne",
     "country": "Germany",
-    "postalCode": "50900",
-    "street": "Berlinerstraße",
-    "number": "32",
+    "postalCode": "",
+    "street": "",
+    "number": "",
     "remote": false
   },
   "label": "Software Engineer",
@@ -37,7 +37,7 @@
         "month": "",
         "year": ""
       },
-      "descriptions": "     Making the experience of working with shifts easier for frontline and deskless workers in health, social care, retail, hospitality, and the voluntary sector by programming Sona's people operating system"
+      "descriptions": "     Making the experience of working with shifts easier for frontline and deskless workers in health, social care, retail, hospitality, and the voluntary sector by programming Sona's \"people operating system\"."
     },
     {
       "title": "Software Engineer",
@@ -59,7 +59,7 @@
         "year": "2022",
         "month": "4"
       },
-      "descriptions": "     Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features.Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features."
+      "descriptions": "Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features."
     },
     {
       "title": "Software Engineer Trainee",
@@ -107,7 +107,7 @@
         "year": "2019",
         "month": "7"
       },
-      "descriptions": "11-week intensive coding bootcamp; teaching methodology based on peer-learning and pair-programming\n\nTech stack: Ruby, Ruby on Rails, Python, OpenCV, PostgreSQL, Heroku"
+      "descriptions": "During this 11-weeks intensive coding bootcamp, I was introduced to Web development. I learned how to write software, build and deploy websites with Ruby, Ruby on Rails, PostgreSQL, HTML & CSS, Heroku, Git and GitHub. I also learned and used Python and OpenCV in order to scan QR codes, as part of my team's final project."
     }
   ]
 }

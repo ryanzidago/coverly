@@ -67,7 +67,7 @@ export default function Work({
         value={workExp.title}
         onChange={(e) => handleChange("title", e.target.value, index)}
       />
-      <div className="flex flex-row w-full gap-8">
+      <div className="flex flex-row w-full gap-4">
         <TextInput
           id="companyName"
           label="Company name"

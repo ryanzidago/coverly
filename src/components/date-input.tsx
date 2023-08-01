@@ -47,7 +47,7 @@ export default function DateInput({
   }, [month, year]);
 
   return (
-    <div className={"flex flex-row items-end w-full gap-8" + " " + className}>
+    <div className={"flex flex-row items-end w-full gap-4" + " " + className}>
       <label htmlFor="month" className="flex flex-col gap-2 w-full">
         <span>{label}</span>
         <select
