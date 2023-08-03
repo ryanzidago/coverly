@@ -36,12 +36,9 @@ export default function LocationInput({
     }));
   }
 
-  function handleToggleRemote() {
+  function handleToggleRemote(remote: boolean) {
     setLocation((prevLocation) => {
-      return {
-        ...prevLocation,
-        remote: !prevLocation.remote,
-      };
+      return { ...prevLocation, remote: remote };
     });
   }
 
@@ -53,7 +50,9 @@ export default function LocationInput({
           <Toggle
             label="Remote"
             value={location.remote}
-            onChange={handleToggleRemote}
+            onChange={(e) => {
+              handleToggleRemote(e.target.checked);
+            }}
           />
         )}
       </div>
