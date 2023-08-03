@@ -78,7 +78,7 @@ export default function Contact({
         label="Location"
         value={location}
         displayStreet={false}
-        onChange={updateFields}
+        onChange={(location: Location) => updateFields({ location: location })}
       />
     </div>
   );

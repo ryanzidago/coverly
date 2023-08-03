@@ -24,13 +24,8 @@ export default function LocationInput({
   const [location, setLocation] = useState<Location>(value);
 
   useEffect(() => {
-    if (location.city || location.country || location.remote) {
-      if (index) {
-        onChange("location", location, index);
-      } else {
-        onChange({ location: location });
-      }
-    }
+    onChange(location);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 

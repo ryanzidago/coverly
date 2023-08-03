@@ -46,8 +46,6 @@ export default function Work({
   }
 
   function handleChange(key: string, value: string | Location, index: number) {
-    console.log("VALUE", value);
-
     setEntries((prevEntries) => {
       const updatedEntries = [...prevEntries];
       updatedEntries[index] = { ...prevEntries[index], [key]: value };
@@ -91,7 +89,7 @@ export default function Work({
         label="Location"
         index={index}
         value={workExp.location}
-        onChange={({ location }: { location: Location }) => {
+        onChange={(location: Location) => {
           handleChange("location", location, index);
         }}
       />

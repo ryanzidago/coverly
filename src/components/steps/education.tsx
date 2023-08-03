@@ -97,7 +97,7 @@ export default function Education({
         label="Location"
         index={index}
         value={entry.location}
-        onChange={({ location }: { location: Location }) => {
+        onChange={(location: Location) => {
           handleChange("location", location, index);
         }}
       />
