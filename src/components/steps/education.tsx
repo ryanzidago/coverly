@@ -8,6 +8,7 @@ import Toggle from "../toggle";
 import { useEffect, useState } from "react";
 import LocationInput from "../location-input";
 import { Education } from "@/types/education-type";
+import { Location } from "@/types/location-type";
 
 type EducationProps = {
   updateFields: any;
@@ -46,7 +47,7 @@ export default function Education({
     return index == 0;
   }
 
-  function handleChange(key: string, value: string, index: number) {
+  function handleChange(key: string, value: string | Location, index: number) {
     setEntries((prevEntries) => {
       const updatedEntries = [...prevEntries];
       updatedEntries[index] = { ...prevEntries[index], [key]: value };
@@ -96,7 +97,9 @@ export default function Education({
         label="Location"
         index={index}
         value={entry.location}
-        onChange={handleChange}
+        onChange={({ location }: { location: Location }) => {
+          handleChange("location", location, index);
+        }}
       />
       <DateInput
         id="startDate"

@@ -24,7 +24,7 @@ export default function LocationInput({
   const [location, setLocation] = useState<Location>(value);
 
   useEffect(() => {
-    if ((location.city && location.country) || location.remote) {
+    if (location.city || location.country || location.remote) {
       if (index) {
         onChange("location", location, index);
       } else {

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import URLInput from "../url-input";
 import Toggle from "../toggle";
 import LocationInput from "../location-input";
+import { Location } from "@/types/location-type";
 import { Work } from "@/types/work-type";
 
 type WorkProps = {
@@ -44,7 +45,9 @@ export default function Work({
     return index == 0;
   }
 
-  function handleChange(key: string, value: string, index: number) {
+  function handleChange(key: string, value: string | Location, index: number) {
+    console.log("VALUE", value);
+
     setEntries((prevEntries) => {
       const updatedEntries = [...prevEntries];
       updatedEntries[index] = { ...prevEntries[index], [key]: value };
@@ -88,7 +91,9 @@ export default function Work({
         label="Location"
         index={index}
         value={workExp.location}
-        onChange={handleChange}
+        onChange={({ location }: { location: Location }) => {
+          handleChange("location", location, index);
+        }}
       />
       <DateInput
         id="startDate"

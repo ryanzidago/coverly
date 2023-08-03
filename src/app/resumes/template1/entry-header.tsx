@@ -13,7 +13,15 @@ type EntryProps = {
 
 export default function EntryHeader(props: EntryProps) {
   function buildLocation(location: Location) {
-    return location.remote ? "Remote" : location.city + " " + location.country;
+    if (location.remote) {
+      return "Remote";
+    }
+
+    if (location.city && location.country) {
+      return location.city + ", " + location.country;
+    }
+
+    return location.city || location.country;
   }
 
   return (
