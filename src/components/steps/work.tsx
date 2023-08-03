@@ -135,7 +135,9 @@ export default function Work({
       <div className="flex flex-row justify-around w-full">
         <button
           type="button"
-          onClick={(e) => setEntries([...entries, EMPTY_ENTRY])}
+          onClick={(e) =>
+            setEntries((prevEntries) => [...prevEntries, EMPTY_ENTRY])
+          }
           className="transition duration-200 hover:text-slate-500"
         >
           Add work experience
@@ -144,9 +146,11 @@ export default function Work({
           <button
             type="button"
             onClick={(e) => {
-              const updatedEntries = [...entries];
-              updatedEntries.splice(index, 1);
-              setEntries(updatedEntries);
+              setEntries((prevEntries) => {
+                const updatedEntries = [...prevEntries];
+                updatedEntries.splice(index, 1);
+                return updatedEntries;
+              });
             }}
             className="transition duration-200 hover:text-slate-500"
           >
