@@ -11,4 +11,5 @@ export type Education = {
   startDate: DateSimple;
   endDate: DateSimple;
   descriptions: string;
+  currentEducation: boolean;
 };

@@ -1,26 +1,26 @@
 {
-  "firstName": "Ryan",
-  "lastName": "Zidago",
-  "email": "ryanzidago@coverly.com",
+  "firstName": "",
+  "lastName": "",
+  "email": "",
   "location": {
-    "city": "Cologne",
-    "country": "Germany",
+    "city": "",
+    "country": "",
     "postalCode": "",
     "street": "",
     "number": "",
     "remote": false
   },
-  "label": "Software Engineer",
+  "label": "",
   "phoneNumber": {
-    "countryCode": "+49",
-    "number": "123 456 78909"
+    "countryCode": "",
+    "number": ""
   },
-  "website": "https://coverly.com",
+  "website": "",
   "workEntries": [
     {
-      "title": "Fullstack Software Engineer",
-      "companyName": "Sona",
-      "website": "https://getsona.com",
+      "title": "",
+      "companyName": "",
+      "website": "",
       "location": {
         "city": "",
         "country": "",
@@ -30,66 +30,46 @@
         "remote": false
       },
       "startDate": {
-        "year": "2022",
-        "month": "5"
+        "month": "",
+        "year": ""
       },
       "endDate": {
         "month": "",
         "year": ""
       },
-      "descriptions": "     Making the experience of working with shifts easier for frontline and deskless workers in health, social care, retail, hospitality, and the voluntary sector by programming Sona's \"people operating system\"."
+      "descriptions": "",
+      "currentWork": true
     },
     {
-      "title": "Software Engineer",
-      "companyName": "JobValley",
-      "website": "https://jobvalley.com",
+      "title": "",
+      "companyName": "",
+      "website": "",
       "location": {
         "city": "",
         "country": "",
         "number": "",
         "street": "",
         "postalCode": "",
-        "remote": true
-      },
-      "startDate": {
-        "year": "2020",
-        "month": "9"
-      },
-      "endDate": {
-        "year": "2022",
-        "month": "4"
-      },
-      "descriptions": "Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features."
-    },
-    {
-      "title": "Software Engineer Trainee",
-      "companyName": "JobValley",
-      "website": "https://jobvalley.com",
-      "location": {
-        "city": "Cologne",
-        "country": "Germany",
-        "number": "",
-        "street": "",
-        "postalCode": "",
         "remote": false
       },
       "startDate": {
-        "year": "2019",
-        "month": "11"
+        "year": "",
+        "month": ""
       },
       "endDate": {
-        "year": "2020",
-        "month": "8"
+        "year": "",
+        "month": ""
       },
-      "descriptions": ""
+      "descriptions": "",
+      "currentWork": true
     }
   ],
   "educationEntries": [
     {
-      "area": "Web Development",
-      "studyType": "Bootcamp",
-      "institutionName": "The Hacking Project",
-      "website": "https://thehackingproject.com",
+      "area": "",
+      "studyType": "",
+      "institutionName": "",
+      "website": "",
       "location": {
         "city": "",
         "country": "",
@@ -100,14 +80,14 @@
       },
       "grade": "",
       "startDate": {
-        "year": "2019",
-        "month": "5"
+        "month": "",
+        "year": ""
       },
       "endDate": {
-        "year": "2019",
-        "month": "7"
+        "month": "",
+        "year": ""
       },
-      "descriptions": "During this 11-weeks intensive coding bootcamp, I was introduced to Web development. I learned how to write software, build and deploy websites with Ruby, Ruby on Rails, PostgreSQL, HTML & CSS, Heroku, Git and GitHub. I also learned and used Python and OpenCV in order to scan QR codes, as part of my team's final project."
+      "descriptions": ""
     }
   ]
 }

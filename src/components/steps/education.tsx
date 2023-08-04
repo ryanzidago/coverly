@@ -33,6 +33,7 @@ const EMPTY_ENTRY: Education = {
     postalCode: "",
     remote: false,
   },
+  currentEducation: false,
 };
 
 export default function Education({
@@ -40,20 +41,33 @@ export default function Education({
   educationEntries,
   className,
 }: EducationProps) {
-  const [currentEducation, setCurrentEducation] = useState<number | null>(null);
+  const index = educationEntries.findIndex((entry) => entry.currentEducation);
+  const [currentEducation, setCurrentEducation] = useState<number | null>(
+    index === -1 ? null : index,
+  );
   const [entries, setEntries] = useState(educationEntries);
 
   function isFirstEntry(index: number) {
     return index == 0;
   }
 
-  function handleChange(key: string, value: string | Location, index: number) {
+  function handleChange(
+    key: string,
+    value: string | boolean | Location,
+    index: number,
+  ) {
     setEntries((prevEntries) => {
       const updatedEntries = [...prevEntries];
       updatedEntries[index] = { ...prevEntries[index], [key]: value };
       return updatedEntries;
     });
   }
+
+  useEffect(() => {
+    currentEducation !== null &&
+      handleChange("currentEducation", true, currentEducation);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentEducation]);
 
   useEffect(() => {
     updateFields({ educationEntries: entries });
@@ -110,7 +124,7 @@ export default function Education({
       />
       <Toggle
         label="Current education"
-        value={currentEducation === index}
+        checked={currentEducation === index}
         onChange={() =>
           setCurrentEducation((prev) => {
             return prev === index ? null : index;

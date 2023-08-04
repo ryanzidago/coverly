@@ -39,14 +39,22 @@ export default function Work({
   workEntries,
   className,
 }: WorkProps) {
-  const [currentWork, setCurrentWork] = useState<number | null>(null);
+  const index = workEntries.findIndex((entry) => entry.currentWork);
+
+  const [currentWork, setCurrentWork] = useState<number | null>(
+    index == -1 ? null : index,
+  );
   const [entries, setEntries] = useState(workEntries);
 
   function isFirstWorkExp(index: number) {
     return index == 0;
   }
 
-  function handleChange(key: string, value: string | Location, index: number) {
+  function handleChange(
+    key: string,
+    value: string | boolean | Location,
+    index: number,
+  ) {
     setEntries((prevEntries) => {
       const updatedEntries = [...prevEntries];
       updatedEntries[index] = { ...prevEntries[index], [key]: value };
@@ -54,6 +62,11 @@ export default function Work({
     });
   }
 
+  useEffect(() => {
+    currentWork !== null && handleChange("currentWork", true, currentWork);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentWork]);
+  
   useEffect(() => {
     updateFields({ workEntries: entries });
     // eslint-disable-next-line react-hooks/exhaustive-deps
