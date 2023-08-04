@@ -49,7 +49,7 @@ export default function LocationInput({
         {displayRemote && (
           <Toggle
             label="Remote"
-            value={location.remote}
+            checked={location.remote}
             onChange={(e) => {
               handleToggleRemote(e.target.checked);
             }}

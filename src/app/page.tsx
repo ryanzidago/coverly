@@ -46,6 +46,7 @@ const DEFAULT_FORM_DATA: FormData = {
         year: "",
       },
       descriptions: "",
+      currentWork: false,
     },
   ],
   educationEntries: [

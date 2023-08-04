@@ -31,6 +31,7 @@ const EMPTY_ENTRY = {
   startDate: { year: "", month: "" },
   endDate: { year: "", month: "" },
   descriptions: "",
+  currentWork: false,
 };
 
 export default function Work({
@@ -102,7 +103,7 @@ export default function Work({
       />
       <Toggle
         label="Current position"
-        value={currentWork === index}
+        checked={currentWork === index}
         onChange={() => {
           setCurrentWork((prev) => {
             return prev === index ? null : index;

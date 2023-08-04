@@ -9,4 +9,5 @@ export type Work = {
   startDate: DateSimple;
   endDate: DateSimple;
   descriptions: string;
+  currentWork: boolean;
 };
