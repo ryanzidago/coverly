@@ -8,6 +8,8 @@ import Education from "@/components/steps/education";
 import FormDataToFile from "@/utils/form-data-to-file";
 import { FormData } from "@/types/form-data-type";
 import Template1 from "./resumes/template1/template1";
+import jsPDF from "jspdf";
+import Image from "next/image";
 
 const DEFAULT_FORM_DATA: FormData = {
   firstName: "",
@@ -132,10 +134,45 @@ export default function Layout() {
       />,
     ]);
 
+  function saveAsPDF() {
+    const doc = new jsPDF("p", "pt", "a4", true);
+    const template = document.getElementById("template1");
+    const filename = `resume-${formData.firstName}-${formData.lastName}`;
+
+    if (template) {
+      doc.html(template, {
+        callback: (doc) => doc.save(filename),
+        x: 50,
+        y: 0,
+        margin: 0,
+        width: 70,
+        windowWidth: 100,
+      });
+    }
+  }
+
   return (
     <div className="flex flex-row flex-wrap gap-16">
-      <div className="">Sidebar</div>
-      <form className="gap-4 flex flex-col text-slate-700 " onSubmit={onSubmit}>
+      <div className="">
+        <button
+          type="button"
+          className="group border border-slate-200 rounded-md p-2 drop-shadow-sm hover:scale-125 duration-200 "
+          onClick={saveAsPDF}
+        >
+          <Image
+            src="/arrow-down-on-tray.svg"
+            alt="download logo"
+            className="stroke-slate-900 drop-shadow-md hover:scale-125 group-hover:scale-125 duration-300"
+            width={20}
+            height={20}
+            priority
+          />
+        </button>
+      </div>
+      <form
+        className="print:hidden gap-4 flex flex-col text-slate-700 "
+        onSubmit={onSubmit}
+      >
         <div>
           {currentStepIndex + 1} / {steps.length}
         </div>

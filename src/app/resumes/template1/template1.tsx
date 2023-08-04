@@ -12,17 +12,11 @@ type Template1Props = {
 export default function Template1({ formData }: Template1Props) {
   const resume = processFormData(formData);
 
-  function saveAsPDF() {
-    window.print();
-  }
   return (
     <div
       id="template1"
-      className="flex flex-col gap-2 text-zinc-800 w-[70vh] drop-shadow-sm shadow print:shadow-none rounded-sm p-10 text-sm border sticky top-10"
+      className="flex flex-col items-center gap-2 text-zinc-800 w-[70vh] drop-shadow-sm shadow print:shadow-none rounded-sm p-10 text-sm m-auto sticky top-10"
     >
-      <button className="print:hidden" type="button" onClick={saveAsPDF}>
-        Save as PDF
-      </button>
       {/* // contact section */}
       <div className="flex flex-col items-center gap-4">
         <div className="flex flex-col items-center gap-2">
