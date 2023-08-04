@@ -73,6 +73,7 @@ const DEFAULT_FORM_DATA: FormData = {
         year: "",
       },
       descriptions: "",
+      currentEducation: false,
     },
   ],
 };
