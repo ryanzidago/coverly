@@ -122,17 +122,14 @@ export default function Layout() {
     ]);
 
   return (
-    <div className="flex flex-row  gap-16 h-screen">
-      <div className="basis-2/12 w-full">Sidebar</div>
-      <form
-        className="basis-3/12 gap-16 flex flex-col w-full text-slate-700 "
-        onSubmit={onSubmit}
-      >
+    <div className="flex flex-row flex-wrap gap-16">
+      <div className="">Sidebar</div>
+      <form className="gap-4 flex flex-col text-slate-700 " onSubmit={onSubmit}>
         <div>
           {currentStepIndex + 1} / {steps.length}
         </div>
         {step}
-        <div className="flex w-full h-full justify-between text-slate-700">
+        <div className="flex justify-between text-slate-700">
           <button
             className={isFirstStep ? "invisible" : "self-end"}
             type="button"
@@ -145,7 +142,7 @@ export default function Layout() {
           </button>
         </div>
       </form>
-      <div className="basis-4/12 w-full">
+      <div className="">
         <Template1 formData={formData} />
       </div>
     </div>
