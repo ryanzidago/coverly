@@ -9,11 +9,12 @@ import Toggle from "../toggle";
 import LocationInput from "../location-input";
 import { Location } from "@/types/location-type";
 import { Work } from "@/types/work-type";
+import { FormData } from "@/types/form-data-type";
 
 type WorkProps = {
   updateFields: any;
   className: string;
-  workEntries: Work[];
+  formData: FormData;
 };
 
 const EMPTY_ENTRY = {
@@ -36,7 +37,7 @@ const EMPTY_ENTRY = {
 
 export default function Work({
   updateFields,
-  workEntries,
+  formData: { workEntries },
   className,
 }: WorkProps) {
   const index = workEntries.findIndex((entry) => entry.currentWork);
@@ -66,7 +67,7 @@ export default function Work({
     currentWork !== null && handleChange("currentWork", true, currentWork);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentWork]);
-  
+
   useEffect(() => {
     updateFields({ workEntries: entries });
     // eslint-disable-next-line react-hooks/exhaustive-deps

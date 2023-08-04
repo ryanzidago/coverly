@@ -1,7 +1,7 @@
 "use client";
 
 import Contact from "@/components/steps/contact";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useMultistepForm } from "./hooks/use-multi-step-form";
 import Work from "@/components/steps/work";
 import Education from "@/components/steps/education";
@@ -89,6 +89,7 @@ export default function Layout() {
 
   function onSubmit(e: FormEvent) {
     console.log("FORM_DATA", formData);
+    localStorage.setItem("coverlyFormData", JSON.stringify(formData));
 
     e.preventDefault();
     if (!isLastStep) return next();
@@ -97,6 +98,15 @@ export default function Layout() {
     }
   }
 
+  useEffect(() => {
+    const localStorageData = localStorage.getItem("coverlyFormData");
+
+    if (localStorageData) {
+      const localStorageFormData = JSON.parse(localStorageData);
+      setFormData({ ...formData, ...localStorageFormData });
+    }
+  }, []);
+
   const stepClassName =
     "flex flex-col justify-center items-center gap-4 w-[32rem] text-slate-700";
 
@@ -104,19 +114,19 @@ export default function Layout() {
     useMultistepForm([
       <Contact
         key="contact-form"
-        {...formData}
+        formData={formData}
         updateFields={updateFields}
         className={stepClassName}
       />,
       <Work
         key="work-experience-form"
-        {...formData}
+        formData={formData}
         updateFields={updateFields}
         className={stepClassName}
       />,
       <Education
         key="education-entries-form"
-        {...formData}
+        formData={formData}
         updateFields={updateFields}
         className={stepClassName}
       />,
@@ -143,7 +153,7 @@ export default function Layout() {
           </button>
         </div>
       </form>
-      <div className="">
+      <div className="sticky top-0 z-20">
         <Template1 formData={formData} />
       </div>
     </div>

@@ -9,11 +9,12 @@ import { useEffect, useState } from "react";
 import LocationInput from "../location-input";
 import { Education } from "@/types/education-type";
 import { Location } from "@/types/location-type";
+import { FormData } from "@/types/form-data-type";
 
 type EducationProps = {
   updateFields: any;
   className: string;
-  educationEntries: Education[];
+  formData: FormData;
 };
 
 const EMPTY_ENTRY: Education = {
@@ -38,7 +39,7 @@ const EMPTY_ENTRY: Education = {
 
 export default function Education({
   updateFields,
-  educationEntries,
+  formData: { educationEntries },
   className,
 }: EducationProps) {
   const index = educationEntries.findIndex((entry) => entry.currentEducation);

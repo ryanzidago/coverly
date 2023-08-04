@@ -6,31 +6,22 @@ import LocationInput from "../location-input";
 import PhoneNumberInput from "../phone-number-input";
 import { PhoneNumber } from "@/types/phone-number-type";
 import { Location } from "@/types/location-type";
-import TextAreaInput from "../text-area-input";
+import { FormData } from "@/types/form-data-type";
+import { useEffect } from "react";
 
 type ContactProps = {
   updateFields: (data: any) => void;
-  firstName: string;
-  lastName: string;
-  label: string;
-  email: string;
-  phoneNumber: PhoneNumber;
-  website: string;
-  location: Location;
+  formData: FormData;
   className: string;
 };
 
 export default function Contact({
   updateFields,
-  firstName,
-  lastName,
-  label,
-  email,
-  phoneNumber,
-  website,
-  location,
   className,
+  formData,
 }: ContactProps) {
+  const { firstName, lastName, label, email, phoneNumber, website, location } =
+    formData;
   return (
     <div className={className}>
       <h1 className="text-xl">Personal Information</h1>

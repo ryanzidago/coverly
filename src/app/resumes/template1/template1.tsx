@@ -18,7 +18,7 @@ export default function Template1({ formData }: Template1Props) {
   return (
     <div
       id="template1"
-      className="flex flex-col gap-2 text-zinc-800 w-[70vh] drop-shadow-sm shadow print:shadow-none rounded-sm p-10 text-sm"
+      className="flex flex-col gap-2 text-zinc-800 w-[70vh] drop-shadow-sm shadow print:shadow-none rounded-sm p-10 text-sm border sticky top-10"
     >
       <button className="print:hidden" type="button" onClick={saveAsPDF}>
         Save as PDF
