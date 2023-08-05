@@ -156,7 +156,7 @@ export default function Layout() {
       <div className="">
         <button
           type="button"
-          className="group border border-slate-200 rounded-md p-2 drop-shadow-sm hover:scale-125 duration-200 "
+          className="group border border-slate-200 rounded-md p-2 drop-shadow-sm hover:scale-125 duration-200 sticky top-10 z-20"
           onClick={saveAsPDF}
         >
           <Image
@@ -190,7 +190,7 @@ export default function Layout() {
           </button>
         </div>
       </form>
-      <div className="sticky top-0 z-20">
+      <div className="">
         <Template1 formData={formData} />
       </div>
     </div>
