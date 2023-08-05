@@ -112,27 +112,35 @@ export default function Layout() {
   const stepClassName =
     "flex flex-col justify-center items-center gap-4 w-[32rem] text-slate-700";
 
-  const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
-    useMultistepForm([
-      <Contact
-        key="contact-form"
-        formData={formData}
-        updateFields={updateFields}
-        className={stepClassName}
-      />,
-      <Work
-        key="work-experience-form"
-        formData={formData}
-        updateFields={updateFields}
-        className={stepClassName}
-      />,
-      <Education
-        key="education-entries-form"
-        formData={formData}
-        updateFields={updateFields}
-        className={stepClassName}
-      />,
-    ]);
+  const {
+    steps,
+    currentStepIndex,
+    step,
+    isFirstStep,
+    isLastStep,
+    back,
+    next,
+    goTo,
+  } = useMultistepForm([
+    <Contact
+      key="contact-form"
+      formData={formData}
+      updateFields={updateFields}
+      className={stepClassName}
+    />,
+    <Work
+      key="work-experience-form"
+      formData={formData}
+      updateFields={updateFields}
+      className={stepClassName}
+    />,
+    <Education
+      key="education-entries-form"
+      formData={formData}
+      updateFields={updateFields}
+      className={stepClassName}
+    />,
+  ]);
 
   function saveAsPDF() {
     const doc = new jsPDF("p", "pt", "a4", true);
@@ -154,20 +162,10 @@ export default function Layout() {
   return (
     <div className="flex flex-row flex-wrap gap-16">
       <div className="">
-        <button
-          type="button"
-          className="group border border-slate-200 rounded-md p-2 drop-shadow-sm hover:scale-125 duration-200 sticky top-10 z-20"
-          onClick={saveAsPDF}
-        >
-          <Image
-            src="/arrow-down-on-tray.svg"
-            alt="download logo"
-            className="stroke-slate-900 drop-shadow-md hover:scale-125 group-hover:scale-125 duration-300"
-            width={20}
-            height={20}
-            priority
-          />
-        </button>
+        <div className="sticky top-10 z-20">
+          {downloadResume(saveAsPDF)}
+          {navBar(goTo, currentStepIndex)}
+        </div>
       </div>
       <form
         className="print:hidden gap-4 flex flex-col text-slate-700 "
@@ -194,5 +192,69 @@ export default function Layout() {
         <Template1 formData={formData} />
       </div>
     </div>
+  );
+}
+
+function downloadResume(saveAsPDF) {
+  return (
+    <button
+      type="button"
+      className="self-center group border border-slate-200 rounded-md p-2 drop-shadow-sm hover:scale-125 duration-200"
+      onClick={saveAsPDF}
+    >
+      <Image
+        src="/arrow-down-on-tray.svg"
+        alt="download logo"
+        className="stroke-slate-900 drop-shadow-md hover:scale-125 group-hover:scale-125 duration-300"
+        width={20}
+        height={20}
+        priority
+      />
+    </button>
+  );
+}
+
+function navBar(goTo, currentStepIndex) {
+  return (
+    <nav className="mt-12">
+      <ul className="flex flex-col gap-4">
+        <li>
+          <button
+            type="button"
+            className={
+              "hover:scale-110 duration-200 p-2 rounded-md " +
+              `${currentStepIndex === 0 ? "text-sky-400" : ""}`
+            }
+            onClick={() => goTo(0)}
+          >
+            Contact
+          </button>
+        </li>
+        <li>
+          <button
+            type="button"
+            className={
+              "hover:scale-110 duration-200 p-2 rounded-md " +
+              `${currentStepIndex === 1 ? "text-sky-400" : ""}`
+            }
+            onClick={() => goTo(1)}
+          >
+            Work
+          </button>
+        </li>
+        <li>
+          <button
+            type="button"
+            className={
+              "hover:scale-110 duration-200 p-2 rounded-md " +
+              `${currentStepIndex === 2 ? "text-sky-400" : ""}`
+            }
+            onClick={() => goTo(2)}
+          >
+            Education
+          </button>
+        </li>
+      </ul>
+    </nav>
   );
 }

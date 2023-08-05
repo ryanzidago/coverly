@@ -12,8 +12,8 @@
   },
   "label": "Software Engineer",
   "phoneNumber": {
-    "countryCode": "+49",
-    "number": "123 456 78909"
+    "countryCode": "",
+    "number": ""
   },
   "website": "https://coverly.com",
   "workEntries": [
