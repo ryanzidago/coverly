@@ -75,104 +75,110 @@ export default function Education({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entries]);
 
-  return entries.map((entry: Education, index: number) => (
-    <div key={index} className={className}>
-      {isFirstEntry(index) && <h1 className="text-xl">Education</h1>}
-      <TextInput
-        id="area"
-        label="Area"
-        value={entry.area}
-        onChange={(e) => handleChange("area", e.target.value, index)}
-      />
-      <TextInput
-        id="studyType"
-        label="Study type"
-        value={entry.studyType}
-        onChange={(e) => handleChange("studyType", e.target.value, index)}
-      />
-      <div className="flex flex-row w-full gap-4">
-        <TextInput
-          id="institutionName"
-          label="Institution Name"
-          value={entry.institutionName}
-          onChange={(e) =>
-            handleChange("institutionName", e.target.value, index)
-          }
-        />
-        <URLInput
-          label="Website"
-          id="website"
-          value={entry.website}
-          onChange={(e) => handleChange("website", e.target.value, index)}
-        />
-      </div>
-      <LocationInput
-        displayRemote={true}
-        id="location"
-        label="Location"
-        index={index}
-        value={entry.location}
-        onChange={(location: Location) => {
-          handleChange("location", location, index);
-        }}
-      />
-      <DateInput
-        id="startDate"
-        label="Start date"
-        index={index}
-        value={entry.startDate}
-        onChange={handleChange}
-      />
-      <Toggle
-        label="Current education"
-        checked={currentEducation === index}
-        onChange={() =>
-          setCurrentEducation((prev) => {
-            return prev === index ? null : index;
-          })
-        }
-      />
-      <DateInput
-        id="endDate"
-        label="End date"
-        value={entry.endDate}
-        className={`transition duration-200 ease-in-out ${
-          currentEducation === index ? "opacity-60" : "opacity-100"
-        }`}
-        index={index}
-        disabled={currentEducation === index}
-        onChange={handleChange}
-      />
-      <TextAreaInput
-        id="description"
-        label="Description"
-        value={entry.descriptions}
-        onChange={(e) => {
-          handleChange("descriptions", e.target.value, index);
-        }}
-      />
-      <div className="flex flex-row justify-around w-full">
-        <button
-          type="button"
-          onClick={(e) => setEntries([...entries, EMPTY_ENTRY])}
-          className="transition duration-200 hover:text-slate-500"
-        >
-          Add education
-        </button>
-        {entries.length >= 2 && (
-          <button
-            type="button"
-            onClick={(e) => {
-              const updatedEntries = [...entries];
-              updatedEntries.splice(index, 1);
-              setEntries(updatedEntries);
+  return (
+    <div className="flex flex-col gap-24">
+      {entries.map((entry: Education, index: number) => (
+        <div key={index} className={className}>
+          {isFirstEntry(index) && <h1 className="text-xl">Education</h1>}
+          <TextInput
+            id="area"
+            label="Area"
+            value={entry.area}
+            onChange={(e) => handleChange("area", e.target.value, index)}
+          />
+          <TextInput
+            id="studyType"
+            label="Study type"
+            value={entry.studyType}
+            onChange={(e) => handleChange("studyType", e.target.value, index)}
+          />
+          <div className="flex flex-row w-full gap-4">
+            <TextInput
+              id="institutionName"
+              label="Institution Name"
+              value={entry.institutionName}
+              onChange={(e) =>
+                handleChange("institutionName", e.target.value, index)
+              }
+            />
+            <URLInput
+              label="Website"
+              id="website"
+              value={entry.website}
+              onChange={(e) => handleChange("website", e.target.value, index)}
+            />
+          </div>
+          <LocationInput
+            displayRemote={true}
+            id="location"
+            label="Location"
+            index={index}
+            value={entry.location}
+            onChange={(location: Location) => {
+              handleChange("location", location, index);
             }}
-            className="transition duration-200 hover:text-slate-500"
-          >
-            Remove education
-          </button>
-        )}
-      </div>
+          />
+          <DateInput
+            id="startDate"
+            label="Start date"
+            index={index}
+            value={entry.startDate}
+            onChange={handleChange}
+          />
+          <Toggle
+            label="Current education"
+            checked={currentEducation === index}
+            onChange={() =>
+              setCurrentEducation((prev) => {
+                return prev === index ? null : index;
+              })
+            }
+          />
+          <DateInput
+            id="endDate"
+            label="End date"
+            value={entry.endDate}
+            className={`transition duration-200 ease-in-out ${
+              currentEducation === index ? "opacity-60" : "opacity-100"
+            }`}
+            index={index}
+            disabled={currentEducation === index}
+            onChange={handleChange}
+          />
+          <TextAreaInput
+            id="description"
+            label="Description"
+            value={entry.descriptions}
+            onChange={(e) => {
+              handleChange("descriptions", e.target.value, index);
+            }}
+          />
+          <div className="flex flex-row justify-around w-full">
+            <button
+              type="button"
+              onClick={(e) => setEntries([...entries, EMPTY_ENTRY])}
+              className="transition duration-200 hover:text-slate-500"
+            >
+              Add education
+            </button>
+            {entries.length >= 2 && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  const updatedEntries = [...entries];
+                  updatedEntries.splice(index, 1);
+                  setEntries(updatedEntries);
+                }}
+                className="transition duration-200 hover:text-slate-500"
+              >
+                Remove education
+              </button>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
-  ));
+  );
+  
+
 }
