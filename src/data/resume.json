@@ -1,21 +1,23 @@
 {
-  "firstName": "Ryan",
-  "lastName": "Zidago",
-  "email": "ryanzidago@coverly.com",
-  "location": {
-    "city": "Cologne",
-    "country": "Germany",
-    "postalCode": "",
-    "street": "",
-    "number": "",
-    "remote": false
+  "contactEntry": {
+    "firstName": "Ryan",
+    "lastName": "Zidago",
+    "email": "ryanzidago@coverly.com",
+    "location": {
+      "city": "Cologne",
+      "country": "Germany",
+      "postalCode": "",
+      "street": "",
+      "number": "",
+      "remote": false
+    },
+    "label": "Software Engineer",
+    "phoneNumber": {
+      "countryCode": "+49",
+      "number": "123 456 78909"
+    },
+    "website": "https://coverly.com"
   },
-  "label": "Software Engineer",
-  "phoneNumber": {
-    "countryCode": "",
-    "number": ""
-  },
-  "website": "https://coverly.com",
   "workEntries": [
     {
       "title": "Fullstack Software Engineer",
@@ -24,18 +26,18 @@
       "location": {
         "city": "",
         "country": "",
-        "postalCode": "",
-        "street": "",
         "number": "",
+        "street": "",
+        "postalCode": "",
         "remote": true
       },
       "startDate": {
         "year": "2020",
-        "month": "5"
+        "month": "9"
       },
       "endDate": {
-        "month": "",
-        "year": ""
+        "year": "2022",
+        "month": "4"
       },
       "descriptions": "Making the experience of working with shifts easier for frontline and deskless workers in health, social care, retail, hospitality, and the voluntary sector by programming Sona's \"people operating system\".",
       "currentWork": true
@@ -113,5 +115,22 @@
       "descriptions": "During this 11-weeks intensive coding bootcamp, I was introduced to Web development. I learned how to write software, build and deploy websites with Ruby, Ruby on Rails, PostgreSQL, HTML & CSS, Heroku, Git and GitHub. I also learned and used Python and OpenCV in order to scan QR codes, as part of my team's final project.",
       "currentEducation": false
     }
-  ]
+  ],
+  "firstName": "Ryan",
+  "lastName": "Zidago",
+  "email": "ryanzidago@coverly.com",
+  "location": {
+    "city": "Cologne",
+    "country": "Germany",
+    "postalCode": "",
+    "street": "",
+    "number": "",
+    "remote": false
+  },
+  "label": "Software Engineer",
+  "phoneNumber": {
+    "countryCode": "",
+    "number": ""
+  },
+  "website": "https://coverly.com"
 }

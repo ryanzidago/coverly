@@ -7,7 +7,6 @@ import PhoneNumberInput from "../phone-number-input";
 import { PhoneNumber } from "@/types/phone-number-type";
 import { Location } from "@/types/location-type";
 import { FormData } from "@/types/form-data-type";
-import { useEffect } from "react";
 
 type ContactProps = {
   updateFields: (data: any) => void;
@@ -20,56 +19,86 @@ export default function Contact({
   className,
   formData,
 }: ContactProps) {
-  const { firstName, lastName, label, email, phoneNumber, website, location } =
-    formData;
+  const { contactEntry: contactEntry } = formData;
+
   return (
     <div className={className}>
       <h1 className="text-xl">Personal Information</h1>
       <TextInput
         id="firstName"
         label="First name"
-        value={firstName}
-        onChange={(e) => updateFields({ firstName: e.target.value })}
+        value={contactEntry.firstName}
+        onChange={(e) =>
+          updateFields({
+            contactEntry: { ...contactEntry, firstName: e.target.value },
+          })
+        }
       />
 
       <TextInput
         id="lastName"
         label="Last name"
-        value={lastName}
-        onChange={(e) => updateFields({ lastName: e.target.value })}
+        value={contactEntry.lastName}
+        onChange={(e) =>
+          updateFields({
+            contactEntry: { ...contactEntry, lastName: e.target.value },
+          })
+        }
       />
 
       <TextInput
         id="label"
         label="Title"
-        value={label}
-        onChange={(e) => updateFields({ label: e.target.value })}
+        value={contactEntry.label}
+        onChange={(e) =>
+          updateFields({
+            contactEntry: { ...contactEntry, label: e.target.value },
+          })
+        }
       />
 
       <TextInput
         id="email"
         label="Email"
-        value={email}
-        onChange={(e) => updateFields({ email: e.target.value })}
+        value={contactEntry.email}
+        onChange={(e) =>
+          updateFields({
+            contactEntry: { ...contactEntry, email: e.target.value },
+          })
+        }
       />
       <PhoneNumberInput
         id="phoneNumber"
         label="Phone Number"
-        value={phoneNumber}
-        onChange={updateFields}
+        value={contactEntry.phoneNumber}
+        onChange={(value: PhoneNumber) => {
+          updateFields({
+            contactEntry: { ...contactEntry, phoneNumber: value },
+          });
+        }}
       />
+
       <URLInput
         id="website"
         label="Website"
-        value={website}
-        onChange={(e) => updateFields({ website: e.target.value })}
+        value={contactEntry.website}
+        onChange={(e) =>
+          updateFields({
+            contactEntry: { ...contactEntry, website: e.target.value },
+          })
+        }
       />
+
       <LocationInput
         id="location"
         label="Location"
-        value={location}
+        value={contactEntry.location}
         displayStreet={false}
-        onChange={(location: Location) => updateFields({ location: location })}
+        onChange={(location: Location) =>
+          updateFields({
+            contactEntry: { ...contactEntry, location: location },
+          })
+        }
       />
     </div>
   );

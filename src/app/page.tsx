@@ -12,20 +12,22 @@ import jsPDF from "jspdf";
 import Image from "next/image";
 
 const DEFAULT_FORM_DATA: FormData = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  location: {
-    city: "",
-    country: "",
-    postalCode: "",
-    street: "",
-    number: "",
-    remote: false,
+  contactEntry: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    location: {
+      city: "",
+      country: "",
+      postalCode: "",
+      street: "",
+      number: "",
+      remote: false,
+    },
+    label: "",
+    phoneNumber: { countryCode: "", number: "" },
+    website: "",
   },
-  label: "",
-  phoneNumber: { countryCode: "", number: "" },
-  website: "",
   workEntries: [
     {
       title: "",
@@ -164,6 +166,7 @@ export default function Layout() {
       <div className="">
         <div className="sticky top-10 z-20">
           {downloadResume(saveAsPDF)}
+          <div>New Resume</div>
           {navBar(goTo, currentStepIndex)}
         </div>
       </div>
