@@ -9,9 +9,9 @@ import FormDataToFile from "@/utils/form-data-to-file";
 import { FormData } from "@/types/form-data-type";
 import Template1 from "./resumes/template1/template1";
 import jsPDF from "jspdf";
-import Image from "next/image";
 
 const DEFAULT_FORM_DATA: FormData = {
+  title: "",
   contactEntry: {
     firstName: "",
     lastName: "",
@@ -164,10 +164,9 @@ export default function Layout() {
   return (
     <div className="flex flex-row flex-wrap gap-16">
       <div className="">
-        <div className="sticky top-10 z-20">
+        <div className="flex flex-col gap-4 sticky top-10 z-20">
           {downloadResume(saveAsPDF)}
-          <div>New Resume</div>
-          {navBar(goTo, currentStepIndex)}
+          {navBar(goTo, currentStepIndex, formData.title)}
         </div>
       </div>
       <form
@@ -202,61 +201,42 @@ function downloadResume(saveAsPDF) {
   return (
     <button
       type="button"
-      className="self-center group border border-slate-200 rounded-md p-2 drop-shadow-sm hover:scale-125 duration-200"
+      className="group shadow rounded-md p-2 drop-shadow-sm hover:scale-110 duration-200"
       onClick={saveAsPDF}
     >
-      <Image
+      Download Resume
+      {/* <Image
         src="/arrow-down-on-tray.svg"
         alt="download logo"
         className="stroke-slate-900 drop-shadow-md hover:scale-125 group-hover:scale-125 duration-300"
         width={20}
         height={20}
         priority
-      />
+      /> */}
     </button>
   );
 }
 
-function navBar(goTo, currentStepIndex) {
+function navBar(goTo, currentStepIndex, title) {
   return (
     <nav className="mt-12">
+      <div className="shadow rounded-md px-10 py-2 mb-4">{title}</div>
       <ul className="flex flex-col gap-4">
-        <li>
-          <button
-            type="button"
-            className={
-              "hover:scale-110 duration-200 p-2 rounded-md " +
-              `${currentStepIndex === 0 ? "text-sky-400" : ""}`
-            }
-            onClick={() => goTo(0)}
-          >
-            Contact
-          </button>
-        </li>
-        <li>
-          <button
-            type="button"
-            className={
-              "hover:scale-110 duration-200 p-2 rounded-md " +
-              `${currentStepIndex === 1 ? "text-sky-400" : ""}`
-            }
-            onClick={() => goTo(1)}
-          >
-            Work
-          </button>
-        </li>
-        <li>
-          <button
-            type="button"
-            className={
-              "hover:scale-110 duration-200 p-2 rounded-md " +
-              `${currentStepIndex === 2 ? "text-sky-400" : ""}`
-            }
-            onClick={() => goTo(2)}
-          >
-            Education
-          </button>
-        </li>
+        {["Contact", "Work", "Education"].map((section, index) => (
+          <li key={`nav-section-${index}`}>
+            <button
+              type="button"
+              className={
+                "shadow rounded-md px-10 py-2 w-full " +
+                "hover:scale-110 duration-200 rounded-md hover:text-sky-400 " +
+                `${currentStepIndex === index ? "text-sky-400" : ""}`
+              }
+              onClick={() => goTo(index)}
+            >
+              {section}
+            </button>
+          </li>
+        ))}
       </ul>
     </nav>
   );
