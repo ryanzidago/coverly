@@ -147,7 +147,7 @@ export default function Layout() {
   function saveAsPDF() {
     const doc = new jsPDF("p", "pt", "a4", true);
     const template = document.getElementById("template1");
-    const filename = `resume-${formData.firstName}-${formData.lastName}`;
+    const filename = `resume-${formData.contactEntry.firstName}-${formData.contactEntry.lastName}`;
 
     if (template) {
       doc.html(template, {
