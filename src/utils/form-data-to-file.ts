@@ -2,7 +2,7 @@
 
 import fs from "fs";
 
-export default async function FormDataToFile(formData) {
+export default async function FormDataToFile(formData: FormData) {
   const filePath = `./src/data/resume.json`;
 
   const jsonString = JSON.stringify(formData, null, 2);

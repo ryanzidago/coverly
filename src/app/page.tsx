@@ -9,8 +9,10 @@ import FormDataToFile from "@/utils/form-data-to-file";
 import { FormData } from "@/types/form-data-type";
 import Template1 from "./resumes/template1/template1";
 import jsPDF from "jspdf";
+import { allResumes, getResume } from "@/data/db";
 
 const DEFAULT_FORM_DATA: FormData = {
+  id: 0,
   title: "",
   contactEntry: {
     firstName: "",
@@ -84,6 +86,8 @@ const DEFAULT_FORM_DATA: FormData = {
 
 export default function Layout() {
   const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
+  const [resumes, setResumes] = useState([] as FormData[]);
+  const [selectedResume, setSelectedResume] = useState<FormData | null>(null);
 
   function updateFields(fields: Partial<FormData>) {
     setFormData((prev) => {
@@ -102,14 +106,22 @@ export default function Layout() {
     }
   }
 
-  useEffect(() => {
-    const localStorageData = localStorage.getItem("coverlyFormData");
+  function handleSelectedResume(event: any) {
+    const index = parseInt(event.target.value);
+    setSelectedResume(resumes[index]);
+    setFormData(selectedResume);
+  }
 
-    if (localStorageData) {
-      const localStorageFormData = JSON.parse(localStorageData);
-      setFormData({ ...formData, ...localStorageFormData });
-    }
+  useEffect(() => {
+    allResumes().then((resumes: FormData[]) => {
+      setResumes(resumes);
+      setSelectedResume(resumes[0]);
+    });
   }, []);
+
+  useEffect(() => {
+    selectedResume && setFormData(selectedResume);
+  }, [selectedResume]);
 
   const stepClassName =
     "flex flex-col justify-center items-center gap-4 w-[32rem] text-slate-700";
@@ -166,7 +178,37 @@ export default function Layout() {
       <div className="">
         <div className="flex flex-col gap-4 sticky top-10 z-20">
           {downloadResume(saveAsPDF)}
-          {navBar(goTo, currentStepIndex, formData.title)}
+          <nav className="mt-12">
+            <select
+              value={selectedResume ? selectedResume.id : undefined}
+              className="appearance-none bg-white shadow rounded-md px-10 py-2 mt-10 mb-4 cursor-pointer"
+              onChange={handleSelectedResume}
+            >
+              {!selectedResume && <option>Select Resume</option>}
+              {resumes.map((resume, index) => (
+                <option key={index} value={resume.id}>
+                  {resume.title}
+                </option>
+              ))}
+            </select>
+            <ul className="flex flex-col gap-4">
+              {["Contact", "Work", "Education"].map((section, index) => (
+                <li key={`nav-section-${index}`}>
+                  <button
+                    type="button"
+                    className={
+                      "shadow rounded-md px-10 py-2 w-full " +
+                      "hover:scale-110 duration-200 rounded-md hover:text-sky-400 " +
+                      `${currentStepIndex === index ? "text-sky-400" : ""}`
+                    }
+                    onClick={() => goTo(index)}
+                  >
+                    {section}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </div>
       <form
@@ -201,43 +243,10 @@ function downloadResume(saveAsPDF) {
   return (
     <button
       type="button"
-      className="group shadow rounded-md p-2 drop-shadow-sm hover:scale-110 duration-200"
+      className="group shadow rounded-md p-2 drop-shadow-sm hover:scale-110 duration-200 hover:text-sky-400"
       onClick={saveAsPDF}
     >
       Download Resume
-      {/* <Image
-        src="/arrow-down-on-tray.svg"
-        alt="download logo"
-        className="stroke-slate-900 drop-shadow-md hover:scale-125 group-hover:scale-125 duration-300"
-        width={20}
-        height={20}
-        priority
-      /> */}
     </button>
-  );
-}
-
-function navBar(goTo, currentStepIndex, title) {
-  return (
-    <nav className="mt-12">
-      <div className="shadow rounded-md px-10 py-2 mb-4">{title}</div>
-      <ul className="flex flex-col gap-4">
-        {["Contact", "Work", "Education"].map((section, index) => (
-          <li key={`nav-section-${index}`}>
-            <button
-              type="button"
-              className={
-                "shadow rounded-md px-10 py-2 w-full " +
-                "hover:scale-110 duration-200 rounded-md hover:text-sky-400 " +
-                `${currentStepIndex === index ? "text-sky-400" : ""}`
-              }
-              onClick={() => goTo(index)}
-            >
-              {section}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </nav>
   );
 }
