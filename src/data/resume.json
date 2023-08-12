@@ -1,4 +1,9 @@
 {
+  "id": 0,
+  "metadata": {
+    "title": "Fullstack Software Engineer",
+    "description": "This is a test for my first resume"
+  },
   "contactEntry": {
     "firstName": "Ryan",
     "lastName": "Zidago",

@@ -5,15 +5,18 @@ import { FormEvent, useEffect, useState } from "react";
 import { useMultistepForm } from "./hooks/use-multi-step-form";
 import Work from "@/components/steps/work";
 import Education from "@/components/steps/education";
-import FormDataToFile from "@/utils/form-data-to-file";
 import { FormData } from "@/types/form-data-type";
 import Template1 from "./resumes/template1/template1";
 import jsPDF from "jspdf";
-import { allResumes, getResume } from "@/data/db";
+import { allResumes, getResume, insertResume, updateResume } from "@/data/db";
+import ResumeMetadata from "@/components/steps/resume-metadata";
 
 const DEFAULT_FORM_DATA: FormData = {
   id: 0,
-  title: "",
+  metadata: {
+    title: "My New Resume",
+    description: "",
+  },
   contactEntry: {
     firstName: "",
     lastName: "",
@@ -96,20 +99,40 @@ export default function Layout() {
   }
 
   function onSubmit(e: FormEvent) {
-    console.log("FORM_DATA", formData);
-    localStorage.setItem("coverlyFormData", JSON.stringify(formData));
-
     e.preventDefault();
+
+    updateResume(formData);
+    allResumes().then((resumes: FormData[]) => {
+      setResumes(resumes);
+    });
+
     if (!isLastStep) return next();
-    if (isLastStep) {
-      FormDataToFile(formData);
-    }
   }
 
   function handleSelectedResume(event: any) {
-    const index = parseInt(event.target.value);
-    setSelectedResume(resumes[index]);
-    setFormData(selectedResume);
+    const id = parseInt(event.target.value);
+    getResume(id).then((resume: FormData | void) => {
+      if (resume) {
+        setFormData(resume);
+        setSelectedResume(resume);
+      } else {
+        throw `Resume with id ${id} not found`;
+      }
+    });
+
+    if (selectedResume) setFormData(selectedResume);
+  }
+
+  function handleCreateResume() {
+    insertResume(DEFAULT_FORM_DATA).then((resume: FormData) => {
+      console.log("RESUME CREATED", resume);
+
+      setFormData(resume);
+      setSelectedResume(resume);
+      allResumes().then((resumes: FormData[]) => {
+        setResumes(resumes);
+      });
+    });
   }
 
   useEffect(() => {
@@ -136,6 +159,12 @@ export default function Layout() {
     next,
     goTo,
   } = useMultistepForm([
+    <ResumeMetadata
+      key="resume-metadata-form"
+      formData={formData}
+      updateFields={updateFields}
+      className={stepClassName}
+    />,
     <Contact
       key="contact-form"
       formData={formData}
@@ -178,35 +207,44 @@ export default function Layout() {
       <div className="">
         <div className="flex flex-col gap-4 sticky top-10 z-20">
           {downloadResume(saveAsPDF)}
+          <button
+            type="button"
+            className="shadow px-10 py-2 cursor-pointer hover:scale-110 duration-200 rounded-md hover:text-sky-400"
+            onClick={handleCreateResume}
+          >
+            Create Resume
+          </button>
           <nav className="mt-12">
             <select
               value={selectedResume ? selectedResume.id : undefined}
-              className="appearance-none bg-white shadow rounded-md px-10 py-2 mt-10 mb-4 cursor-pointer"
+              className="appearance-none bg-white shadow rounded-md px-10 py-2 mt-10 mb-4 cursor-pointer w-full text-center"
               onChange={handleSelectedResume}
             >
               {!selectedResume && <option>Select Resume</option>}
               {resumes.map((resume, index) => (
                 <option key={index} value={resume.id}>
-                  {resume.title}
+                  {resume.metadata.title}
                 </option>
               ))}
             </select>
             <ul className="flex flex-col gap-4">
-              {["Contact", "Work", "Education"].map((section, index) => (
-                <li key={`nav-section-${index}`}>
-                  <button
-                    type="button"
-                    className={
-                      "shadow rounded-md px-10 py-2 w-full " +
-                      "hover:scale-110 duration-200 rounded-md hover:text-sky-400 " +
-                      `${currentStepIndex === index ? "text-sky-400" : ""}`
-                    }
-                    onClick={() => goTo(index)}
-                  >
-                    {section}
-                  </button>
-                </li>
-              ))}
+              {["Metadata", "Contact", "Work", "Education"].map(
+                (section, index) => (
+                  <li key={`nav-section-${index}`}>
+                    <button
+                      type="button"
+                      className={
+                        "shadow rounded-md px-10 py-2 w-full " +
+                        "hover:scale-110 duration-200 rounded-md hover:text-sky-400 " +
+                        `${currentStepIndex === index ? "text-sky-400" : ""}`
+                      }
+                      onClick={() => goTo(index)}
+                    >
+                      {section}
+                    </button>
+                  </li>
+                ),
+              )}
             </ul>
           </nav>
         </div>

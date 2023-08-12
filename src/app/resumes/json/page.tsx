@@ -1,4 +1,4 @@
-const DUMMY_DATA = require("@/data/resume.json");
+const DUMMY_DATA = require("@/data/db.json");
 export default function Page() {
   return (
     <div className="grid grid-cols-3 text-sm">

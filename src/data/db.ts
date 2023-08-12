@@ -12,8 +12,6 @@ const file = join(__dirname, "db.json");
 const adapter: Adapter<Data> = new JSONFile(file);
 const defaultData = { resumes: [] };
 
-console.log("LOWDB", __dirname, file, adapter, defaultData);
-
 type Data = {
   resumes: FormData[];
 };
@@ -27,12 +25,37 @@ export async function allResumes() {
 
 export async function getResume(id: number) {
   await db.read();
-  return db.data.resumes[id];
+  console.log(
+    "ID",
+    id,
+    "FINDING_RESUME",
+    db.data.resumes.find((existingResume) => existingResume.id === id),
+  );
+
+  return db.data.resumes.find((existingResume) => existingResume.id === id);
 }
 
 export async function insertResume(resume: FormData) {
   await db.read();
-  db.data.resumes.push(resume);
+
+  const updatedResume = { ...resume, id: db.data.resumes.length + 1 };
+  db.data.resumes.push(updatedResume);
   await db.write();
-  return getResume(resume.id);
+  return updatedResume;
+}
+
+export async function updateResume(resume: FormData) {
+  await db.read();
+
+  const updatedResumes = db.data.resumes.map((existingResume) => {
+    if (existingResume.id === resume.id) {
+      return resume;
+    } else {
+      return existingResume;
+    }
+  });
+
+  db.data.resumes = updatedResumes;
+  await db.write();
+  return resume;
 }

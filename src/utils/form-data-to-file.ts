@@ -3,7 +3,7 @@
 import fs from "fs";
 
 export default async function FormDataToFile(formData: FormData) {
-  const filePath = `./src/data/resume.json`;
+  const filePath = `./src/data/db.json`;
 
   const jsonString = JSON.stringify(formData, null, 2);
   fs.writeFile(filePath, jsonString, (err) => {
