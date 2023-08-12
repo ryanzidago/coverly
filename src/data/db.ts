@@ -59,3 +59,15 @@ export async function updateResume(resume: FormData) {
   await db.write();
   return resume;
 }
+
+export async function deleteResume(resume: FormData) {
+  await db.read();
+
+  const updatedResumes = db.data.resumes.filter((existingResume) => {
+    return existingResume.id !== resume.id;
+  });
+
+  db.data.resumes = updatedResumes;
+  await db.write();
+  return resume;
+}

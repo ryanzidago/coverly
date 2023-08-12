@@ -8,7 +8,13 @@ import Education from "@/components/steps/education";
 import { FormData } from "@/types/form-data-type";
 import Template1 from "./resumes/template1/template1";
 import jsPDF from "jspdf";
-import { allResumes, getResume, insertResume, updateResume } from "@/data/db";
+import {
+  allResumes,
+  deleteResume,
+  getResume,
+  insertResume,
+  updateResume,
+} from "@/data/db";
 import ResumeMetadata from "@/components/steps/resume-metadata";
 
 const DEFAULT_FORM_DATA: FormData = {
@@ -135,6 +141,18 @@ export default function Layout() {
     });
   }
 
+  function handleDeleteResume() {
+    if (selectedResume) {
+      deleteResume(selectedResume).then((resume: FormData) => {
+        allResumes().then((resumes: FormData[]) => {
+          setSelectedResume(resumes[0]);
+          setFormData(resumes[0]);
+          setResumes(resumes);
+        });
+      });
+    }
+  }
+
   useEffect(() => {
     allResumes().then((resumes: FormData[]) => {
       setResumes(resumes);
@@ -213,6 +231,13 @@ export default function Layout() {
             onClick={handleCreateResume}
           >
             Create Resume
+          </button>
+          <button
+            type="button"
+            className="shadow px-10 py-2 cursor-pointer hover:scale-110 duration-200 rounded-md hover:text-sky-400"
+            onClick={handleDeleteResume}
+          >
+            Delete Resume
           </button>
           <nav className="mt-12">
             <select
