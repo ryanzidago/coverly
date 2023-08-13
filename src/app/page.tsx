@@ -96,7 +96,9 @@ const DEFAULT_FORM_DATA: FormData = {
 export default function Layout() {
   const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
   const [resumes, setResumes] = useState([] as FormData[]);
-  const [selectedResume, setSelectedResume] = useState<FormData | null>(null);
+  const [selectedResumeId, setSelectedResumeId] = useState(
+    DEFAULT_FORM_DATA.id,
+  );
 
   function updateFields(fields: Partial<FormData>) {
     setFormData((prev) => {
@@ -120,13 +122,18 @@ export default function Layout() {
     getResume(id).then((resume: FormData | void) => {
       if (resume) {
         setFormData(resume);
-        setSelectedResume(resume);
+        setSelectedResumeId(resume.id);
       } else {
         throw `Resume with id ${id} not found`;
       }
     });
 
-    if (selectedResume) setFormData(selectedResume);
+    if (selectedResumeId) {
+      const selectedResume = resumes.find(
+        (resume) => resume.id === selectedResumeId,
+      );
+      selectedResume && setFormData(selectedResume);
+    }
   }
 
   function handleCreateResume() {
@@ -134,7 +141,7 @@ export default function Layout() {
       console.log("RESUME CREATED", resume);
 
       setFormData(resume);
-      setSelectedResume(resume);
+      setSelectedResumeId(resume.id);
       allResumes().then((resumes: FormData[]) => {
         setResumes(resumes);
       });
@@ -142,10 +149,10 @@ export default function Layout() {
   }
 
   function handleDuplicateResume() {
-    if (selectedResume) {
+    if (selectedResumeId) {
       insertResume(formData).then((resume: FormData) => {
         setFormData(resume);
-        setSelectedResume(resume);
+        setSelectedResumeId(resume.id);
         allResumes().then((resumes: FormData[]) => {
           setResumes(resumes);
         });
@@ -154,27 +161,37 @@ export default function Layout() {
   }
 
   function handleDeleteResume() {
-    if (selectedResume) {
-      deleteResume(selectedResume).then((resume: FormData) => {
-        allResumes().then((resumes: FormData[]) => {
-          setSelectedResume(resumes[0]);
-          setFormData(resumes[0]);
-          setResumes(resumes);
+    if (selectedResumeId) {
+      const selectedResume = resumes.find(
+        (resume) => resume.id === selectedResumeId,
+      );
+
+      if (selectedResume) {
+        deleteResume(selectedResume).then((resume: FormData) => {
+          allResumes().then((resumes: FormData[]) => {
+            setSelectedResumeId(resumes[0].id);
+            setFormData(resumes[0]);
+            setResumes(resumes);
+          });
         });
-      });
+      }
     }
   }
 
   useEffect(() => {
     allResumes().then((resumes: FormData[]) => {
       setResumes(resumes);
-      setSelectedResume(resumes[0]);
+      setSelectedResumeId(resumes[0].id);
     });
   }, []);
 
   useEffect(() => {
+    const selectedResume = resumes.find(
+      (resume) => resume.id === selectedResumeId,
+    );
+
     selectedResume && setFormData(selectedResume);
-  }, [selectedResume]);
+  }, [selectedResumeId, resumes]);
 
   const stepClassName =
     "flex flex-col justify-center items-center gap-4 w-[32rem] text-slate-700";
@@ -236,7 +253,13 @@ export default function Layout() {
     <div className="flex flex-row flex-wrap gap-16">
       <div className="">
         <div className="flex flex-col gap-4 sticky top-10 z-20">
-          {downloadResume(saveAsPDF)}
+          <button
+            type="button"
+            className="group shadow rounded-md p-2 drop-shadow-sm hover:scale-110 duration-200 hover:text-sky-400"
+            onClick={saveAsPDF}
+          >
+            Download Resume
+          </button>
           <button
             type="button"
             className="shadow px-10 py-2 cursor-pointer hover:scale-110 duration-200 rounded-md hover:text-sky-400"
@@ -260,11 +283,11 @@ export default function Layout() {
           </button>
           <nav className="mt-12">
             <select
-              value={selectedResume ? selectedResume.id : undefined}
-              className="appearance-none bg-white shadow rounded-md px-10 py-2 mt-10 mb-4 cursor-pointer w-full text-center"
+              value={selectedResumeId || undefined}
+              className="appearance-none bg-white shadow rounded-md px-10 py-2 mt-10 mb-4 hover:scale-110 duration-200 cursor-pointer w-full text-center"
               onChange={handleSelectedResume}
             >
-              {!selectedResume && <option>Select Resume</option>}
+              {!selectedResumeId && <option>Select Resume</option>}
               {resumes.map((resume, index) => (
                 <option key={index} value={resume.id}>
                   {resume.metadata.title}
@@ -294,7 +317,7 @@ export default function Layout() {
         </div>
       </div>
       <form
-        className="print:hidden gap-4 flex flex-col text-slate-700 "
+        className="print:hidden gap-4 flex flex-col text-slate-700"
         onSubmit={onSubmit}
       >
         <div>
@@ -318,17 +341,5 @@ export default function Layout() {
         <Template1 formData={formData} />
       </div>
     </div>
-  );
-}
-
-function downloadResume(saveAsPDF) {
-  return (
-    <button
-      type="button"
-      className="group shadow rounded-md p-2 drop-shadow-sm hover:scale-110 duration-200 hover:text-sky-400"
-      onClick={saveAsPDF}
-    >
-      Download Resume
-    </button>
   );
 }

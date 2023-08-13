@@ -144,8 +144,8 @@
     {
       "id": 2,
       "metadata": {
-        "title": "Fullstack (Elixir)",
-        "description": "Resume used for fullstack software engineering roles."
+        "title": "Backend",
+        "description": "Resume used for backend software engineering roles."
       },
       "contactEntry": {
         "firstName": "Ryan",
@@ -159,7 +159,7 @@
           "number": "",
           "remote": false
         },
-        "label": "Software Engineer",
+        "label": "Backend Software Engineer",
         "phoneNumber": {
           "countryCode": "+49",
           "number": "123 456 78909"
