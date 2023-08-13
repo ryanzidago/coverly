@@ -100,6 +100,10 @@ export default function Layout() {
     DEFAULT_FORM_DATA.id,
   );
 
+  const selectedResume = resumes.find(
+    (resume) => resume.id === selectedResumeId,
+  );
+
   function updateFields(fields: Partial<FormData>) {
     setFormData((prev) => {
       return { ...prev, ...fields };
@@ -128,12 +132,7 @@ export default function Layout() {
       }
     });
 
-    if (selectedResumeId) {
-      const selectedResume = resumes.find(
-        (resume) => resume.id === selectedResumeId,
-      );
-      selectedResume && setFormData(selectedResume);
-    }
+    selectedResume && setFormData(selectedResume);
   }
 
   function handleCreateResume() {
@@ -149,7 +148,7 @@ export default function Layout() {
   }
 
   function handleDuplicateResume() {
-    if (selectedResumeId) {
+    if (selectedResume) {
       insertResume(formData).then((resume: FormData) => {
         setFormData(resume);
         setSelectedResumeId(resume.id);
@@ -161,20 +160,14 @@ export default function Layout() {
   }
 
   function handleDeleteResume() {
-    if (selectedResumeId) {
-      const selectedResume = resumes.find(
-        (resume) => resume.id === selectedResumeId,
-      );
-
-      if (selectedResume) {
-        deleteResume(selectedResume).then((resume: FormData) => {
-          allResumes().then((resumes: FormData[]) => {
-            setSelectedResumeId(resumes[0].id);
-            setFormData(resumes[0]);
-            setResumes(resumes);
-          });
+    if (selectedResume) {
+      deleteResume(selectedResume).then((resume: FormData) => {
+        allResumes().then((resumes: FormData[]) => {
+          setSelectedResumeId(resumes[0].id);
+          setFormData(resumes[0]);
+          setResumes(resumes);
         });
-      }
+      });
     }
   }
 
@@ -186,12 +179,8 @@ export default function Layout() {
   }, []);
 
   useEffect(() => {
-    const selectedResume = resumes.find(
-      (resume) => resume.id === selectedResumeId,
-    );
-
     selectedResume && setFormData(selectedResume);
-  }, [selectedResumeId, resumes]);
+  }, [selectedResume, resumes]);
 
   const stepClassName =
     "flex flex-col justify-center items-center gap-4 w-[32rem] text-slate-700";
