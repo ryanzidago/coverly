@@ -47,29 +47,25 @@ export default function Page() {
           // cells
           <div className={"grid gap-2"} key={stage.id}>
             {applications.map((application) => (
-              <div key={application.id} className="shadow h-10">
-                <div>
-                  <div className="">
-                    {application.stageId === stage.id && (
-                      <Draggable id={application.id}>
-                        <div className="">{application.organisation}</div>
-                      </Draggable>
-                    )}
+              <div key={application.id} className="shadow rounded h-10">
+                {application.stageId === stage.id && (
+                  <Draggable id={application.id}>
+                    <div className="">{application.organisation}</div>
+                  </Draggable>
+                )}
 
-                    {application.stageId !== stage.id &&
-                      application.id === isDragging && (
-                        <Droppable
-                          id={`droppable-${application.id}${stage.id}`}
-                          data={{
-                            stageId: stage.id,
-                            applicationId: application.id,
-                          }}
-                        >
-                          <div className="h-10"></div>
-                        </Droppable>
-                      )}
-                  </div>
-                </div>
+                {application.stageId !== stage.id &&
+                  application.id === isDragging && (
+                    <Droppable
+                      id={`droppable-${application.id}${stage.id}`}
+                      data={{
+                        stageId: stage.id,
+                        applicationId: application.id,
+                      }}
+                    >
+                      <div className="h-10"></div>
+                    </Droppable>
+                  )}
               </div>
             ))}
           </div>
