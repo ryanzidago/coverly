@@ -8,7 +8,7 @@ export function Droppable(props) {
   });
 
   return (
-    <div ref={setNodeRef} className={isOver ? "bg-green-400" : undefined}>
+    <div ref={setNodeRef} className={isOver ? "opacity-25" : undefined}>
       {props.children}
     </div>
   );

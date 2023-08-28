@@ -21,11 +21,11 @@ const APPLICATIONS = [
 
 const STAGES = [
   { id: 1, title: "Backlog" },
-  { id: 2, title: "First contact from recruiter / Application sent" },
-  { id: 3, title: "HR / Recruiter phone screen" },
-  { id: 4, title: "First interview round" },
-  { id: 5, title: "Second interview round" },
-  { id: 6, title: "Third interview round" },
+  { id: 2, title: "First contact" },
+  { id: 3, title: "Phone screen" },
+  { id: 4, title: "1st interview round" },
+  { id: 5, title: "2nd interview round" },
+  { id: 6, title: "3rd interview round" },
   { id: 7, title: "Application declined" },
   { id: 8, title: "Offer received" },
   { id: 9, title: "Offer declined" },
@@ -39,21 +39,21 @@ export default function Page() {
 
   return (
     <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
-      <div className="grid grid-cols-10 gap-2">
+      <div className="grid grid-cols-10 gap-2 text-sm">
         {STAGES.map((stage) => (
           // headers
           <div key={`header-${stage.id}`}>{stage.title}</div>
         ))}
         {STAGES.map((stage) => (
           // cells
-          <div className={"grid border border-green-500 gap-2"} key={stage.id}>
+          <div className={"grid gap-2"} key={stage.id}>
             {applications.map((application) => (
-              <div key={application.id} className="border border-red-500 h-10">
+              <div key={application.id} className="shadow h-10">
                 <div>
                   <div className="">
                     {application.stageId === stage.id && (
                       <Draggable id={application.id}>
-                        {application.organisation}
+                        <div className="">{application.organisation}</div>
                       </Draggable>
                     )}
 
