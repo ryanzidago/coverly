@@ -33,7 +33,6 @@ const STAGES = [
 ];
 
 export default function Page() {
-  const [parent, setParent] = useState(null);
   const [isDragging, setIsDragging] = useState(null);
   const [applications, setApplications] = useState(APPLICATIONS);
 
@@ -93,11 +92,6 @@ export default function Page() {
     });
 
     setApplications(updatedApplications);
-
-    // if the item is dropped over a container,
-    // set it as the parent
-    // otherwise, reset the parent to null
-    setParent(event.over?.id || null);
   }
 
   function handleDragStart(event) {
