@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { Draggable } from "@/components/draggable";
 import { Droppable } from "@/components/droppable";
 
@@ -33,51 +33,50 @@ const STAGES = [
 ];
 
 export default function Page() {
-  const [isDragging, setIsDragging] = useState(null);
   const [applications, setApplications] = useState(APPLICATIONS);
 
   return (
-    <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
-      <div className="grid grid-cols-10 gap-2 text-sm">
+    <DndContext onDragEnd={handleDragEnd}>
+      <div className="grid grid-cols-10 gap-4 text-sm text-center">
         {STAGES.map((stage) => (
           // headers
           <div key={`header-${stage.id}`}>{stage.title}</div>
         ))}
-        {STAGES.map((stage) => (
-          // cells
-          <div className={"grid gap-2"} key={stage.id}>
-            {applications.map((application) => (
-              <div key={application.id} className="shadow rounded h-10">
-                {application.stageId === stage.id && (
-                  <Draggable id={application.id}>
-                    <div className="">{application.organisation}</div>
-                  </Draggable>
-                )}
 
-                {application.stageId !== stage.id &&
-                  application.id === isDragging && (
-                    <Droppable
-                      id={`droppable-${application.id}${stage.id}`}
-                      data={{
-                        stageId: stage.id,
-                        applicationId: application.id,
-                      }}
-                    >
-                      <div className="h-10"></div>
-                    </Droppable>
-                  )}
-              </div>
-            ))}
-          </div>
+        {STAGES.map((stage) => (
+          // columns
+          <Droppable
+            data={{ stageId: stage.id }}
+            className={"grid gap-2 shadow rounded p-4 "}
+            key={stage.id}
+            id={`droppable-stage-${stage.id}`}
+          >
+            {applications
+              .filter((application) => application.stageId == stage.id)
+              .map((application) => {
+                // cells / application cards
+                return (
+                  <Draggable
+                    data={{ applicationId: application.id }}
+                    id={`draggable-application-${application.id}`}
+                    key={application.id}
+                    className={"shadow w-full rounded bg-sky-400 h-20"}
+                  >
+                    {application.organisation}
+                  </Draggable>
+                );
+              })}
+          </Droppable>
         ))}
       </div>
     </DndContext>
   );
 
   function handleDragEnd(event) {
-    setIsDragging(null);
+    console.log(event);
+
     const stageId = event.over?.data.current.stageId;
-    const applicationId = event.over?.data.current.applicationId;
+    const applicationId = event.active.data.current.applicationId;
 
     const updatedApplications = applications.map((application) => {
       if (application.id === applicationId) {
@@ -88,9 +87,5 @@ export default function Page() {
     });
 
     setApplications(updatedApplications);
-  }
-
-  function handleDragStart(event) {
-    setIsDragging(event.active.id);
   }
 }
