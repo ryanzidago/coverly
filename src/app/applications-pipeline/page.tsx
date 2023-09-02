@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { DndContext, DragOverlay } from "@dnd-kit/core";
+import { DndContext } from "@dnd-kit/core";
 import { Draggable } from "@/components/draggable";
 import { Droppable } from "@/components/droppable";
 
