@@ -1,23 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import { DndContext } from "@dnd-kit/core";
-import { Draggable } from "@/components/draggable";
-import { Droppable } from "@/components/droppable";
+import { useEffect, useState } from "react";
+import {
+  DndContext,
+  DragCancelEvent,
+  DragEndEvent,
+  DragMoveEvent,
+  DragOverEvent,
+  DragOverlay,
+  DragStartEvent,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  getClientRect,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 
-const APPLICATIONS = [
-  { id: 1, organisation: "Amazon", stageId: 8 },
-  { id: 2, organisation: "Meta", stageId: 1 },
-  { id: 3, organisation: "Datadog", stageId: 5 },
-  { id: 4, organisation: "Klarna", stageId: 2 },
-  { id: 5, organisation: "Stripe", stageId: 4 },
-  { id: 6, organisation: "Airbnb", stageId: 2 },
-  { id: 7, organisation: "Twitter", stageId: 7 },
-  { id: 8, organisation: "Google", stageId: 3 },
-  { id: 9, organisation: "Microsoft", stageId: 8 },
-  { id: 10, organisation: "Zapier", stageId: 1 },
-  { id: 11, organisation: "Flexport", stageId: 1 },
-];
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+
+import Container from "./container";
 
 const STAGES = [
   { id: 1, title: "Backlog" },
@@ -32,60 +34,136 @@ const STAGES = [
   { id: 10, title: "Offer accepted" },
 ];
 
+const APPLICATIONS = [
+  { id: 11, organisation: "Amazon", stageId: 8 },
+  { id: 22, organisation: "Meta", stageId: 1 },
+  { id: 33, organisation: "Datadog", stageId: 5 },
+  { id: 44, organisation: "Klarna", stageId: 2 },
+  { id: 55, organisation: "Stripe", stageId: 4 },
+  { id: 66, organisation: "Airbnb", stageId: 2 },
+  { id: 77, organisation: "Twitter", stageId: 7 },
+  { id: 88, organisation: "Google", stageId: 3 },
+  { id: 99, organisation: "Microsoft", stageId: 8 },
+  { id: 100, organisation: "Zapier", stageId: 1 },
+  { id: 111, organisation: "Flexport", stageId: 1 },
+];
+
 export default function Page() {
+  const [stages, setStages] = useState(STAGES);
   const [applications, setApplications] = useState(APPLICATIONS);
+  const [activeId, setActiveId] = useState<null | number>(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  function activeApplicationCard(id) {
+    const application = findApplication(id);
+
+    console.log("activeApplication", application);
+
+    return (
+      <div className="bg-sky-400 rounded shadow-2xl px-2 py-4 flex flex-col text-center">
+        {application?.organisation}
+      </div>
+    );
+  }
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      <div className="grid grid-cols-10 gap-4 text-sm text-center">
-        {STAGES.map((stage) => (
-          // headers
-          <div key={`header-${stage.id}`}>{stage.title}</div>
-        ))}
-
-        {STAGES.map((stage) => (
-          // columns
-          <Droppable
-            data={{ stageId: stage.id }}
-            className={"grid gap-2 shadow rounded p-4 "}
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDragEnd={handleDragEnd}
+      onDragCancel={handleDragCancel}
+    >
+      <div
+        className={
+          "text-xs w-full overflow-scroll " +
+          `grid grid-cols-${stages.length} gap-8`
+        }
+      >
+        {stages.map((stage) => (
+          <Container
             key={stage.id}
-            id={`droppable-stage-${stage.id}`}
-          >
-            {applications
-              .filter((application) => application.stageId == stage.id)
-              .map((application) => {
-                // cells / application cards
-                return (
-                  <Draggable
-                    data={{ applicationId: application.id }}
-                    id={`draggable-application-${application.id}`}
-                    key={application.id}
-                    className={"shadow w-full rounded bg-sky-400 h-20"}
-                  >
-                    {application.organisation}
-                  </Draggable>
-                );
-              })}
-          </Droppable>
+            id={stage.id}
+            stage={stage}
+            activeId={activeId}
+            applications={applications.filter(
+              (application) => application.stageId === stage.id,
+            )}
+          />
         ))}
+        <DragOverlay>{activeId && activeApplicationCard(activeId)}</DragOverlay>
       </div>
     </DndContext>
   );
 
-  function handleDragEnd(event) {
-    console.log(event);
+  function findStage(stageId) {
+    return stages.find((stage) => stage.id === stageId);
+  }
 
-    const stageId = event.over?.data.current.stageId;
-    const applicationId = event.active.data.current.applicationId;
+  function findApplication(applicationId) {
+    return applications.find((application) => application.id === applicationId);
+  }
 
-    const updatedApplications = applications.map((application) => {
-      if (application.id === applicationId) {
-        return { ...application, stageId: stageId };
-      } else {
-        return application;
-      }
+  function handleDragStart(event: DragStartEvent) {
+    const activeId = event.active.id;
+    console.log(event.active.id);
+    setActiveId(activeId);
+  }
+
+  function handleDragOver(event: DragOverEvent) {
+    // here, active and over are always the applications being moved
+    const { active, over } = event;
+
+    const activeStage = findStage(active?.data?.current?.stageId);
+    // sometimes over.data.current.stageId is undefined
+    const overStage =
+      findStage(over?.data?.current?.stageId) || findStage(over.id);
+    const activeApplication = findApplication(active.id);
+    const overApplication = findApplication(over?.id);
+
+    if (!activeStage) {
+      return;
+    }
+
+    if (!overStage) {
+      return;
+    }
+
+    if (activeStage.id === overStage.id) {
+      return;
+    }
+
+    setStages((prevStages) => {
+      return prevStages.concat([]);
     });
 
-    setApplications(updatedApplications);
+    setApplications((prevApplications) => {
+      const updatedApplications = prevApplications.map((application) => {
+        if (application.id === activeApplication.id) {
+          return {
+            ...application,
+            stageId: overStage.id,
+          };
+        }
+        return application;
+      });
+
+      return updatedApplications;
+    });
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    setActiveId(null);
+  }
+
+  function handleDragCancel(event: DragCancelEvent) {
+    setActiveId(null);
   }
 }
