@@ -86,40 +86,20 @@ export default function Page() {
 
   function activeApplicationCard(id) {
     const application = findApplication(id);
-
     return application && <Card application={application} overlay={false} />;
-
-    return (
-      <div className="bg-sky-400 rounded shadow-2xl px-2 py-4 flex flex-col text-center">
-        {application?.organisation}
-      </div>
-    );
   }
 
-  function activeStageCard(id) {
+  function activeStage(id) {
     const stage = findStage(id);
     return (
-      <div className="flex flex-col text-center gap-8 0 h-96">
-        <div>{stage.title}</div>
-        <div className="bg-slate-50 h-96 p-2 text-center flex flex-col gap-8">
-          {applications
-            .filter((application) => application.stageId === stage.id)
-            .map((application) => (
-              <Sortable
-                key={application.id}
-                id={application.id}
-                data={{
-                  stageId: application.stageId,
-                  sortableKind: SortableKind.Application,
-                }}
-              >
-                <div className={"bg-sky-400 rounded shadow-md px-2 py-4"}>
-                  {application.organisation}
-                </div>
-              </Sortable>
-            ))}
-        </div>
-      </div>
+      stage && (
+        <Stage
+          id={stage.id}
+          stage={stage}
+          applications={applications}
+          activeStageId={null}
+        />
+      )
     );
   }
 
@@ -155,7 +135,7 @@ export default function Page() {
           ))}
           <DragOverlay>
             {activeApplicationId && activeApplicationCard(activeApplicationId)}
-            {activeStageId && activeStageCard(activeStageId)}
+            {activeStageId && activeStage(activeStageId)}
           </DragOverlay>
         </div>
       </SortableContext>
