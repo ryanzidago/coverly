@@ -26,7 +26,8 @@ import {
 
 import { Sortable } from "@/components/dnd/sortable";
 
-import Container from "./container";
+import Stage from "./stage";
+import Card from "./card";
 
 const STAGES = [
   { id: 1, position: 1, title: "Backlog" },
@@ -86,6 +87,8 @@ export default function Page() {
   function activeApplicationCard(id) {
     const application = findApplication(id);
 
+    return application && <Card application={application} overlay={false} />;
+
     return (
       <div className="bg-sky-400 rounded shadow-2xl px-2 py-4 flex flex-col text-center">
         {application?.organisation}
@@ -139,7 +142,7 @@ export default function Page() {
               id={stage.id}
               data={{ stageId: stage.id, sortableKind: SortableKind.Stage }}
             >
-              <Container
+              <Stage
                 id={stage.id}
                 stage={stage}
                 activeStageId={activeStageId}
