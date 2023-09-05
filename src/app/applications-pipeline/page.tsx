@@ -142,11 +142,11 @@ export default function Page() {
     </DndContext>
   );
 
-  function findStage(stageId) {
+  function findStage(stageId: number) {
     return stages.find((stage) => stage.id === stageId);
   }
 
-  function findApplication(applicationId) {
+  function findApplication(applicationId: number) {
     return applications.find((application) => application.id === applicationId);
   }
 
@@ -162,12 +162,12 @@ export default function Page() {
     }
   }
 
-  function handleStageDragStart(event) {
+  function handleStageDragStart(event: DragStartEvent) {
     const activeStageId = event.active.id;
     setActiveStageId(activeStageId);
   }
 
-  function handleApplicationDragStart(event) {
+  function handleApplicationDragStart(event: DragStartEvent) {
     const activeApplicationId = event.active.id;
     setActiveApplicationId(activeApplicationId);
   }
@@ -184,10 +184,11 @@ export default function Page() {
     }
   }
 
-  function handleStageDragOver(event) {
+  function handleStageDragOver(event: DragOverEvent) {
     const { active, over } = event;
     const activeStage = findStage(active.id);
     const overStage = findStage(over.id);
+
     if (!activeStage || !overStage || activeStage.id == overStage.id) {
       return;
     }
@@ -213,31 +214,20 @@ export default function Page() {
     });
   }
 
-  function handleApplicationDragOver(event) {
-    // here, active and over are always the applications being moved
+  function handleApplicationDragOver(event: DragOverEvent) {
     const { active, over } = event;
 
     const activeStage = findStage(active?.data?.current?.stageId);
-    // sometimes over.data.current.stageId is undefined
     const overStage =
       findStage(over?.data?.current?.stageId) || findStage(over.id);
     const activeApplication = findApplication(active.id);
-    const overApplication = findApplication(over?.id);
 
-    if (!activeStage) {
-      return;
-    }
-
-    if (!overStage) {
-      return;
-    }
-
-    if (activeStage.id === overStage.id) {
+    if (!activeStage || !overStage || activeStage.id === overStage.id) {
       return;
     }
 
     setApplications((prevApplications) => {
-      const updatedApplications = prevApplications.map((application) => {
+      return prevApplications.map((application) => {
         if (application.id === activeApplication?.id) {
           return {
             ...application,
@@ -246,8 +236,6 @@ export default function Page() {
         }
         return application;
       });
-
-      return updatedApplications;
     });
   }
 
@@ -263,41 +251,31 @@ export default function Page() {
     }
   }
 
-  function handleApplicationDragEnd(event) {
+  function handleApplicationDragEnd(event: DragEndEvent) {
     setActiveApplicationId(null);
   }
 
-  function handleStageDragEnd(event) {
+  function handleStageDragEnd(event: DragEndEvent) {
     setActiveStageId(null);
-    // const { active, over } = event;
-    // const activeStage = findStage(active.id);
-    // const overStage = findStage(over.id);
-    // if (!activeStage || !overStage || activeStage.id == overStage.id) {
-    //   return;
-    // }
-    // const activeStagePosition = activeStage.position;
-    // const overStagePosition = overStage.position;
-    // setStages((prevStages) => {
-    //   return prevStages
-    //     .map((stage) => {
-    //       if (stage.id === activeStage.id) {
-    //         return { ...activeStage, position: overStagePosition };
-    //       }
-    //       if (stage.id === overStage.id) {
-    //         return { ...overStage, position: activeStagePosition };
-    //       }
-    //       return stage;
-    //     })
-    //     .sort((a, b) => {
-    //       if (a.position < b.position) return -1;
-    //       if (a.position > a.position) return 1;
-    //       return 0;
-    //     });
-    // });
   }
 
   function handleDragCancel(event: DragCancelEvent) {
-    setActiveApplicationId(null);
+    const sortableKind = event?.active?.data?.current?.sortableKind;
+
+    if (sortableKind === SortableKind.Stage) {
+      handleStageDragCancel(event);
+    }
+
+    if (sortableKind === SortableKind.Application) {
+      handleApplicationDragCancel(event);
+    }
+  }
+
+  function handleStageDragCancel(event: DragCancelEvent) {
     setActiveStageId(null);
+  }
+
+  function handleApplicationDragCancel(event: DragCancelEvent) {
+    setActiveApplicationId(null);
   }
 }
