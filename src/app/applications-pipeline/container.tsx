@@ -24,7 +24,7 @@ export default function Container({
     >
       <div
         className={
-          "flex flex-col text-center gap-8 0 h-96  " +
+          "flex flex-col text-center gap-8 h-96 w-32 " +
           (stage.id === activeStageId ? "opacity-50" : "")
         }
       >

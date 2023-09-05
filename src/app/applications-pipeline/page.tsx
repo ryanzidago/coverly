@@ -29,8 +29,8 @@ import { Sortable } from "@/components/dnd/sortable";
 import Container from "./container";
 
 const STAGES = [
-  { id: 1, position: 2, title: "Backlog" },
-  { id: 2, position: 1, title: "First contact" },
+  { id: 1, position: 1, title: "Backlog" },
+  { id: 2, position: 2, title: "First contact" },
   { id: 3, position: 3, title: "Phone screen" },
   { id: 4, position: 4, title: "1st interview round" },
   { id: 5, position: 5, title: "2nd interview round" },
@@ -131,10 +131,7 @@ export default function Page() {
     >
       <SortableContext items={stages} strategy={horizontalListSortingStrategy}>
         <div
-          className={
-            "text-xs w-full overflow-scroll " +
-            `grid grid-cols-${stages.length} gap-8`
-          }
+          className={"text-xs w-full overflow-scroll " + `flex flex-row gap-8`}
         >
           {stages.map((stage) => (
             <Sortable
