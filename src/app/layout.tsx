@@ -15,13 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={
-          "justify-center w-full m-10 text-slate-700" + inter.className
-        }
-      >
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

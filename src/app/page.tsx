@@ -93,7 +93,7 @@ const DEFAULT_FORM_DATA: FormData = {
   ],
 };
 
-export default function Layout() {
+export default function Page() {
   const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
   const [resumes, setResumes] = useState([] as FormData[]);
   const [selectedResumeId, setSelectedResumeId] = useState(
