@@ -182,7 +182,7 @@ export default function Page() {
   }, [selectedResume, resumes]);
 
   const stepClassName =
-    "flex flex-col justify-center items-center gap-4 w-[32rem] text-slate-700";
+    "flex flex-col justify-center items-center gap-4 text-slate-700";
 
   const {
     steps,
@@ -224,6 +224,9 @@ export default function Page() {
     <div className="flex flex-row flex-wrap gap-16">
       <div className="">
         <div className="flex flex-col gap-4 sticky top-10 z-20 print:hidden">
+          <div>
+            {currentStepIndex + 1} / {steps.length}
+          </div>
           <button
             type="button"
             className="group shadow rounded-md p-2 drop-shadow-sm hover:scale-110 duration-200 hover:text-sky-400"
@@ -291,22 +294,7 @@ export default function Page() {
         className="print:hidden gap-4 flex flex-col text-slate-700"
         onSubmit={onSubmit}
       >
-        <div>
-          {currentStepIndex + 1} / {steps.length}
-        </div>
         {step}
-        <div className="flex justify-between text-slate-700">
-          <button
-            className={isFirstStep ? "invisible" : "self-end"}
-            type="button"
-            onClick={back}
-          >
-            Back
-          </button>
-          <button className="self-end" type="submit">
-            Next
-          </button>
-        </div>
       </form>
       <div className="">
         <Template1 formData={formData} />

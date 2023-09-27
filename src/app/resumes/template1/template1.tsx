@@ -18,7 +18,7 @@ export default function Template1({ formData }: Template1Props) {
   return (
     <div
       id="template1"
-      className="flex flex-col items-center gap-2 text-zinc-800 w-[70vh] shadow print:shadow-none rounded-sm p-10 text-sm m-auto top-10 cursor-pointer"
+      className="flex flex-col items-center gap-2 text-zinc-800 w-[70vh] shadow print:shadow-none rounded-sm p-10 text-sm m-auto sticky top-0 cursor-pointer"
       onClick={() => window.print()}
     >
       {/* // contact section */}
@@ -30,7 +30,7 @@ export default function Template1({ formData }: Template1Props) {
           <h2 className="text-md">{contactEntry.label}</h2>
         </div>
         <div className="flex flex-col items-center mt-2 gap-2">
-          <div className="flex flex-row space-x-8">
+          <div className="flex flex-row gap-2">
             <Link href={`mailto:${contactEntry.email}`}>
               {contactEntry.email}
             </Link>

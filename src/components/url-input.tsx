@@ -8,8 +8,8 @@ interface URLInputProps {
 
 export default function URLInput(props: URLInputProps) {
   return (
-    <div className="flex flex-col items-center justify-center w-full">
-      <label htmlFor={props.id} className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col items-center justify-center">
+      <label htmlFor={props.id} className="flex flex-col gap-2">
         <span>{props.label}</span>
         <input
           id={props.id}
