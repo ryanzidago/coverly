@@ -38,3 +38,5 @@ dump
 
 # asdf 
 .tool-versions
+
+*.pdf

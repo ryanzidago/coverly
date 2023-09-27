@@ -7,7 +7,6 @@ import Work from "@/components/steps/work";
 import Education from "@/components/steps/education";
 import { FormData } from "@/types/form-data-type";
 import Template1 from "./resumes/template1/template1";
-import jsPDF from "jspdf";
 import {
   allResumes,
   deleteResume,
@@ -221,31 +220,14 @@ export default function Page() {
     />,
   ]);
 
-  function saveAsPDF() {
-    const doc = new jsPDF("p", "pt", "a4", true);
-    const template = document.getElementById("template1");
-    const filename = `resume-${formData.contactEntry.firstName}-${formData.contactEntry.lastName}`;
-
-    if (template) {
-      doc.html(template, {
-        callback: (doc) => doc.save(filename),
-        x: 50,
-        y: 0,
-        margin: 0,
-        width: 70,
-        windowWidth: 100,
-      });
-    }
-  }
-
   return (
     <div className="flex flex-row flex-wrap gap-16">
       <div className="">
-        <div className="flex flex-col gap-4 sticky top-10 z-20">
+        <div className="flex flex-col gap-4 sticky top-10 z-20 print:hidden">
           <button
             type="button"
             className="group shadow rounded-md p-2 drop-shadow-sm hover:scale-110 duration-200 hover:text-sky-400"
-            onClick={saveAsPDF}
+            onClick={() => {}}
           >
             Download Resume
           </button>

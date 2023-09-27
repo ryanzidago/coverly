@@ -1,3 +1,5 @@
+"use client";
+
 import { FormData } from "@/types/form-data-type";
 import EntryDescription from "./entry-description";
 import EntryHeader from "./entry-header";
@@ -16,7 +18,8 @@ export default function Template1({ formData }: Template1Props) {
   return (
     <div
       id="template1"
-      className="flex flex-col items-center gap-2 text-zinc-800 w-[70vh] drop-shadow-sm shadow print:shadow-none rounded-sm p-10 text-sm m-auto sticky top-10"
+      className="flex flex-col items-center gap-2 text-zinc-800 w-[70vh] shadow print:shadow-none rounded-sm p-10 text-sm m-auto top-10 cursor-pointer"
+      onClick={() => window.print()}
     >
       {/* // contact section */}
       <div className="flex flex-col items-center gap-4">
