@@ -76,9 +76,14 @@ export default function Education({
   }, [entries]);
 
   return (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col gap-24 snap-y snap-mandatory overflow-auto scrollbar-none h-screen">
       {entries.map((entry: Education, index: number) => (
-        <div key={index} className={className}>
+        <div
+          key={index}
+          className={
+            className + " snap-center p-8 m-8 drop-shadow-sm shadow-md"
+          }
+        >
           {isFirstEntry(index) && <h1 className="text-xl">Education</h1>}
           <TextInput
             id="area"

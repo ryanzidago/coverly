@@ -79,7 +79,7 @@ export default function Work({
         <div
           key={index}
           className={
-            className + " snap-center p-8 m-8 drop-shadow-sm border shadow-md"
+            className + " snap-center p-8 m-8 drop-shadow-sm shadow-md"
           }
         >
           {isFirstWorkExp(index) && (

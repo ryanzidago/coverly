@@ -14,7 +14,7 @@ export default function ResumeMetadata({
   updateFields,
 }: Props) {
   return (
-    <div className={className}>
+    <div className={className + " p-8 m-8 shadow w-full"}>
       <h1 className="text-xl">Resume</h1>
 
       <TextInput

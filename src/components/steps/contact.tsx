@@ -22,7 +22,7 @@ export default function Contact({
   const { contactEntry: contactEntry } = formData;
 
   return (
-    <div className={className}>
+    <div className={className + " p-8 m-8 shadow"}>
       <h1 className="text-xl">Personal Information</h1>
       <TextInput
         id="firstName"
