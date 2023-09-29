@@ -6,6 +6,7 @@ import EntryHeader from "./entry-header";
 import Link from "./link";
 import Section from "./section";
 import { processFormData } from "@/utils/process-form-data";
+import Image from "next/image";
 
 type Template1Props = {
   formData: FormData;
@@ -18,9 +19,16 @@ export default function Template1({ formData }: Template1Props) {
   return (
     <div
       id="template1"
-      className="flex flex-col items-center gap-2 text-zinc-800 w-[70vh] shadow print:shadow-none rounded-sm p-10 text-sm m-auto sticky top-0 cursor-pointer"
-      onClick={() => window.print()}
+      className="flex flex-col items-center gap-2 text-zinc-800 w-[70vh] shadow print:shadow-none rounded-sm p-10 text-sm m-auto sticky top-0"
     >
+      {/* <Image
+        src="/menu-outline.svg"
+        alt=""
+        className="self-end cursor-pointer"
+        width={20}
+        height={20}
+        priority
+      /> */}
       {/* // contact section */}
       <div className="flex flex-col items-center gap-4">
         <div className="flex flex-col items-center gap-2">

@@ -230,7 +230,7 @@ export default function Page() {
           <button
             type="button"
             className="group shadow rounded-md p-2 drop-shadow-sm hover:scale-110 duration-200 hover:text-sky-400"
-            onClick={() => {}}
+            onClick={() => window.print()}
           >
             Download Resume
           </button>
@@ -302,3 +302,4 @@ export default function Page() {
     </div>
   );
 }
+

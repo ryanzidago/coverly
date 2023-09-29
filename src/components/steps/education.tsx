@@ -80,9 +80,7 @@ export default function Education({
       {entries.map((entry: Education, index: number) => (
         <div
           key={index}
-          className={
-            className + " snap-center p-8 m-8 drop-shadow-sm shadow-md"
-          }
+          className={className + " snap-start p-8 m-8 drop-shadow-sm shadow-md"}
         >
           {isFirstEntry(index) && <h1 className="text-xl">Education</h1>}
           <TextInput

@@ -78,9 +78,7 @@ export default function Work({
       {entries.map((workExp: Work, index: number) => (
         <div
           key={index}
-          className={
-            className + " snap-center p-8 m-8 drop-shadow-sm shadow-md"
-          }
+          className={className + " snap-start p-8 m-8 drop-shadow-sm shadow-md"}
         >
           {isFirstWorkExp(index) && (
             <h1 className="text-xl">Work Experience</h1>
