@@ -21,14 +21,7 @@ export default function Template1({ formData }: Template1Props) {
       id="template1"
       className="flex flex-col items-center gap-2 text-zinc-800 w-[70vh] shadow print:shadow-none rounded-sm p-10 text-sm m-auto sticky top-0"
     >
-      {/* <Image
-        src="/menu-outline.svg"
-        alt=""
-        className="self-end cursor-pointer"
-        width={20}
-        height={20}
-        priority
-      /> */}
+
       {/* // contact section */}
       <div className="flex flex-col items-center gap-4">
         <div className="flex flex-col items-center gap-2">
