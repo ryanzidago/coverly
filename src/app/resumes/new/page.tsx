@@ -82,6 +82,33 @@ const WORK_ENTRIES = [
   },
 ];
 
+const EMPTY_WORK_ENTRY = {
+  id: 1000,
+  kind: "work",
+  title: "",
+  companyName: "",
+  companyDescription: "",
+  website: "",
+  location: {
+    city: "",
+    country: "",
+    number: "",
+    street: "",
+    postalCode: "",
+    remote: true,
+  },
+  startDate: {
+    year: "",
+    month: "",
+  },
+  endDate: {
+    year: "",
+    month: "",
+  },
+  descriptions: [],
+  currentWork: true,
+};
+
 const EDUCATION_ENTRIES = [
   {
     id: 1,
@@ -114,6 +141,34 @@ const EDUCATION_ENTRIES = [
   },
 ];
 
+const EMPTY_EDUCATION_ENTRY = {
+  id: 9990,
+  kind: "education",
+  area: "",
+  studyType: "",
+  institutionName: "",
+  website: "",
+  location: {
+    city: "",
+    country: "",
+    postalCode: "",
+    street: "",
+    number: "",
+    remote: false,
+  },
+  grade: "",
+  startDate: {
+    year: "",
+    month: "",
+  },
+  endDate: {
+    year: "",
+    month: "",
+  },
+  descriptions: [],
+  currentEducation: false,
+};
+
 export default function Page() {
   const [formData, setFormData] = useState(null);
 
@@ -130,8 +185,8 @@ export default function Page() {
 
   return (
     formData && (
-      <div className="flex flex-row items-center justify-center text-slate-700 text-justify">
-        <section className="w-full border overflow-auto h-screen">
+      <div className="flex flex-col xl:flex-row items-center justify-center text-slate-700 text-justify border-8 border-red-500">
+        <section className="border xl:w-1/2 lg:w-full min-w-content overflow-auto h-screen border-8 border-blue-500">
           <div className="flex flex-col gap-8 px-32 py-12">
             <h1 className="text-xl font-bold text-slate-600">
               {formData.metadata.title}
@@ -142,14 +197,14 @@ export default function Page() {
             <EducationEntries formData={formData} />
           </div>
         </section>
-        <div className="w-full">
+        <div className="border-8 border-green-500 h-screen xl:w-1/2 w-full">
           <Template1 formData={formData} />
         </div>
       </div>
     )
   );
 
-  function Section({ children, title, className }) {
+  function Section({ children, title, className, onAdd }) {
     const [checked, setChecked] = useState(true);
 
     function toggleChecked() {
@@ -163,14 +218,15 @@ export default function Page() {
         } ${className}`}
       >
         <hr />
-        <label className="cursor-pointer flex flex-row gap-2 group">
+        <label className="cursor-pointer flex flex-row gap-2 relative group">
           <input
             type="checkbox"
             className="cursor-pointer"
             defaultChecked={checked}
             onClick={toggleChecked}
           />
-          <h2 className="text-xl font-semibold">{title}</h2>
+          <h2 className="text-xl w-full font-semibold">{title}</h2>
+          <FieldMenu onAdd={onAdd} />
         </label>
         <div
           className={`
@@ -324,7 +380,7 @@ export default function Page() {
     const [entries, setEntries] = useState(WORK_ENTRIES);
 
     function addEntry() {
-      setEntries((prevEntries) => [...prevEntries, {}]);
+      setEntries((prevEntries) => [...prevEntries, EMPTY_WORK_ENTRY]);
     }
 
     function deleteEntry(entry) {
@@ -335,13 +391,14 @@ export default function Page() {
 
     return (
       <div>
-        <Section title="Work Experience">
+        <Section title="Work Experience" onAdd={addEntry}>
           {entries.map((entry) => (
             <Entry
               key={entry.id}
               entry={entry}
               header={`${entry.title} at ${entry.companyName} in ${entry.startDate.year}`}
               onDelete={() => deleteEntry(entry)}
+              editEntry={entry.id === EMPTY_WORK_ENTRY.id}
             />
           ))}
         </Section>
@@ -349,14 +406,28 @@ export default function Page() {
     );
   }
 
-  function EducationEntries({ formData }) {
+  function EducationEntries({ formData, onAdd }) {
+    const [entries, setEntries] = useState(EDUCATION_ENTRIES);
+
+    function addEntry() {
+      setEntries((prevEntries) => [...prevEntries, EMPTY_EDUCATION_ENTRY]);
+    }
+
+    function deleteEntry(entry) {
+      setEntries((prevEntries) => {
+        return prevEntries.filter((prevEntry) => prevEntry.id !== entry.id);
+      });
+    }
+
     return (
-      <Section title="Education">
-        {EDUCATION_ENTRIES.map((entry) => (
+      <Section title="Education" onAdd={addEntry}>
+        {entries.map((entry) => (
           <Entry
             key={entry.id}
             entry={entry}
             header={`${entry.studyType}, ${entry.area} at ${entry.institutionName} in ${entry.startDate.year}`}
+            onDelete={() => deleteEntry(entry)}
+            editEntry={entry.id === EMPTY_EDUCATION_ENTRY.id}
           />
         ))}
       </Section>
@@ -470,10 +541,15 @@ export default function Page() {
     );
   }
 
-  function Entry({ entry: initialEntry, onDelete, header }) {
+  function Entry({
+    entry: initialEntry,
+    onDelete,
+    header,
+    editEntry: initialEditEntry = false,
+  }) {
     const [entry, setEntry] = useState(initialEntry);
     const [checked, setChecked] = useState(true);
-    const [editEntry, setEditEntry] = useState(false);
+    const [editEntry, setEditEntry] = useState(initialEditEntry);
 
     function toggleChecked() {
       setChecked((prev) => !prev);
