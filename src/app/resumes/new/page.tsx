@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import Template1 from "../template1/template1";
 import { getResume } from "@/data/db";
-import { FormData } from "@/types/form-data-type";
 import Image from "next/image";
 
 const PROFESSIONAL_SUMMARIES = [
@@ -185,8 +184,8 @@ export default function Page() {
 
   return (
     formData && (
-      <div className="flex flex-col xl:flex-row items-center justify-center text-slate-700 text-justify border-8 border-red-500">
-        <section className="border xl:w-1/2 lg:w-full min-w-content overflow-auto h-screen border-8 border-blue-500">
+      <div className="flex flex-col xl:flex-row items-center justify-center text-slate-700 text-justify ">
+        <section className="border xl:w-1/2 lg:w-full min-w-content overflow-auto h-screen">
           <div className="flex flex-col gap-8 px-32 py-12">
             <h1 className="text-xl font-bold text-slate-600">
               {formData.metadata.title}
@@ -197,7 +196,7 @@ export default function Page() {
             <EducationEntries formData={formData} />
           </div>
         </section>
-        <div className="border-8 border-green-500 h-screen xl:w-1/2 w-full">
+        <div className="h-screen xl:w-1/2 w-full">
           <Template1 formData={formData} />
         </div>
       </div>
@@ -406,7 +405,7 @@ export default function Page() {
     );
   }
 
-  function EducationEntries({ formData, onAdd }) {
+  function EducationEntries({}) {
     const [entries, setEntries] = useState(EDUCATION_ENTRIES);
 
     function addEntry() {
@@ -541,6 +540,115 @@ export default function Page() {
     );
   }
 
+  function EducationEntryForm({
+    entry: defaultEntry,
+    onCancel = () => {},
+    onSave = () => {},
+  }) {
+    const [entry, setEntry] = useState(defaultEntry);
+
+    function handleChange(event) {
+      const key = event.target.name;
+      const value = event.target.value;
+      setEntry((prev) => ({ ...prev, [key]: value }));
+    }
+
+    return (
+      <form>
+        <fieldset>
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-2">
+              <label>Area</label>
+              <input
+                className="appearance-none border rounded shadow p-1"
+                type="text"
+                value={entry.area}
+                name="area"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label>Study type</label>
+              <input
+                className="appearance-none border rounded shadow p-1"
+                type="text"
+                name="studyType"
+                value={entry.studyType}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label>Insititution Name</label>
+              <input
+                className="appearance-none border rounded shadow p-1"
+                type="text"
+                name="institutionName"
+                value={entry.institutionName}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label>Institution Website</label>
+              <input
+                type="url"
+                className="appearance-none border rounded shadow p-1"
+                name="website"
+                value={entry.website}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label>Location</label>
+              <input
+                type="text"
+                className="appearance-none border rounded shadow p-1"
+                name="location"
+                value={entry.location}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="flex flex-col gap-2">
+                Start Date
+                <DateInput
+                  value={entry.startDate}
+                  name={"startDate"}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
+            <div>
+              <label className="flex flex-col gap-2">
+                End Date
+                <DateInput
+                  value={entry.endDate}
+                  name={"endDate"}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
+            <div className="flex flex-row gap-16 justify-between">
+              <button
+                type="reset"
+                className="appearance-none border rounded shadow p-1 w-full"
+                onClick={onCancel}
+              >
+                Cancel
+              </button>
+              <button
+                type="butto"
+                className="appearance-none border rounded shadow p-1 w-full"
+                onClick={onSave}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    );
+  }
+
   function Entry({
     entry: initialEntry,
     onDelete,
@@ -569,7 +677,7 @@ export default function Page() {
     if (editEntry && entry.kind == "work")
       return <WorkEntryForm entry={entry} onCancel={toggleEditEntry} />;
     if (editEntry && entry.kind == "education")
-      return <div>hello, education</div>;
+      return <EducationEntryForm entry={entry} onCancel={toggleEditEntry} />;
 
     if (!editEntry)
       return (
@@ -615,7 +723,6 @@ export default function Page() {
     children,
   }) {
     const [checked, setChecked] = useState(true);
-    const [edit, setEdit] = useState(false);
 
     function toggleChecked() {
       setChecked((prev) => !prev);
@@ -832,74 +939,6 @@ export default function Page() {
           className="appearance-none w-full rounded shadow border px-4 py-2"
         />
       </div>
-    );
-  }
-
-  function TextAreaListInputs({
-    values: initialValues,
-    name,
-    onChange = () => {},
-  }) {
-    const [values, setValues] = useState(initialValues);
-
-    function handleChange(event) {
-      const key = event.target.name;
-      const value = event.target.value;
-
-      setValues((prev) => {
-        const updatedValues = prev;
-        updatedValues[key] = value;
-        return updatedValues;
-      });
-    }
-
-    function addTextArea() {
-      setValues((prev) => [...prev, ""]);
-    }
-
-    function deleteTextArea(index) {
-      setValues((prev) => prev.filter((value, i) => i !== index));
-    }
-
-    return (
-      <div className="flex flex-col gap-4 items-start w-full">
-        <div className="flex flex-col gap-4 w-full">
-          {values.map((value, index) => (
-            <div key={index} className="relative w-full flex flex-row group">
-              <TextArea name={index} value={value} onChange={handleChange} />
-              <FieldMenu
-                onAdd={addTextArea}
-                onDelete={() => deleteTextArea(index)}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  function TextArea({ value: defaultValue, name, onChange }) {
-    const [value, setValue] = useState(defaultValue);
-    const textAreaRef = useRef(null);
-
-    function handleChange(event) {
-      const value = event.target.value;
-      setValue(value);
-      onChange(event);
-    }
-
-    useEffect(() => {
-      autoResizeTextArea(textAreaRef);
-    }, [value]);
-
-    return (
-      <textarea
-        ref={textAreaRef}
-        name={name}
-        value={value}
-        onChange={handleChange}
-        className="scrollbar-none border rounded shadow p-1 w-full"
-      />
     );
   }
 }
