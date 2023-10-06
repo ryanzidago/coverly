@@ -648,7 +648,7 @@ export default function Page() {
                 Cancel
               </button>
               <button
-                type="butto"
+                type="button"
                 className="appearance-none border rounded shadow p-1 w-full"
                 onClick={onSave}
               >
