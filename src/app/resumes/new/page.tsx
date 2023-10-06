@@ -255,19 +255,19 @@ export default function Page() {
         <div>
           <div className="flex flex-col">
             <div>
-              <Field value={firstName} show={true} />
-              <Field value={lastName} show={true} />
+              <Field type="text" value={firstName} show={true} />
+              <Field type="text" value={lastName} show={true} />
             </div>
           </div>
 
           <div className="flex flex-col">
-            <Field value={email} show={true} />
+            <Field type="text" value={email} show={true} />
           </div>
 
           <div className="flex flex-col">
             <div>
-              <Field value={phoneNumber.countryCode} show={true} />
-              <Field value={phoneNumber.number} show={true} />
+              <Field type="text" value={phoneNumber.countryCode} show={true} />
+              <Field type="text" value={phoneNumber.number} show={true} />
             </div>
           </div>
         </div>
@@ -718,7 +718,12 @@ export default function Page() {
           `}
           >
             {entry.descriptions.map((description, index) => (
-              <Field key={index} show={true} value={description} />
+              <Field
+                type="textarea"
+                key={index}
+                show={true}
+                value={description}
+              />
             ))}
           </div>
         </fieldset>
@@ -766,6 +771,7 @@ export default function Page() {
 
   function Field({
     value,
+    type,
     show = false,
     className = "",
     onChecked = () => {},
@@ -801,17 +807,28 @@ export default function Page() {
       >
         <input
           type="checkbox"
-          className={`mt-1 cursor-pointer ${show ? "visible" : "invisible"}`}
+          className={`mt-2 cursor-pointer ${show ? "visible" : "invisible"}`}
           defaultChecked={checked}
           onClick={() => (onChecked ? onChecked() : toggleChecked())}
         />
-        <textarea
-          ref={textAreaRef}
-          defaultValue={value}
-          placeholder="Tell us about what you've achieved here!"
-          className={`w-full h-auto rounded text-justify appearance-none scrollbar-none p-1 
-                      ${checked ? "" : "text-slate-700/50"}`}
-        />
+        {type === "textarea" ? (
+          <textarea
+            ref={textAreaRef}
+            defaultValue={value}
+            placeholder="Tell us about what you've achieved here!"
+            className={`w-full h-auto rounded text-justify appearance-none scrollbar-none p-1 
+          ${checked ? "" : "text-slate-700/50"}`}
+          />
+        ) : (
+          <input
+            type="text"
+            ref={textAreaRef}
+            defaultValue={value}
+            placeholder=""
+            className={`w-full h-auto rounded text-justify appearance-none scrollbar-none p-1 
+          ${checked ? "" : "text-slate-700/50"}`}
+          />
+        )}
         <FieldMenu onDelete={handleDelete} />
       </label>
     );
