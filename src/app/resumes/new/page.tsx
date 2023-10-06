@@ -769,13 +769,7 @@ export default function Page() {
     );
   }
 
-  function Field({
-    value,
-    type,
-    show = false,
-    className = "",
-    onChecked = () => {},
-  }) {
+  function Field({ value, type, show = false, className = "", onChecked }) {
     const [checked, setChecked] = useState(true);
     const [edit, setEdit] = useState(value === "");
     const labelRef = useRef(null);
@@ -817,7 +811,7 @@ export default function Page() {
             defaultValue={value}
             placeholder="Tell us about what you've achieved here!"
             className={`w-full h-auto rounded text-justify appearance-none scrollbar-none p-1 
-          ${checked ? "" : "text-slate-700/50"}`}
+          ${checked ? "" : "text-slate-700/50 pointer-events-none"}`}
           />
         ) : (
           <input
@@ -826,7 +820,7 @@ export default function Page() {
             defaultValue={value}
             placeholder=""
             className={`w-full h-auto rounded text-justify appearance-none scrollbar-none p-1 
-          ${checked ? "" : "text-slate-700/50"}`}
+          ${checked ? "" : "text-slate-700/50 pointer-events-none"}`}
           />
         )}
         <FieldMenu onDelete={handleDelete} />
