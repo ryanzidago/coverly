@@ -255,17 +255,19 @@ export default function Page() {
         <div>
           <div className="flex flex-col">
             <div>
-              {firstName} {lastName}
+              <Field value={firstName} show={true} />
+              <Field value={lastName} show={true} />
             </div>
           </div>
 
           <div className="flex flex-col">
-            <div>{email}</div>
+            <Field value={email} show={true} />
           </div>
 
           <div className="flex flex-col">
             <div>
-              {phoneNumber.countryCode} {phoneNumber.number}
+              <Field value={phoneNumber.countryCode} show={true} />
+              <Field value={phoneNumber.number} show={true} />
             </div>
           </div>
         </div>
@@ -767,7 +769,6 @@ export default function Page() {
     show = false,
     className = "",
     onChecked = () => {},
-    onDelete = () => {},
   }) {
     const [checked, setChecked] = useState(true);
     const [edit, setEdit] = useState(value === "");
