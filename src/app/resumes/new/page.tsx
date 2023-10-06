@@ -827,12 +827,9 @@ export default function Page() {
         const updatedDate = { ...prev, [key]: value };
         return updatedDate;
       });
-    }
 
-    useEffect(() => {
       onChange({ target: { name: name, value: date } });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [date]);
+    }
 
     return (
       <div className="flex flex-row gap-16 justify-between">
