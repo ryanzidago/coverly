@@ -188,7 +188,17 @@ export default function Page() {
         <section className="border xl:w-1/2 lg:w-full min-w-content overflow-auto h-screen">
           <div className="flex flex-col gap-8 px-32 py-12">
             <h1 className="text-xl font-bold text-slate-600">
-              {formData.metadata.title}
+              <input
+                type="text"
+                value={formData.metadata.title}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    metadata: { ...prev.metadata, title: e.target.value },
+                  }))
+                }
+                className="appearance-none  rounded-md p-1"
+              />
             </h1>
             <Contact formData={formData} />
             <ProfessionalSummary formData={formData} />
