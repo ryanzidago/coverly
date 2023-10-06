@@ -779,10 +779,6 @@ export default function Page() {
       setChecked((prev) => !prev);
     }
 
-    function toggleEdit() {
-      setEdit((prev) => !prev);
-    }
-
     function handleDelete() {
       labelRef?.current?.remove();
     }
@@ -809,18 +805,14 @@ export default function Page() {
           defaultChecked={checked}
           onClick={() => (onChecked ? onChecked() : toggleChecked())}
         />
-        {edit ? (
-          <textarea
-            ref={textAreaRef}
-            defaultValue={value}
-            placeholder="Tell us about what you've achieved here!"
-            className={`w-full h-auto rounded text-justify scrollbar-none p-1
+        <textarea
+          ref={textAreaRef}
+          defaultValue={value}
+          placeholder="Tell us about what you've achieved here!"
+          className={`w-full h-auto rounded text-justify appearance-none scrollbar-none p-1 
                       ${checked ? "" : "text-slate-700/50"}`}
-          />
-        ) : (
-          <div className={`w-full h-full`}>{value}</div>
-        )}
-        <FieldMenu onEdit={toggleEdit} onDelete={handleDelete} />
+        />
+        <FieldMenu onDelete={handleDelete} />
       </label>
     );
   }
