@@ -276,109 +276,13 @@ export default function Page() {
   }
 
   function ProfessionalSummary({ formData }) {
-    const [displaySummaryWithId, setDisplaySummaryWithId] = useState(1);
-    const [editSummaryWithId, setEditSummaryWithId] = useState(null);
-    const textAreaRef = useRef(null);
-
-    function handleSelect(summary) {
-      setDisplaySummaryWithId((prevId) =>
-        prevId === summary.id ? null : summary.id,
-      );
-    }
-
-    function toggleEditMode(summary) {
-      setEditSummaryWithId((prevId) =>
-        prevId === summary.id ? null : summary.id,
-      );
-    }
-
-    function autoResize() {
-      const textarea = document.getElementById("summaryContentTextArea");
-      if (textarea) {
-        textarea.style.height = "auto";
-        textarea.style.height = textarea.scrollHeight + "px";
-      }
-    }
-
-    function isDisplayed(summary) {
-      return summary.id === displaySummaryWithId;
-    }
-
-    useEffect(() => {
-      autoResize();
-      if (textAreaRef.current) {
-        textAreaRef.current.focus();
-        const length = textAreaRef.current.value.length;
-
-        textAreaRef.current.setSelectionRange(length, length);
-      }
-    }, [editSummaryWithId]);
-
     return (
       <Section title="Professional Summary">
         <ul className="flex flex-col gap-8">
           {PROFESSIONAL_SUMMARIES.map((summary) => (
             <li key={summary.id}>
               <div className="relative flex flex-row gap-2 group">
-                <div className="invisible group-hover:visible flex flex-row gap-4 p-1 shadow drop-shadow rounded absolute right-0 bg-sky-300">
-                  <button type="button" onClick={() => handleSelect(summary)}>
-                    <Image
-                      src={
-                        isDisplayed(summary)
-                          ? "/bookmark.svg"
-                          : "/bookmark-outline.svg"
-                      }
-                      width={20}
-                      height={20}
-                      alt="Display button"
-                    />
-                  </button>
-                  <button type="button" onClick={() => toggleEditMode(summary)}>
-                    <Image
-                      src="/create-outline.svg"
-                      width={20}
-                      height={20}
-                      alt="Create button"
-                    />
-                  </button>
-                  <button type="button">
-                    <Image
-                      src="/copy-outline.svg"
-                      width={20}
-                      height={20}
-                      alt="Duplicate button"
-                    />
-                  </button>
-                  <button type="button">
-                    <Image
-                      src="/trash-outline.svg"
-                      width={20}
-                      height={20}
-                      alt="Delete button"
-                    />
-                  </button>
-                </div>
-                {editSummaryWithId === summary.id ? (
-                  <textarea
-                    id="summaryContentTextArea"
-                    ref={textAreaRef}
-                    defaultValue={summary.content}
-                    className={`w-full h-auto shadow-inner rounded p-4 text-justify 
-                      ${isDisplayed(summary) ? "" : "text-slate-700/50"}`}
-                  />
-                ) : (
-                  <p
-                    className={`
-                      p-4
-                      rounded
-                      text-justify
-                      ${isDisplayed(summary) ? "" : "text-slate-700/50"}
-                      ${isDisplayed(summary) ? "shadow" : ""}
-                      `}
-                  >
-                    {summary.content}
-                  </p>
-                )}
+                <Field show={true} value={summary.content} />
               </div>
             </li>
           ))}
@@ -769,14 +673,26 @@ export default function Page() {
     );
   }
 
-  function Field({ value, type, show = false, className = "", onChecked }) {
-    const [checked, setChecked] = useState(true);
+  function Field({
+    value,
+    type = "textarea",
+    show = false,
+    checked: initialChecked = true,
+    className = "",
+    onChecked,
+  }) {
+    const [checked, setChecked] = useState(initialChecked);
     const [edit, setEdit] = useState(value === "");
     const labelRef = useRef(null);
     const textAreaRef = useRef(null);
 
     function toggleChecked() {
       setChecked((prev) => !prev);
+    }
+
+    function handleChecked() {
+      toggleChecked();
+      onChecked && onChecked();
     }
 
     function handleDelete() {
@@ -803,7 +719,7 @@ export default function Page() {
           type="checkbox"
           className={`mt-2 cursor-pointer ${show ? "visible" : "invisible"}`}
           defaultChecked={checked}
-          onClick={() => (onChecked ? onChecked() : toggleChecked())}
+          onClick={handleChecked}
         />
         {type === "textarea" ? (
           <textarea
