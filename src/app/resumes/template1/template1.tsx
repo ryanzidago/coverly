@@ -19,9 +19,8 @@ export default function Template1({ formData }: Template1Props) {
   return (
     <div
       id="template1"
-      className="flex flex-col items-center gap-2 text-zinc-800 w-[70vh] shadow print:shadow-none rounded-sm p-10 text-sm m-auto sticky top-0"
+      className="flex flex-col items-center gap-2 text-zinc-800 h-full shadow print:shadow-none rounded-sm xl:px-40 px-20 pt-20 text-sm m-auto sticky top-0"
     >
-
       {/* // contact section */}
       <div className="flex flex-col items-center gap-4">
         <div className="flex flex-col items-center gap-2">

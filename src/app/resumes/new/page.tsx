@@ -184,8 +184,8 @@ export default function Page() {
 
   return (
     formData && (
-      <div className="flex flex-col xl:flex-row items-center justify-center text-slate-700 text-justify ">
-        <section className="border xl:w-1/2 lg:w-full min-w-content overflow-auto h-screen">
+      <div className="flex flex-col xl:flex-row items-center justify-center text-slate-700 text-justify">
+        <section className=" xl:w-1/2 lg:w-full min-w-content overflow-auto h-screen print:hidden">
           <div className="flex flex-col gap-8 px-32 py-12">
             <h1 className="text-xl font-bold text-slate-600">
               <input
