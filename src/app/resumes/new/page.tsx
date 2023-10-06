@@ -397,10 +397,7 @@ export default function Page() {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label>Location</label>
-              <input
-                type="text"
-                className="appearance-none border rounded shadow p-1"
+              <LocationInput
                 name="location"
                 value={entry.location}
                 onChange={handleChange}
@@ -426,14 +423,6 @@ export default function Page() {
                 />
               </label>
             </div>
-            {/* <div className="flex flex-col gap-2">
-              <label>Achievements</label>
-              <TextAreaListInputs
-                values={entry.descriptions}
-                name="descriptions"
-                onChange={handleChange}
-              />
-            </div> */}
             <div className="flex flex-row gap-16 justify-between">
               <button
                 type="reset"
@@ -514,10 +503,7 @@ export default function Page() {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label>Location</label>
-              <input
-                type="text"
-                className="appearance-none border rounded shadow p-1"
+              <LocationInput
                 name="location"
                 value={entry.location}
                 onChange={handleChange}
@@ -861,6 +847,58 @@ export default function Page() {
           onChange={handleChange}
           className="appearance-none w-full rounded shadow border px-4 py-2"
         />
+      </div>
+    );
+  }
+
+  function LocationInput({ name, value, onChange }) {
+    const [location, setLocation] = useState(value);
+    const [remote, setRemote] = useState(false);
+
+    function toggleRemote() {
+      setRemote((prev) => !prev);
+    }
+
+    function handleChange(event) {
+      const key = event.target.name;
+      const value = event.target.value;
+
+      setLocation((prev) => {
+        onChange({ target: { name: name, value: value } });
+        return { ...prev, [key]: value };
+      });
+    }
+
+    return (
+      <div className="flex flex-col gap-4">
+        <div className="flex gap-2 justify-start items-center">
+          <input type="checkbox" onClick={toggleRemote} />
+          <label>Remote</label>
+        </div>
+        <div
+          className={`flex flex-row gap-16 justify-between ${
+            remote ? "opacity-50 pointer-events-none" : ""
+          }`}
+        >
+          <div className="flex flex-col gap-2 w-full">
+            <label>City</label>
+            <input
+              type="text"
+              value={location?.city}
+              onChange={handleChange}
+              className="appearance-none border rounded shadow p-1"
+            />
+          </div>
+          <div className="flex flex-col gap-2 w-full">
+            <label>Country</label>
+            <input
+              type="text"
+              value={location?.country}
+              onChange={handleChange}
+              className="appearance-none border rounded shadow p-1"
+            />
+          </div>
+        </div>
       </div>
     );
   }
