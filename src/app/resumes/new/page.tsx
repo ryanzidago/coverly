@@ -682,7 +682,7 @@ export default function Page() {
     onChecked,
   }) {
     const [checked, setChecked] = useState(initialChecked);
-    const labelRef = useRef(null);
+    const containerRef = useRef(null);
     const textAreaRef = useRef(null);
 
     function toggleChecked() {
@@ -695,7 +695,7 @@ export default function Page() {
     }
 
     function handleDelete() {
-      labelRef?.current?.remove();
+      containerRef?.current?.remove();
     }
 
     useEffect(() => {
@@ -703,17 +703,17 @@ export default function Page() {
     }, []);
 
     return (
-      <label
-        ref={labelRef}
+      <div
+        ref={containerRef}
         className={`
-          flex flex-row items-start gap-4 cursor-pointer w-full group relative
+          flex flex-row items-start gap-4 w-full group relative
           ${show ? "" : "pointer-events-none"} 
           ${checked ? "" : "opacity-50"}
           ${className}`}
       >
         <input
           type="checkbox"
-          className={`mt-2 cursor-pointer ${show ? "visible" : "invisible"}`}
+          className={`mt-2 ${show ? "visible cursor-pointer" : "invisible"}`}
           defaultChecked={checked}
           onClick={handleChecked}
         />
@@ -736,7 +736,7 @@ export default function Page() {
           />
         )}
         <FieldMenu onDelete={handleDelete} />
-      </label>
+      </div>
     );
   }
 
