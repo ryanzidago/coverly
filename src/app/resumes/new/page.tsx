@@ -282,7 +282,7 @@ export default function Page() {
           {PROFESSIONAL_SUMMARIES.map((summary) => (
             <li key={summary.id}>
               <div className="relative flex flex-row gap-2 group">
-                <Field show={true} value={summary.content} />
+                <Field show={true} value={summary.content} checked={false} />
               </div>
             </li>
           ))}
@@ -682,7 +682,6 @@ export default function Page() {
     onChecked,
   }) {
     const [checked, setChecked] = useState(initialChecked);
-    const [edit, setEdit] = useState(value === "");
     const labelRef = useRef(null);
     const textAreaRef = useRef(null);
 
@@ -701,10 +700,7 @@ export default function Page() {
 
     useEffect(() => {
       autoResizeTextArea(textAreaRef);
-      focusOnTextArea(textAreaRef);
-      placeCursorAtTextAreaEnd(textAreaRef);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [edit]);
+    }, []);
 
     return (
       <label
