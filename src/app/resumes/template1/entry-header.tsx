@@ -1,18 +1,17 @@
 import { Location } from "@/types/location-type";
 import Link from "./link";
-import { formatDate } from "@/utils/datetime-formatter";
-import { DateSimple } from "@/types/date-simple-type";
+import { formattedDateTime } from "@/utils/datetime-formatter";
 
-type EntryProps = {
-  title: string;
-  subtitle: string;
-  startDate: DateSimple;
-  endDate: DateSimple;
-  location: Location;
-  link: string;
-};
+// type EntryProps = {
+//   title: string;
+//   subtitle: string;
+//   startDate: DateSimple;
+//   endDate: DateSimple;
+//   location: Location;
+//   link: string;
+// };
 
-export default function EntryHeader(props: EntryProps) {
+export default function EntryHeader(props) {
   function buildLocation(location: Location) {
     if (location.remote) {
       return "Remote";
@@ -35,10 +34,8 @@ export default function EntryHeader(props: EntryProps) {
       </div>
       <div className="flex flex-col gap-1">
         <div>
-          {formatDate(props.startDate)} -{" "}
-          {props.endDate.year && props.endDate.month
-            ? formatDate(props.endDate)
-            : "now"}
+          {formattedDateTime(props.startDate)} -{" "}
+          {props.endDate ? formattedDateTime(props.endDate) : "present"}
         </div>
         <div className="self-end">{buildLocation(props.location)}</div>
       </div>

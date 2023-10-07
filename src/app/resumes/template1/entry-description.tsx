@@ -1,14 +1,14 @@
-type EntryDescriptionProps = {
-  descriptions: string[];
-  index: number;
-};
+// type EntryAchievementsProps = {
+//   achievements: string[];
+//   index: number;
+// };
 
-export default function EntryDescription(props: EntryDescriptionProps) {
+export default function EntryAchievements(props) {
   return (
     <ul className="p-4">
-      {props.descriptions.map((description: string, index: number) => (
+      {props.achievements.map((achievement, index: number) => (
         <li key={index + props.index} className="text-justify">
-          {description}
+          {achievement.description}
         </li>
       ))}
     </ul>

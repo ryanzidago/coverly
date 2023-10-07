@@ -2,212 +2,99 @@
 
 import { useEffect, useRef, useState } from "react";
 import Template1 from "../template1/template1";
-import { getResume } from "@/data/db";
 import Image from "next/image";
 
-const PROFESSIONAL_SUMMARIES = [
-  {
-    id: 1,
-    content:
-      "4 years of experience developing, testing, and troubleshooting product features within tight deadlines to get buy-in from prospective clients, or to make existing ones delighted. I thrive in a high-stake, fast-paced and dynamic environment with competing demands and constantly shifting priorities. I enjoy breaking down features into small parts that can incrementally be delivered to clients.",
-  },
-  {
-    id: 2,
-    content:
-      "Experienced software engineer with a strong background in developing scalable and maintainable software solutions for diverse clients. Proficient in multiple programming languages and frameworks, including Java, Python, and React. Skilled in agile development methodologies and cross-functional team collaboration. Proven track record of delivering high-quality software products on time and within budget. Passionate about continuous learning and staying up-to-date with emerging technologies",
-  },
-];
+import { getResume } from "@/app/actions";
+import { v4 as uuidv4 } from "uuid";
 
-const WORK_ENTRIES = [
-  {
-    id: 1,
-    kind: "work",
-    title: "Fullstack Software Engineer",
-    companyName: "Sona",
-    companyDescription:
-      "Building the people operating system that frontline team needs",
-    website: "https://getsona.com",
-    location: {
-      city: "",
-      country: "",
-      number: "",
-      street: "",
-      postalCode: "",
-      remote: true,
-    },
-    startDate: {
-      year: "2020",
-      month: "9",
-    },
-    endDate: {
-      year: "2022",
-      month: "4",
-    },
-    descriptions: [
-      'Making the experience of working with shifts easier for frontline and deskless workers in health, social care, retail, hospitality, and the voluntary sector by programming Sona\'s "people operating system".',
-      "Fixed critical bug preventing clients from publishing shifts to their rosters, while on a call with the entire tech department",
-    ],
-    currentWork: true,
-  },
-  {
-    id: 2,
-    kind: "work",
-    title: "Software Engineer",
-    companyName: "JobValley",
-    companyDescription:
-      "HR solution for employers, working students and young professionals",
-    website: "https://jobvalley.com",
-    location: {
-      city: "",
-      country: "",
-      number: "",
-      street: "",
-      postalCode: "",
-      remote: true,
-    },
-    startDate: {
-      year: "2020",
-      month: "9",
-    },
-    endDate: {
-      year: "2022",
-      month: "4",
-    },
-    descriptions: [
-      "Building the next generation of staffing software specialized for working students and recent graduate. I was responsible for automating and improving human ressources, legal and other business processes by proposing, developing, testing and deploying new features.",
-      "Deployed stuff here and there",
-    ],
-    currentWork: false,
-  },
-];
+// const PROFESSIONAL_SUMMARIES = [
+//   {
+//     id: 1,
+//     content:
+//       "4 years of experience developing, testing, and troubleshooting product features within tight deadlines to get buy-in from prospective clients, or to make existing ones delighted. I thrive in a high-stake, fast-paced and dynamic environment with competing demands and constantly shifting priorities. I enjoy breaking down features into small parts that can incrementally be delivered to clients.",
+//   },
+//   {
+//     id: 2,
+//     content:
+//       "Experienced software engineer with a strong background in developing scalable and maintainable software solutions for diverse clients. Proficient in multiple programming languages and frameworks, including Java, Python, and React. Skilled in agile development methodologies and cross-functional team collaboration. Proven track record of delivering high-quality software products on time and within budget. Passionate about continuous learning and staying up-to-date with emerging technologies",
+//   },
+// ];
 
 const EMPTY_WORK_ENTRY = {
-  id: 1000,
+  id: uuidv4(),
   kind: "work",
-  title: "",
-  companyName: "",
-  companyDescription: "",
-  website: "",
+  position: "",
+  contractType: "",
+  organisation: {
+    name: "",
+    website: "",
+  },
   location: {
     city: "",
     country: "",
-    number: "",
-    street: "",
-    postalCode: "",
     remote: true,
   },
-  startDate: {
-    year: "",
-    month: "",
-  },
-  endDate: {
-    year: "",
-    month: "",
-  },
-  descriptions: [],
-  currentWork: true,
+  startDate: null,
+  endDate: null,
+  achievements: [],
+  current: true,
 };
 
-const EDUCATION_ENTRIES = [
-  {
-    id: 1,
-    kind: "education",
-    area: "Web Development",
-    studyType: "Bootcamp",
-    institutionName: "The Hacking Project",
-    website: "https://thehackingproject.com",
-    location: {
-      city: "Paris",
-      country: "France",
-      postalCode: "",
-      street: "",
-      number: "",
-      remote: false,
-    },
-    grade: "",
-    startDate: {
-      year: "2019",
-      month: "5",
-    },
-    endDate: {
-      year: "2019",
-      month: "7",
-    },
-    descriptions: [
-      "During this 11-weeks intensive coding bootcamp, I was introduced to Web development. I learned how to write software, build and deploy websites with Ruby, Ruby on Rails, PostgreSQL, HTML & CSS, Heroku, Git and GitHub. I also learned and used Python and OpenCV in order to scan QR codes, as part of my team's final project.",
-    ],
-    currentEducation: false,
-  },
-];
-
 const EMPTY_EDUCATION_ENTRY = {
-  id: 9990,
+  id: uuidv4(),
   kind: "education",
   area: "",
   studyType: "",
-  institutionName: "",
+  organisation: {
+    name: "",
+    website: "",
+  },
   website: "",
   location: {
     city: "",
     country: "",
-    postalCode: "",
-    street: "",
-    number: "",
     remote: false,
   },
   grade: "",
-  startDate: {
-    year: "",
-    month: "",
-  },
-  endDate: {
-    year: "",
-    month: "",
-  },
-  descriptions: [],
-  currentEducation: false,
+  startDate: null,
+  endDate: null,
+  achievements: [],
+  current: false,
 };
 
 export default function Page() {
-  const [formData, setFormData] = useState(null);
+  const [resume, setResume] = useState(null);
 
   useEffect(() => {
-    const id = 1;
-    getResume(id).then((resume) => {
-      if (resume) {
-        setFormData(resume);
-      } else {
-        throw `Resume with id ${id} not found`;
-      }
+    getResume().then((resume) => {
+      console.log("Got resume:", resume);
+      setResume(resume);
     });
   }, []);
 
   return (
-    formData && (
+    resume && (
       <div className="flex flex-col xl:flex-row items-center justify-center text-slate-700 text-justify">
         <section className=" xl:w-1/2 lg:w-full min-w-content overflow-auto h-screen print:hidden">
           <div className="flex flex-col gap-8 px-32 py-12">
             <h1 className="text-xl font-bold text-slate-600">
               <input
                 type="text"
-                value={formData.metadata.title}
+                value={resume.title}
                 onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    metadata: { ...prev.metadata, title: e.target.value },
-                  }))
+                  setResume((prev) => ({ ...prev, title: e.target.value }))
                 }
                 className="appearance-none  rounded-md p-1"
               />
             </h1>
-            <Contact formData={formData} />
-            <ProfessionalSummary formData={formData} />
-            <WorkEntries formData={formData} />
-            <EducationEntries formData={formData} />
+            <Contact resume={resume} />
+            {/* <ProfessionalSummary resume={resume} /> */}
+            <WorkEntries resume={resume} />
+            <EducationEntries resume={resume} />
           </div>
         </section>
         <div className="h-screen xl:w-1/2 w-full">
-          <Template1 formData={formData} />
+          <Template1 resume={resume} />
         </div>
       </div>
     )
@@ -248,7 +135,7 @@ export default function Page() {
     );
   }
 
-  function Contact({ formData: { contactEntry } }) {
+  function Contact({ resume: { contactEntry } }) {
     const { firstName, lastName, email, phoneNumber } = contactEntry;
     return (
       <Section title="Contact">
@@ -275,24 +162,24 @@ export default function Page() {
     );
   }
 
-  function ProfessionalSummary({ formData }) {
-    return (
-      <Section title="Professional Summary">
-        <ul className="flex flex-col gap-8">
-          {PROFESSIONAL_SUMMARIES.map((summary) => (
-            <li key={summary.id}>
-              <div className="relative flex flex-row gap-2 group">
-                <Field show={true} value={summary.content} checked={false} />
-              </div>
-            </li>
-          ))}
-        </ul>
-      </Section>
-    );
-  }
+  // function ProfessionalSummary({ resume }) {
+  //   return (
+  //     <Section title="Professional Summary">
+  //       <ul className="flex flex-col gap-8">
+  //         {PROFESSIONAL_SUMMARIES.map((summary) => (
+  //           <li key={summary.id}>
+  //             <div className="relative flex flex-row gap-2 group">
+  //               <Field show={true} value={summary.content} checked={false} />
+  //             </div>
+  //           </li>
+  //         ))}
+  //       </ul>
+  //     </Section>
+  //   );
+  // }
 
-  function WorkEntries({ formData }) {
-    const [entries, setEntries] = useState(WORK_ENTRIES);
+  function WorkEntries({ resume }) {
+    const [entries, setEntries] = useState(resume.workEntries);
 
     function addEntry() {
       setEntries((prevEntries) => [...prevEntries, EMPTY_WORK_ENTRY]);
@@ -311,7 +198,13 @@ export default function Page() {
             <Entry
               key={entry.id}
               entry={entry}
-              header={`${entry.title} at ${entry.companyName} in ${entry.startDate.year}`}
+              header={`
+              ${entry.position} at 
+              ${entry.organisation.name} 
+              in ${entry.startDate?.toLocaleDateString("en-US", {
+                month: "short",
+              })} 
+              ${entry.startDate?.getFullYear()}`}
               onDelete={() => deleteEntry(entry)}
               editEntry={entry.id === EMPTY_WORK_ENTRY.id}
             />
@@ -321,8 +214,8 @@ export default function Page() {
     );
   }
 
-  function EducationEntries({}) {
-    const [entries, setEntries] = useState(EDUCATION_ENTRIES);
+  function EducationEntries({ resume }) {
+    const [entries, setEntries] = useState(resume.educationEntries);
 
     function addEntry() {
       setEntries((prevEntries) => [...prevEntries, EMPTY_EDUCATION_ENTRY]);
@@ -340,7 +233,9 @@ export default function Page() {
           <Entry
             key={entry.id}
             entry={entry}
-            header={`${entry.studyType}, ${entry.area} at ${entry.institutionName} in ${entry.startDate.year}`}
+            header={`${entry.type}, ${entry.domain} at ${
+              entry.organisation.name
+            } in ${entry?.startDate?.getFullYear()}`}
             onDelete={() => deleteEntry(entry)}
             editEntry={entry.id === EMPTY_EDUCATION_ENTRY.id}
           />
@@ -569,10 +464,10 @@ export default function Page() {
       setEditEntry((prev) => !prev);
     }
 
-    function addDescription() {
+    function addAchievement() {
       setEntry((prev) => ({
         ...prev,
-        descriptions: [...prev.descriptions, ""],
+        achievements: [...prev.achievements, ""],
       }));
     }
 
@@ -597,7 +492,7 @@ export default function Page() {
             className="font-medium"
             onChecked={toggleChecked}
             onEdit={toggleEditEntry}
-            onAdd={addDescription}
+            onAdd={addAchievement}
             onDelete={onDelete}
           >
             {header}
@@ -607,12 +502,12 @@ export default function Page() {
           ${checked ? "" : "pointer-events-none"}
           `}
           >
-            {entry.descriptions.map((description, index) => (
+            {entry.achievements.map((achievement, index) => (
               <Field
                 type="textarea"
                 key={index}
                 show={true}
-                value={description}
+                value={achievement.description}
               />
             ))}
           </div>
@@ -803,30 +698,29 @@ export default function Page() {
       yearOptions.push(i);
     }
 
-    const [date, setDate] = useState(value);
+    const [month, setMonth] = useState(value?.getMonth() + 1);
+    const [year, setYear] = useState(value?.getFullYear());
 
     function handleChange(event) {
       const key = event.target.name;
       const value = event.target.value;
 
-      setDate((prev) => {
-        const updatedDate = { ...prev, [key]: value };
-        return updatedDate;
-      });
+      if (key === "month") setMonth(value);
+      if (key === "year") setYear(value);
 
-      onChange({ target: { name: name, value: date } });
+      onChange({ target: { name: name, value: new Date(year, month) } });
     }
 
     return (
       <div className="flex flex-row gap-16 justify-between">
         <select
-          value={date.month}
+          value={month}
           name={"month"}
           onChange={handleChange}
           className="flex flex-col appearance-none w-full bg-white rounded shadow border px-4 py-2"
         >
           {/* dates are zero-based in js */}
-          {date.month ? null : <option></option>}
+          {month ? null : <option></option>}
           <option value={1}>January</option>
           <option value={2}>February</option>
           <option value={3}>March</option>
@@ -843,7 +737,7 @@ export default function Page() {
         <input
           type="number"
           name={"year"}
-          value={date.year}
+          value={year}
           onChange={handleChange}
           className="appearance-none w-full rounded shadow border px-4 py-2"
         />

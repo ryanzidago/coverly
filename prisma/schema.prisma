@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid()) @db.Uuid
+  firstName  String   @db.VarChar
+  lastName   String   @db.VarChar
+  insertedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  resumes    Resume[]
+
+  @@map("users")
+}
+
+model Resume {
+  id               String           @id @default(uuid()) @db.Uuid
+  title            String           @db.VarChar
+  authorId         String           @db.Uuid
+  insertedAt       DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  label            String?          @db.VarChar
+  contactEntry     ContactEntry?
+  educationEntries EducationEntry[]
+  projectEntry     ProjectEntry[]
+  author           User             @relation(fields: [authorId], references: [id])
+  workEntries      WorkEntry[]
+
+  @@map("resumes")
+}
+
+model ContactEntry {
+  id            String   @id @default(uuid()) @db.Uuid
+  resumeId      String   @unique @db.Uuid
+  firstName     String   @db.VarChar
+  lastName      String   @db.VarChar
+  email         String   @db.VarChar
+  phoneNumber   Json?
+  location      Json?
+  externalLinks Json[]
+  insertedAt    DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  resume        Resume   @relation(fields: [resumeId], references: [id])
+
+  @@map("contact_entries")
+}
+
+model WorkEntry {
+  id             String            @id @default(uuid()) @db.Uuid
+  resumeId       String            @db.Uuid
+  position       String?
+  startDate      DateTime
+  endDate        DateTime?
+  location       Json?
+  organisationId String            @db.Uuid
+  employmentType EmploymentType
+  insertedAt     DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  achievements   WorkAchievement[]
+  organisation   Organisation      @relation(fields: [organisationId], references: [id])
+  resume         Resume            @relation(fields: [resumeId], references: [id])
+
+  @@map("work_entries")
+}
+
+model EducationEntry {
+  id             String                 @id @default(uuid()) @db.Uuid
+  resumeId       String                 @db.Uuid
+  startDate      DateTime
+  endDate        DateTime?
+  location       Json?
+  domain         String                 @db.VarChar
+  type           String                 @db.VarChar
+  organisationId String                 @db.Uuid
+  insertedAt     DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  achievements   EducationAchievement[]
+  organisation   Organisation           @relation(fields: [organisationId], references: [id])
+  resume         Resume                 @relation(fields: [resumeId], references: [id])
+
+  @@map("education_entries")
+}
+
+model ProjectEntry {
+  id           String               @id @default(uuid()) @db.Uuid
+  resumeId     String               @db.Uuid
+  startDate    DateTime
+  endDate      DateTime?
+  website      String?
+  insertedAt   DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  achievements ProjectAchievement[]
+  resume       Resume               @relation(fields: [resumeId], references: [id])
+
+  @@map("project_entries")
+}
+
+model Organisation {
+  id               String           @id @default(uuid()) @db.Uuid
+  name             String           @db.VarChar
+  website          String?          @db.VarChar
+  insertedAt       DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  educationEntries EducationEntry[]
+  workEntries      WorkEntry[]
+
+  @@map("organisations")
+}
+
+model WorkAchievement {
+  id          String    @id @default(uuid()) @db.Uuid
+  workEntryId String    @db.Uuid
+  description String
+  insertedAt  DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  workEntry   WorkEntry @relation(fields: [workEntryId], references: [id])
+
+  @@map("work_achievements")
+}
+
+model EducationAchievement {
+  id               String         @id @default(uuid()) @db.Uuid
+  educationEntryId String         @db.Uuid
+  description      String
+  insertedAt       DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  educationEntry   EducationEntry @relation(fields: [educationEntryId], references: [id])
+
+  @@map("education_achievements")
+}
+
+model ProjectAchievement {
+  id             String       @id @default(uuid()) @db.Uuid
+  projectEntryId String       @db.Uuid
+  description    String
+  insertedAt     DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  projectEntry   ProjectEntry @relation(fields: [projectEntryId], references: [id])
+
+  @@map("project_achievements")
+}
+
+enum EmploymentType {
+  Employee
+  SelfEmployed
+  Intern
+  Trainee
+  Apprentice
+  Volunteer
+}
