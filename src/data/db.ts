@@ -25,13 +25,6 @@ export async function allResumes() {
 
 export async function getResume(id: number) {
   await db.read();
-  console.log(
-    "ID",
-    id,
-    "FINDING_RESUME",
-    db.data.resumes.find((existingResume) => existingResume.id === id),
-  );
-
   return db.data.resumes.find((existingResume) => existingResume.id === id);
 }
 

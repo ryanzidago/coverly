@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Template1 from "../template1/template1";
 import Image from "next/image";
 
-import { getResume } from "@/app/actions";
+import { getResume, updateWorkEntry } from "@/app/actions";
 import { v4 as uuidv4 } from "uuid";
 
 // const PROFESSIONAL_SUMMARIES = [
@@ -34,8 +34,8 @@ const EMPTY_WORK_ENTRY = {
     country: "",
     remote: true,
   },
-  startDate: null,
-  endDate: null,
+  startDate: undefined,
+  endDate: undefined,
   achievements: [],
   current: true,
 };
@@ -56,14 +56,14 @@ const EMPTY_EDUCATION_ENTRY = {
     remote: false,
   },
   grade: "",
-  startDate: null,
-  endDate: null,
+  startDate: undefined,
+  endDate: undefined,
   achievements: [],
   current: false,
 };
 
 export default function Page() {
-  const [resume, setResume] = useState(null);
+  const [resume, setResume] = useState(undefined);
 
   useEffect(() => {
     getResume().then((resume) => {
@@ -257,6 +257,13 @@ export default function Page() {
       setEntry((prev) => ({ ...prev, [key]: value }));
     }
 
+    useEffect(() => {
+      updateWorkEntry(entry).then((upsertedEntry) => {
+        console.log("Upserted entry", upsertedEntry);
+        setEntry(entry);
+      });
+    }, []);
+
     return (
       <form>
         <fieldset>
@@ -266,7 +273,7 @@ export default function Page() {
               <input
                 className="appearance-none border rounded shadow p-1"
                 type="text"
-                value={entry.title}
+                value={entry.position}
                 name="title"
                 onChange={handleChange}
               />
@@ -277,7 +284,7 @@ export default function Page() {
                 className="appearance-none border rounded shadow p-1"
                 type="text"
                 name="companyName"
-                value={entry.companyName}
+                value={entry.organisation.name || ""}
                 onChange={handleChange}
               />
             </div>
@@ -287,7 +294,7 @@ export default function Page() {
                 type="url"
                 className="appearance-none border rounded shadow p-1"
                 name="website"
-                value={entry.website}
+                value={entry.organisation.website || ""}
                 onChange={handleChange}
               />
             </div>
@@ -471,10 +478,13 @@ export default function Page() {
       }));
     }
 
-    if (editEntry && entry.kind == "work")
-      return <WorkEntryForm entry={entry} onCancel={toggleEditEntry} />;
-    if (editEntry && entry.kind == "education")
-      return <EducationEntryForm entry={entry} onCancel={toggleEditEntry} />;
+    if (editEntry) {
+      if (Object.keys(entry).includes("employmentType")) {
+        return <WorkEntryForm entry={entry} onCancel={toggleEditEntry} />;
+      } else {
+        return <EducationEntryForm entry={entry} onCancel={toggleEditEntry} />;
+      }
+    }
 
     if (!editEntry)
       return (
@@ -676,19 +686,6 @@ export default function Page() {
     }
   }
 
-  function focusOnTextArea(textAreaRef) {
-    if (textAreaRef.current) {
-      textAreaRef.current.focus();
-    }
-  }
-
-  function placeCursorAtTextAreaEnd(textAreaRef) {
-    if (textAreaRef.current) {
-      const length = textAreaRef.current.value.length;
-      textAreaRef.current.setSelectionRange(length, length);
-    }
-  }
-
   function DateInput({ value, name, onChange = (event) => {} }) {
     const startYear: number = 1900;
     const currentYear: number = new Date().getFullYear();
@@ -746,8 +743,9 @@ export default function Page() {
   }
 
   function LocationInput({ name, value, onChange }) {
-    const [location, setLocation] = useState(value);
-    const [remote, setRemote] = useState(false);
+    const [city, setCity] = useState(value.city);
+    const [country, setCountry] = useState(value.country);
+    const [remote, setRemote] = useState(value.remote);
 
     function toggleRemote() {
       setRemote((prev) => !prev);
@@ -757,10 +755,10 @@ export default function Page() {
       const key = event.target.name;
       const value = event.target.value;
 
-      setLocation((prev) => {
-        onChange({ target: { name: name, value: value } });
-        return { ...prev, [key]: value };
-      });
+      if (key === "city") setCity(value);
+      if (key === "country") setCountry(value);
+
+      onChange({ target: { name: name, value: { city, country, remote } } });
     }
 
     return (
@@ -778,7 +776,7 @@ export default function Page() {
             <label>City</label>
             <input
               type="text"
-              value={location?.city}
+              value={city}
               onChange={handleChange}
               className="appearance-none border rounded shadow p-1"
             />
@@ -787,7 +785,7 @@ export default function Page() {
             <label>Country</label>
             <input
               type="text"
-              value={location?.country}
+              value={country}
               onChange={handleChange}
               className="appearance-none border rounded shadow p-1"
             />

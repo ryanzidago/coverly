@@ -8,8 +8,6 @@ export function Draggable(props) {
       data: props.data,
     });
 
-  console.log(isDragging);
-
   const style = transform
     ? {
         transform: CSS.Translate.toString(transform),

@@ -34,7 +34,31 @@ export async function getResume() {
     },
   });
 
-  console.log(resume);
-
   return resume;
+}
+
+export async function updateWorkEntry(workEntry) {
+  const {
+    id,
+    employmentType,
+    position,
+    startDate,
+    endDate,
+    location,
+    organisationId,
+    organisation,
+  } = workEntry;
+  return await prisma.workEntry.update({
+    where: {
+      id: workEntry.id,
+    },
+    data: {
+      employmentType: employmentType,
+      position: position,
+      startDate: startDate,
+      endDate: endDate,
+      location: location,
+      organisationId: organisationId,
+    },
+  });
 }

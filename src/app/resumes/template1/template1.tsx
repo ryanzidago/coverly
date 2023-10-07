@@ -8,8 +8,6 @@ import Section from "./section";
 export default function Template1({ resume }) {
   const { contactEntry, workEntries, educationEntries } = resume;
 
-  console.log("contact entry", contactEntry);
-
   return (
     <div
       id="template1"
