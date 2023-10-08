@@ -22,7 +22,6 @@ import { v4 as uuidv4 } from "uuid";
 
 const EMPTY_WORK_ENTRY = {
   id: uuidv4(),
-  kind: "work",
   position: "",
   contractType: "",
   organisation: {
@@ -42,7 +41,6 @@ const EMPTY_WORK_ENTRY = {
 
 const EMPTY_EDUCATION_ENTRY = {
   id: uuidv4(),
-  kind: "education",
   area: "",
   studyType: "",
   organisation: {
@@ -244,25 +242,30 @@ export default function Page() {
     );
   }
 
-  function WorkEntryForm({
-    entry: defaultEntry,
-    onCancel = () => {},
-    onSave = () => {},
-  }) {
+  function WorkEntryForm({ entry: defaultEntry, onCancel, onSave }) {
     const [entry, setEntry] = useState(defaultEntry);
+
+    console.log(entry);
 
     function handleChange(event) {
       const key = event.target.name;
       const value = event.target.value;
+
       setEntry((prev) => ({ ...prev, [key]: value }));
     }
 
-    useEffect(() => {
-      updateWorkEntry(entry).then((upsertedEntry) => {
-        console.log("Upserted entry", upsertedEntry);
-        setEntry(entry);
+    function handleSave(event) {
+      updateWorkEntry(entry).then((updatedEntry) => {
+        console.log("Entry updated:", updatedEntry);
+        setEntry(updatedEntry);
       });
-    }, []);
+
+      onSave && onSave();
+    }
+
+    useEffect(() => {
+      console.log("The entry has been updated:", entry);
+    }, [entry]);
 
     return (
       <form>
@@ -274,7 +277,7 @@ export default function Page() {
                 className="appearance-none border rounded shadow p-1"
                 type="text"
                 value={entry.position}
-                name="title"
+                name="position"
                 onChange={handleChange}
               />
             </div>
@@ -283,7 +286,7 @@ export default function Page() {
               <input
                 className="appearance-none border rounded shadow p-1"
                 type="text"
-                name="companyName"
+                name="name"
                 value={entry.organisation.name || ""}
                 onChange={handleChange}
               />
@@ -334,9 +337,9 @@ export default function Page() {
                 Cancel
               </button>
               <button
-                type="submit"
+                type="button"
                 className="appearance-none border rounded shadow p-1 w-full"
-                onClick={onSave}
+                onClick={handleSave}
               >
                 Save
               </button>
@@ -471,6 +474,8 @@ export default function Page() {
       setEditEntry((prev) => !prev);
     }
 
+    useEffect(() => {}, [editEntry]);
+
     function addAchievement() {
       setEntry((prev) => ({
         ...prev,
@@ -478,9 +483,19 @@ export default function Page() {
       }));
     }
 
+    console.log("Parent re-renders");
+
+    console.log("Entry after parent re-rendering", entry);
+
     if (editEntry) {
       if (Object.keys(entry).includes("employmentType")) {
-        return <WorkEntryForm entry={entry} onCancel={toggleEditEntry} />;
+        return (
+          <WorkEntryForm
+            entry={entry}
+            onCancel={toggleEditEntry}
+            onSave={toggleEditEntry}
+          />
+        );
       } else {
         return <EducationEntryForm entry={entry} onCancel={toggleEditEntry} />;
       }
@@ -743,9 +758,9 @@ export default function Page() {
   }
 
   function LocationInput({ name, value, onChange }) {
-    const [city, setCity] = useState(value.city);
-    const [country, setCountry] = useState(value.country);
-    const [remote, setRemote] = useState(value.remote);
+    const [city, setCity] = useState(value.city || "");
+    const [country, setCountry] = useState(value.country || "");
+    const [remote, setRemote] = useState(value.remote || false);
 
     function toggleRemote() {
       setRemote((prev) => !prev);
@@ -764,7 +779,11 @@ export default function Page() {
     return (
       <div className="flex flex-col gap-4">
         <div className="flex gap-2 justify-start items-center">
-          <input type="checkbox" onClick={toggleRemote} />
+          <input
+            type="checkbox"
+            defaultChecked={remote}
+            onClick={toggleRemote}
+          />
           <label>Remote</label>
         </div>
         <div
