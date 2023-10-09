@@ -37,6 +37,19 @@ export async function getResume() {
   return resume;
 }
 
+export async function updateResume(updatedResume) {
+  const resume = await prisma.resume.update({
+    where: {
+      id: "bba71748-52e4-4e91-8d28-df3529768254",
+    },
+    data: {
+      title: updatedResume.title,
+    },
+  });
+
+  return resume;
+}
+
 export async function updateWorkEntry(workEntry) {
   const {
     id,

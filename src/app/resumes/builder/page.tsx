@@ -1,71 +1,37 @@
 "use client";
 
+import { getResume, updateResume, updateWorkEntry } from "@/app/actions";
 import { useEffect, useRef, useState } from "react";
-import { StrictMode } from "react";
 import Template1 from "../template1/template1";
 import Image from "next/image";
 
-import { getResume, updateWorkEntry } from "@/app/actions";
-import { v4 as uuidv4 } from "uuid";
-
-const EMPTY_WORK_ENTRY = {
-  id: uuidv4(),
-  position: "",
-  contractType: "",
-  organisation: {
-    name: "",
-    website: "",
-  },
-  location: {
-    city: "",
-    country: "",
-    remote: true,
-  },
-  startDate: undefined,
-  endDate: undefined,
-  achievements: [],
-  current: true,
-};
-
-const EMPTY_EDUCATION_ENTRY = {
-  id: uuidv4(),
-  area: "",
-  studyType: "",
-  organisation: {
-    name: "",
-    website: "",
-  },
-  website: "",
-  location: {
-    city: "",
-    country: "",
-    remote: false,
-  },
-  grade: "",
-  startDate: undefined,
-  endDate: undefined,
-  achievements: [],
-  current: false,
-};
-
 export default function Page() {
-  const [resume, setResume] = useState(undefined);
-
-  // setting the UI state based on the database state
+  const [resume, setResume] = useState(null);
+  // fetching the resume from the database state
+  // and putting it in the UI state
   useEffect(() => {
-    getResume().then((resume) => {
-      console.log("got resume:", resume);
-
-      setResume(resume);
-    });
+    getResume().then((resume) => setResume(resume));
   }, []);
 
+  function handleTitleChange(event) {
+    const updatedResume = { ...resume, title: event.target.value };
+    setResume(updatedResume);
+    updateResume(updatedResume);
+  }
+
+  function handleSave(resume) {
+    setResume(resume);
+    updateResume(resume);
+  }
+
   useEffect(() => {
-    console.log("Resume has changed!", resume);
+    console.log("resume changed!!", resume);
   }, [resume]);
 
-  return (
-    resume && (
+  if (!resume) return <p>Loading ...</p>;
+
+  if (resume)
+    return (
       <div className="flex flex-col xl:flex-row items-center justify-center text-slate-700 text-justify">
         <section className=" xl:w-1/2 lg:w-full min-w-content overflow-auto h-screen print:hidden">
           <div className="flex flex-col gap-8 px-32 py-12">
@@ -73,22 +39,48 @@ export default function Page() {
               <input
                 type="text"
                 value={resume.title}
-                onChange={(e) =>
-                  setResume((prev) => ({ ...prev, title: e.target.value }))
-                }
+                onChange={handleTitleChange}
                 className="appearance-none  rounded-md p-1"
               />
             </h1>
-            <Contact resume={resume} />
-            <WorkEntries resume={resume} onResumeChange={setResume} />
-            <EducationEntries resume={resume} />
+            <WorkEntries resume={resume} onResumeSave={handleSave} />
+            {/* <Contact resume={resume} />
+          <EducationEntries resume={resume} /> */}
           </div>
         </section>
         <div className="h-screen xl:w-1/2 w-full">
           <Template1 resume={resume} />
         </div>
       </div>
-    )
+    );
+}
+
+function WorkEntries({ resume, onResumeSave }) {
+  return (
+    <div>
+      <Section
+        title="Work Experience"
+        // onAdd={onAdd}
+      >
+        {resume.workEntries.map((entry) => (
+          <Entry
+            key={entry.id}
+            entry={entry}
+            header={`
+              ${entry.position} at 
+              ${entry.organisation.name} 
+              in ${entry.startDate?.toLocaleDateString("en-US", {
+                month: "short",
+              })} 
+              ${entry.startDate?.getFullYear()}`}
+            resume={resume}
+            onResumeSave={onResumeSave}
+            // onDelete={() => deleteEntry(entry)}
+            // editEntry={entry.id === EMPTY_WORK_ENTRY.id}
+          />
+        ))}
+      </Section>
+    </div>
   );
 }
 
@@ -127,135 +119,126 @@ function Section({ children, title, className, onAdd }) {
   );
 }
 
-function Contact({ resume: { contactEntry } }) {
-  const { firstName, lastName, email, phoneNumber } = contactEntry;
-  return (
-    <Section title="Contact">
-      <div>
-        <div className="flex flex-col">
-          <div>
-            <Field type="text" value={firstName} show={true} />
-            <Field type="text" value={lastName} show={true} />
-          </div>
-        </div>
+function Entry({
+  entry: initialEntry,
+  onDelete,
+  header,
+  editEntry: initialEditEntry = false,
+  resume,
+  onResumeSave,
+}) {
+  // the problem is that every time the component re - renders,
+  // it takes the initialEntry ...
+  // so I'd need to re-load the resume??
+  // console.log("initialEntry", initialEntry);
 
-        <div className="flex flex-col">
-          <Field type="text" value={email} show={true} />
-        </div>
+  const [entry, setEntry] = useState(initialEntry);
+  const [checked, setChecked] = useState(true);
+  const [editEntry, setEditEntry] = useState(initialEditEntry);
 
-        <div className="flex flex-col">
-          <div>
-            <Field type="text" value={phoneNumber.countryCode} show={true} />
-            <Field type="text" value={phoneNumber.number} show={true} />
-          </div>
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-function WorkEntries({ resume, onResumeChange }) {
-  const [entries, setEntries] = useState(resume.workEntries);
-
-  function addEntry() {
-    setEntries((prevEntries) => [...prevEntries, EMPTY_WORK_ENTRY]);
+  function toggleChecked() {
+    setChecked((prev) => !prev);
   }
 
-  function deleteEntry(entry) {
-    setEntries((prevEntries) => {
-      return prevEntries.filter((prevEntry) => prevEntry.id !== entry.id);
-    });
+  function toggleEditEntry() {
+    setEditEntry((prev) => !prev);
   }
 
-  useEffect(() => {
-    setEntries(resume.workEntries);
-  }, [resume]);
-
-  return (
-    <div>
-      <Section title="Work Experience" onAdd={addEntry}>
-        {entries.map((entry) => (
-          <Entry
-            key={entry.id}
-            entry={entry}
-            header={`
-              ${entry.position} at 
-              ${entry.organisation.name} 
-              in ${entry.startDate?.toLocaleDateString("en-US", {
-                month: "short",
-              })} 
-              ${entry.startDate?.getFullYear()}`}
-            onDelete={() => deleteEntry(entry)}
-            resume={resume}
-            onResumeChange={onResumeChange}
-            editEntry={entry.id === EMPTY_WORK_ENTRY.id}
-          />
-        ))}
-      </Section>
-    </div>
-  );
-}
-
-function EducationEntries({ resume }) {
-  const [entries, setEntries] = useState(resume.educationEntries);
-
-  function addEntry() {
-    setEntries((prevEntries) => [...prevEntries, EMPTY_EDUCATION_ENTRY]);
+  function handleSave(entry) {
+    toggleEditEntry();
+    setEntry(entry);
+    updateWorkEntry(entry);
   }
 
-  function deleteEntry(entry) {
-    setEntries((prevEntries) => {
-      return prevEntries.filter((prevEntry) => prevEntry.id !== entry.id);
-    });
+  function handleChange(entry) {
+    setEntry(entry);
   }
 
-  return (
-    <Section title="Education" onAdd={addEntry}>
-      {entries.map((entry) => (
-        <Entry
-          key={entry.id}
+  // useEffect(() => {
+  //   console.log("entry changed!", entry);
+  // }, [entry]);
+
+  function addAchievement() {
+    setEntry((prev) => ({
+      ...prev,
+      achievements: [...prev.achievements, ""],
+    }));
+  }
+
+  if (editEntry) {
+    if (Object.keys(entry).includes("employmentType")) {
+      return (
+        <WorkEntryForm
           entry={entry}
-          header={`${entry.type}, ${entry.domain} at ${
-            entry.organisation.name
-          } in ${entry?.startDate?.getFullYear()}`}
-          onDelete={() => deleteEntry(entry)}
-          editEntry={entry.id === EMPTY_EDUCATION_ENTRY.id}
+          resume={resume}
+          onResumeSave={onResumeSave}
+          onCancel={toggleEditEntry}
+          onSave={handleSave}
+          onChange={handleChange}
         />
-      ))}
-    </Section>
-  );
+      );
+    } else {
+      // return <EducationEntryForm entry={entry} onCancel={toggleEditEntry} />;
+    }
+  }
+
+  if (!editEntry)
+    return (
+      <fieldset
+        key={entry.id}
+        className={`
+        flex flex-col gap-4 p-4 justify-between
+        ${checked ? "" : "opacity-50"}
+        `}
+      >
+        <hr />
+
+        <HeaderField
+          show={true}
+          className="font-medium"
+          onChecked={toggleChecked}
+          onEdit={toggleEditEntry}
+          onAdd={addAchievement}
+          onDelete={onDelete}
+        >
+          {header}
+        </HeaderField>
+        <div
+          className={`flex flex-col gap-4 justify-between
+          ${checked ? "" : "pointer-events-none"}
+          `}
+        >
+          {entry.achievements.map((achievement, index) => (
+            <Field
+              type="textarea"
+              key={index}
+              show={true}
+              value={achievement.description}
+            />
+          ))}
+        </div>
+      </fieldset>
+    );
 }
 
 function WorkEntryForm({
-  entry: parentEntry,
+  entry,
   resume,
-  onResumeChange,
+  onResumeSave,
   onCancel,
   onSave,
+  onChange,
 }) {
-  const [entry, setEntry] = useState(parentEntry);
-
-  useEffect(() => {
-    setEntry(parentEntry);
-  }, [parentEntry]);
-
   function handleChange(event) {
     const key = event.target.name;
     const value = event.target.value;
-    setEntry((prev) => ({ ...prev, [key]: value }));
+    onChange({ ...entry, [key]: value });
   }
 
   function handleSave() {
-    updateWorkEntry(entry);
     onSave(entry);
+    getResume().then((resume) => onResumeSave(resume));
   }
-
-  useEffect(() => {
-    getResume().then((resume) => {
-      console.log("setting resume from WorkEntryForm:", resume);
-      onResumeChange(resume);
-    });
-  }, [entry]);
 
   return (
     <form>
@@ -338,216 +321,6 @@ function WorkEntryForm({
       </fieldset>
     </form>
   );
-}
-
-function EducationEntryForm({
-  entry: defaultEntry,
-  onCancel = () => {},
-  onSave = () => {},
-}) {
-  const [entry, setEntry] = useState(defaultEntry);
-
-  function handleChange(event) {
-    const key = event.target.name;
-    const value = event.target.value;
-    setEntry((prev) => ({ ...prev, [key]: value }));
-  }
-
-  return (
-    <form>
-      <fieldset>
-        <div className="flex flex-col gap-8">
-          <div className="flex flex-col gap-2">
-            <label>Area</label>
-            <input
-              className="appearance-none border rounded shadow p-1"
-              type="text"
-              value={entry.area}
-              name="area"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label>Study type</label>
-            <input
-              className="appearance-none border rounded shadow p-1"
-              type="text"
-              name="studyType"
-              value={entry.studyType}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label>Insititution Name</label>
-            <input
-              className="appearance-none border rounded shadow p-1"
-              type="text"
-              name="institutionName"
-              value={entry.institutionName}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label>Institution Website</label>
-            <input
-              type="url"
-              className="appearance-none border rounded shadow p-1"
-              name="website"
-              value={entry.website}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <LocationInput
-              name="location"
-              value={entry.location}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label className="flex flex-col gap-2">
-              Start Date
-              <DateInput
-                value={entry.startDate}
-                name={"startDate"}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
-          <div>
-            <label className="flex flex-col gap-2">
-              End Date
-              <DateInput
-                value={entry.endDate}
-                name={"endDate"}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
-          <div className="flex flex-row gap-16 justify-between">
-            <button
-              type="reset"
-              className="appearance-none border rounded shadow p-1 w-full"
-              onClick={onCancel}
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              className="appearance-none border rounded shadow p-1 w-full"
-              onClick={onSave}
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      </fieldset>
-    </form>
-  );
-}
-
-function Entry({
-  entry: initialEntry,
-  onDelete,
-  header,
-  editEntry: initialEditEntry = false,
-  resume,
-  onResumeChange,
-}) {
-  const [entry, setEntry] = useState(initialEntry);
-  const [checked, setChecked] = useState(true);
-  const [editEntry, setEditEntry] = useState(initialEditEntry);
-
-  function toggleChecked() {
-    setChecked((prev) => !prev);
-  }
-
-  function toggleEditEntry() {
-    setEditEntry((prev) => !prev);
-  }
-
-  function handleSave(entry) {
-    toggleEditEntry();
-  }
-
-  function addAchievement() {
-    setEntry((prev) => ({
-      ...prev,
-      achievements: [...prev.achievements, ""],
-    }));
-  }
-
-  useEffect(() => {
-    if (resume) {
-      const updatedResume = { ...resume };
-
-      updatedResume.workEntries = updatedResume.workEntries.map(
-        (existingEntry) => {
-          if (existingEntry.id === entry.id) {
-            return entry;
-          } else {
-            return existingEntry;
-          }
-        },
-      );
-
-      onResumeChange(updatedResume);
-    }
-  }, [entry]);
-
-  if (editEntry) {
-    if (Object.keys(entry).includes("employmentType")) {
-      return (
-        <WorkEntryForm
-          entry={entry}
-          resume={resume}
-          onResumeChange={onResumeChange}
-          onCancel={toggleEditEntry}
-          onSave={handleSave}
-        />
-      );
-    } else {
-      return <EducationEntryForm entry={entry} onCancel={toggleEditEntry} />;
-    }
-  }
-
-  if (!editEntry)
-    return (
-      <fieldset
-        key={entry.id}
-        className={`
-        flex flex-col gap-4 p-4 justify-between
-        ${checked ? "" : "opacity-50"}
-        `}
-      >
-        <hr />
-
-        <HeaderField
-          show={true}
-          className="font-medium"
-          onChecked={toggleChecked}
-          onEdit={toggleEditEntry}
-          onAdd={addAchievement}
-          onDelete={onDelete}
-        >
-          {header}
-        </HeaderField>
-        <div
-          className={`flex flex-col gap-4 justify-between
-          ${checked ? "" : "pointer-events-none"}
-          `}
-        >
-          {entry.achievements.map((achievement, index) => (
-            <Field
-              type="textarea"
-              key={index}
-              show={true}
-              value={achievement.description}
-            />
-          ))}
-        </div>
-      </fieldset>
-    );
 }
 
 function HeaderField({
