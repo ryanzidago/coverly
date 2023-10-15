@@ -27,7 +27,7 @@ model Resume {
   label            String?          @db.VarChar
   contactEntry     ContactEntry?
   educationEntries EducationEntry[]
-  projectEntry     ProjectEntry[]
+  projectEntries     ProjectEntry[]
   author           User             @relation(fields: [authorId], references: [id])
   workEntries      WorkEntry[]
 
@@ -62,7 +62,7 @@ model WorkEntry {
   insertedAt     DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
   achievements   WorkAchievement[]
-  organisation   Organisation      @relation(fields: [organisationId], references: [id])
+  organisation   Organisation?      @relation(fields: [organisationId], references: [id])
   resume         Resume            @relation(fields: [resumeId], references: [id])
 
   @@map("work_entries")

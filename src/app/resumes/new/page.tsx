@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { StrictMode } from "react";
 import Template1 from "../template1/template1";
 import Image from "next/image";
 

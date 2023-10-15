@@ -26,7 +26,7 @@ export async function getResume() {
           achievements: true,
         },
       },
-      projectEntry: {
+      projectEntries: {
         include: {
           achievements: true,
         },
@@ -72,6 +72,14 @@ export async function updateWorkEntry(workEntry) {
       endDate: endDate,
       location: location,
       organisationId: organisationId,
+    },
+  });
+}
+
+export async function getWorkEntryById(id) {
+  return await prisma.workEntry.findUniqueOrThrow({
+    where: {
+      id: id,
     },
   });
 }
