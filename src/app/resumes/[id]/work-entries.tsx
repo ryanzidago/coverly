@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   updateWorkEntry,
   updateWorkAchievement,
@@ -271,6 +271,7 @@ function Achievement({
   achievement: { id, description },
   onRemove = () => {},
 }) {
+  const textAreaRef = useRef();
   const router = useRouter();
 
   function handleRemove() {
@@ -282,6 +283,10 @@ function Achievement({
 
     router.refresh();
   }
+
+  useEffect(() => {
+    autoResizeTextArea(textAreaRef);
+  }, []);
 
   function handleSubmit() {
     const formElement = document.getElementById(id);
@@ -295,9 +300,10 @@ function Achievement({
       <input type="hidden" name="workAchievementId" defaultValue={id} />
       <label htmlFor={id}>
         <textarea
+          ref={textAreaRef}
           defaultValue={description}
           name="description"
-          className="w-full"
+          className="w-full p-2 rounded"
           placeholder="Tell us about what you've achieved!"
         />
       </label>
@@ -352,4 +358,11 @@ function WorkEntryDropDown({ onAddAchievement, onRemoveWorkEntry }) {
       </Menu>
     </div>
   );
+}
+
+function autoResizeTextArea(textAreaRef) {
+  if (textAreaRef.current) {
+    textAreaRef.current.style.height = "auto";
+    textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
+  }
 }
