@@ -53,6 +53,7 @@ export default function WorkEntries({ resume }) {
             resume={resume}
             workEntry={EMPTY_WORK_ENTRY}
             showForm={true}
+            toggleShowForm={toggleAddWorkEntry}
           />
         )}
         {workEntries.map((workEntry) => {
@@ -69,14 +70,9 @@ export default function WorkEntries({ resume }) {
   );
 }
 
-function WorkEntry({ resume, workEntry, showForm: initShowForm = false }) {
+function WorkEntry({ resume, workEntry, showForm, toggleShowForm }) {
   const router = useRouter();
   const [addAchievement, setAddAchievement] = useState(false);
-  const [showForm, setShowForm] = useState(initShowForm);
-
-  function toggleShowForm() {
-    setShowForm((prev) => !prev);
-  }
 
   function toggleAddAchievement() {
     setAddAchievement((prev) => !prev);
@@ -104,12 +100,6 @@ function WorkEntry({ resume, workEntry, showForm: initShowForm = false }) {
               onAddAchievement={toggleAddAchievement}
               onRemoveWorkEntry={() => removeWorkEntry(workEntry)}
             />
-            {/* <button type="button" className="" onClick={toggleAddAchievement}>
-              Add achievement
-            </button>
-            <button type="button" onClick={() => removeWorkEntry(workEntry)}>
-              Remove
-            </button> */}
           </div>
         </CheckboxedField>
       )}
@@ -120,6 +110,7 @@ function WorkEntry({ resume, workEntry, showForm: initShowForm = false }) {
             <Achievement
               workEntry={workEntry}
               achievement={EMPTY_ACHIEVEMENT}
+              onRemove={toggleAddAchievement}
             />
           )}
           {workEntry.achievements.map((achievement) => (
@@ -274,11 +265,20 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
   );
 }
 
-function Achievement({ workEntry, achievement: { id, description } }) {
+function Achievement({
+  workEntry,
+  achievement: { id, description },
+  onRemove = () => {},
+}) {
   const router = useRouter();
 
   function handleRemove() {
-    deleteWorkAchievement(id);
+    if (id === "empty_achievement") {
+      onRemove();
+    } else {
+      deleteWorkAchievement(id);
+    }
+
     router.refresh();
   }
 
