@@ -4,11 +4,10 @@ import { useState } from "react";
 import {
   updateWorkEntry,
   updateWorkAchievement,
-  removeWorkAchievement,
+  deleteWorkAchievement,
+  deleteWorkEntry,
 } from "./action";
 import { useRouter } from "next/navigation";
-import { debounce } from "@/utils/debounce";
-import { v4 as uuidV4 } from "uuid";
 
 const EMPTY_WORK_ENTRY = {
   id: "empty_work_entry",
@@ -70,6 +69,7 @@ export default function WorkEntries({ resume }) {
 }
 
 function WorkEntry({ resume, workEntry, showForm: initShowForm = false }) {
+  const router = useRouter();
   const [addAchievement, setAddAchievement] = useState(false);
   const [showForm, setShowForm] = useState(initShowForm);
 
@@ -79,6 +79,11 @@ function WorkEntry({ resume, workEntry, showForm: initShowForm = false }) {
 
   function toggleAddAchievement() {
     setAddAchievement((prev) => !prev);
+  }
+
+  function removeWorkEntry(workEntry) {
+    deleteWorkEntry(workEntry.id);
+    router.refresh();
   }
 
   return (
@@ -96,6 +101,9 @@ function WorkEntry({ resume, workEntry, showForm: initShowForm = false }) {
             <Summary workEntry={workEntry} onClick={toggleShowForm} />
             <button type="button" className="" onClick={toggleAddAchievement}>
               Add achievement
+            </button>
+            <button type="button" onClick={() => removeWorkEntry(workEntry)}>
+              Remove
             </button>
           </div>
         </CheckboxedField>
@@ -265,7 +273,7 @@ function Achievement({ workEntry, achievement: { id, description } }) {
   const router = useRouter();
 
   function handleRemove() {
-    removeWorkAchievement(id);
+    deleteWorkAchievement(id);
     router.refresh();
   }
 

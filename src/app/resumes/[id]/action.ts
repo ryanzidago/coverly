@@ -123,6 +123,10 @@ export async function updateWorkEntry(formData) {
   return workEntry;
 }
 
+export async function deleteWorkEntry(workEntryId) {
+  return await prisma.workEntry.delete({ where: { id: workEntryId } });
+}
+
 export async function updateWorkAchievement(formData) {
   const workAchievementId = formData.get("workAchievementId");
   const workEntryId = formData.get("workEntryId");
@@ -147,10 +151,8 @@ export async function updateWorkAchievement(formData) {
   return workAchievement;
 }
 
-export async function removeWorkAchievement(id) {
-  const workAchievement = await prisma.workAchievement.delete({
+export async function deleteWorkAchievement(id) {
+  return await prisma.workAchievement.delete({
     where: { id },
   });
-  console.log("deleted workAchievement");
-  return workAchievement;
 }
