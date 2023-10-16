@@ -8,6 +8,7 @@ import {
   deleteWorkEntry,
 } from "./action";
 import { useRouter } from "next/navigation";
+import { Menu, Transition } from "@headlessui/react";
 
 const EMPTY_WORK_ENTRY = {
   id: "empty_work_entry",
@@ -97,14 +98,18 @@ function WorkEntry({ resume, workEntry, showForm: initShowForm = false }) {
         />
       ) : (
         <CheckboxedField>
-          <div className="w-full flex flex-row justify-between">
+          <div className="relative w-full flex flex-row justify-between">
             <Summary workEntry={workEntry} onClick={toggleShowForm} />
-            <button type="button" className="" onClick={toggleAddAchievement}>
+            <WorkEntryDropDown
+              onAddAchievement={toggleAddAchievement}
+              onRemoveWorkEntry={() => removeWorkEntry(workEntry)}
+            />
+            {/* <button type="button" className="" onClick={toggleAddAchievement}>
               Add achievement
             </button>
             <button type="button" onClick={() => removeWorkEntry(workEntry)}>
               Remove
-            </button>
+            </button> */}
           </div>
         </CheckboxedField>
       )}
@@ -302,5 +307,48 @@ function Achievement({ workEntry, achievement: { id, description } }) {
         <button type="submit">Save</button>
       </div>
     </form>
+  );
+}
+
+function WorkEntryDropDown({ onAddAchievement, onRemoveWorkEntry }) {
+  return (
+    <div className="absolute right-0">
+      <Menu>
+        <Menu.Button className={"absolute right-0"}>Menu</Menu.Button>
+        <Transition
+          enter="transition duration-100 ease-out"
+          enterFrom="transform scale-95 opacity-0"
+          enterTo="transform scale-100 opacity-100"
+          leave="transition duration-75 ease-out"
+          leaveFrom="transform scale-100 opacity-100"
+          leaveTo="transform scale-95 opacity-0"
+        >
+          <Menu.Items className={"flex flex-col p-2 rounded shadow bg-white"}>
+            <Menu.Item>
+              {({}) => (
+                <button
+                  type="button"
+                  className="hover:bg-sky-300 p-2 rounded w-full"
+                  onClick={onAddAchievement}
+                >
+                  Add achievement
+                </button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({}) => (
+                <button
+                  type="button"
+                  className="hover:bg-sky-300 p-2 rounded w-full"
+                  onClick={onRemoveWorkEntry}
+                >
+                  Remove
+                </button>
+              )}
+            </Menu.Item>
+          </Menu.Items>
+        </Transition>
+      </Menu>
+    </div>
   );
 }
