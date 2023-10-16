@@ -29,7 +29,7 @@ export default function WorkEntries({ resume }) {
   const [addWorkEntry, setAddWorkEntry] = useState(false);
   const workEntries = resume.workEntries;
 
-  function toggleAddWorkEntry() {
+  function toggleAddWorkEntryForm() {
     setAddWorkEntry((prev) => !prev);
   }
 
@@ -40,7 +40,7 @@ export default function WorkEntries({ resume }) {
           <div className="flex flex-row w-full justify-between">
             <h2 className="text-xl font-semibold">Work</h2>
             <div>
-              <button type="button" onClick={toggleAddWorkEntry}>
+              <button type="button" onClick={toggleAddWorkEntryForm}>
                 Add a work experience
               </button>
             </div>
@@ -53,7 +53,7 @@ export default function WorkEntries({ resume }) {
             resume={resume}
             workEntry={EMPTY_WORK_ENTRY}
             showForm={true}
-            toggleShowForm={toggleAddWorkEntry}
+            toggleAddWorkEntryForm={toggleAddWorkEntryForm}
           />
         )}
         {workEntries.map((workEntry) => {
@@ -62,6 +62,7 @@ export default function WorkEntries({ resume }) {
               key={workEntry.id}
               resume={resume}
               workEntry={workEntry}
+              toggleAddWorkEntryForm={toggleAddWorkEntryForm}
             />
           );
         })}
@@ -70,7 +71,7 @@ export default function WorkEntries({ resume }) {
   );
 }
 
-function WorkEntry({ resume, workEntry, showForm, toggleShowForm }) {
+function WorkEntry({ resume, workEntry, showForm, toggleAddWorkEntryForm }) {
   const router = useRouter();
   const [addAchievement, setAddAchievement] = useState(false);
 
@@ -89,13 +90,13 @@ function WorkEntry({ resume, workEntry, showForm, toggleShowForm }) {
         <Form
           resume={resume}
           workEntry={workEntry}
-          onCancel={toggleShowForm}
-          onSubmit={toggleShowForm}
+          onCancel={toggleAddWorkEntryForm}
+          onSubmit={toggleAddWorkEntryForm}
         />
       ) : (
         <CheckboxedField>
           <div className="relative w-full flex flex-row justify-between">
-            <Summary workEntry={workEntry} onClick={toggleShowForm} />
+            <Summary workEntry={workEntry} onClick={toggleAddWorkEntryForm} />
             <WorkEntryDropDown
               onAddAchievement={toggleAddAchievement}
               onRemoveWorkEntry={() => removeWorkEntry(workEntry)}
