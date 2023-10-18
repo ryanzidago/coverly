@@ -45,7 +45,7 @@ model ContactEntry {
   externalLinks Json[]
   insertedAt    DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  resume        Resume   @relation(fields: [resumeId], references: [id])
+  resume        Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 
   @@map("contact_entries")
 }
@@ -118,7 +118,7 @@ model WorkAchievement {
   description String?
   insertedAt  DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  workEntry   WorkEntry @relation(fields: [workEntryId], references: [id])
+  workEntry   WorkEntry @relation(fields: [workEntryId], references: [id], onDelete: Cascade)
 
   @@map("work_achievements")
 }
@@ -129,7 +129,7 @@ model EducationAchievement {
   description      String?
   insertedAt       DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
-  educationEntry   EducationEntry @relation(fields: [educationEntryId], references: [id])
+  educationEntry   EducationEntry @relation(fields: [educationEntryId], references: [id], onDelete: Cascade)
 
   @@map("education_achievements")
 }
@@ -140,7 +140,7 @@ model ProjectAchievement {
   description    String?
   insertedAt     DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  projectEntry   ProjectEntry @relation(fields: [projectEntryId], references: [id])
+  projectEntry   ProjectEntry @relation(fields: [projectEntryId], references: [id], onDelete: Cascade)
 
   @@map("project_achievements")
 }

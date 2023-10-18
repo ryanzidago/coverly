@@ -1,6 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { allResumesForUserId, updateResume } from "../action";
+import {
+  allResumesForUserId,
+  createEmptyResume,
+  deleteResume,
+  updateResume,
+} from "../action";
 import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
 
@@ -35,6 +40,7 @@ export default function TitleInput({ resume, resumes }) {
         />
         <button type="submit" />
       </h1>
+      <ResumeMenuDropDown resume={resume} resumes={resumes} />
     </form>
   );
 }
@@ -71,15 +77,73 @@ function SelectResumeDropdown({ resumes }) {
           >
             {resumes.map((resume) => (
               <Menu.Item key={resume.id}>
-                <button
-                  type="button"
+                <Menu.Button
                   onClick={() => navigateToResume(resume)}
                   className="hover:shadow rounded p-2"
                 >
                   {resume.title}
-                </button>
+                </Menu.Button>
               </Menu.Item>
             ))}
+          </Menu.Items>
+        </Transition>
+      </Menu>
+    </div>
+  );
+}
+
+function ResumeMenuDropDown({ resume, resumes }) {
+  const router = useRouter();
+
+  function handleDelete(selectedResume) {
+    const newSelectedResume = resumes.filter(
+      (resume) => resume.id !== selectedResume.id,
+    )[0];
+
+    router.push(`/resumes/${newSelectedResume.id}`);
+    deleteResume(selectedResume);
+  }
+
+  // maybe handle this action on the server
+  // so a user can be redirected to the newly created resume
+  function handleCreateStarterResume() {
+    createEmptyResume();
+    router.refresh();
+  }
+
+  return (
+    <div className="bg-sky-300 flex flex-col gap-2">
+      <Menu>
+        <Menu.Button>Menu</Menu.Button>
+        <Transition
+          enter="transition duration-100 ease-out"
+          enterFrom="transform scale-95 opacity-0"
+          enterTo="transform scale-100 opacity-100"
+          leave="transition duration-75 ease-out"
+          leaveFrom="transform scale-100 opacity-100"
+          leaveTo="transform scale-95 opacity-0"
+        >
+          <Menu.Items
+            className={"flex flex-col gap-2 justify-center items-center"}
+          >
+            <Menu.Item>
+              <Menu.Button
+                onClick={handleCreateStarterResume}
+                className="hover:shadow rounded p-2"
+              >
+                Create resume
+              </Menu.Button>
+            </Menu.Item>
+            <Menu.Item>
+              {({}) => (
+                <Menu.Button
+                  onClick={() => handleDelete(resume)}
+                  className="hover:shadow rounded p-2"
+                >
+                  Delete
+                </Menu.Button>
+              )}
+            </Menu.Item>
           </Menu.Items>
         </Transition>
       </Menu>
