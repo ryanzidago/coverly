@@ -1,8 +1,19 @@
 "use server";
 
-import prisma from "../../../../prisma/client";
+import prisma from "../../../prisma/client";
 
 import { EmploymentType } from "@prisma/client";
+
+export async function allResumesForUserId(userId) {
+  const resumes = await prisma.resume.findMany({
+    where: {
+      authorId: userId,
+    },
+    orderBy: { updatedAt: "desc" },
+  });
+
+  return resumes;
+}
 
 export async function getResume(id) {
   const resume = await prisma.resume.findUnique({
@@ -36,6 +47,18 @@ export async function getResume(id) {
   return resume;
 }
 
+export async function createEmptyResume() {
+  const data = {
+    title: "My resume",
+    authorId: "e6e82fed-8b86-4c6a-a4e6-86a15c3ef33a",
+    contactEntry: {
+      create: {},
+    },
+  };
+
+  return await prisma.resume.create({ data: data });
+}
+
 export async function updateResume(formData) {
   const id = formData.get("resumeId");
   const title = formData.get("resumeTitle");
@@ -67,6 +90,8 @@ export async function updateContactEntry(formData) {
     phoneNumber: { countryCode, number },
     location: { city, country },
   };
+
+  console.log("contact entry id", id);
 
   const contactEntry = await prisma.contactEntry.update({
     where: { id },

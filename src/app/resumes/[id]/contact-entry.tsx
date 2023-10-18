@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { updateContactEntry } from "./action";
+import { updateContactEntry } from "../action";
 
 export default function ContactEntry({ resume }) {
   const router = useRouter();
@@ -12,6 +12,8 @@ export default function ContactEntry({ resume }) {
     updateContactEntry(formData);
     router.refresh();
   }
+
+  console.log(resume);
 
   return (
     <form
@@ -28,32 +30,32 @@ export default function ContactEntry({ resume }) {
         type="text"
         name="firstName"
         placeholder="First Name"
-        defaultValue={resume.contactEntry.firstName}
+        defaultValue={resume?.contactEntry?.firstName}
       />
       <input
         type="text"
         name="lastName"
         placeholder="Last Name"
-        defaultValue={resume.contactEntry.lastName}
+        defaultValue={resume?.contactEntry?.lastName}
       />
       <input
         type="text"
         name="email"
         placeholder="Email Address"
-        defaultValue={resume.contactEntry.email}
+        defaultValue={resume?.contactEntry?.email}
       />
       <div>
         <input
           type="tel"
           name="countryCode"
           placeholder="Country Code"
-          defaultValue={resume.contactEntry.phoneNumber.countryCode}
+          defaultValue={resume?.contactEntry?.phoneNumber?.countryCode}
         />
         <input
           type="tel"
           name="number"
           placeholder="Phone Number"
-          defaultValue={resume.contactEntry.phoneNumber.number}
+          defaultValue={resume?.contactEntry?.phoneNumber?.number}
         />
       </div>
       <div>
@@ -61,13 +63,13 @@ export default function ContactEntry({ resume }) {
           type="text"
           name="city"
           placeholder="City"
-          defaultValue={resume.contactEntry.location.city}
+          defaultValue={resume?.contactEntry?.location?.city}
         />
         <input
           type="text"
           name="country"
           placeholder="Country"
-          defaultValue={resume.contactEntry.location.country}
+          defaultValue={resume?.contactEntry?.location?.country}
         />
       </div>
       <button className="hidden" type="submit">

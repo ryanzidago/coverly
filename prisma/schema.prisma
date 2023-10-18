@@ -20,14 +20,14 @@ model User {
 
 model Resume {
   id               String           @id @default(uuid()) @db.Uuid
-  title            String           @db.VarChar
+  title            String?          @db.VarChar
   authorId         String           @db.Uuid
   insertedAt       DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   label            String?          @db.VarChar
   contactEntry     ContactEntry?
   educationEntries EducationEntry[]
-  projectEntries     ProjectEntry[]
+  projectEntries   ProjectEntry[]
   author           User             @relation(fields: [authorId], references: [id])
   workEntries      WorkEntry[]
 
@@ -37,9 +37,9 @@ model Resume {
 model ContactEntry {
   id            String   @id @default(uuid()) @db.Uuid
   resumeId      String   @unique @db.Uuid
-  firstName     String   @db.VarChar
-  lastName      String   @db.VarChar
-  email         String   @db.VarChar
+  firstName     String?  @db.VarChar
+  lastName      String?  @db.VarChar
+  email         String?  @db.VarChar
   phoneNumber   Json?
   location      Json?
   externalLinks Json[]
@@ -54,15 +54,15 @@ model WorkEntry {
   id             String            @id @default(uuid()) @db.Uuid
   resumeId       String            @db.Uuid
   position       String?
-  startDate      DateTime
+  startDate      DateTime?
   endDate        DateTime?
   location       Json?
   organisationId String            @db.Uuid
-  employmentType EmploymentType
+  employmentType EmploymentType?
   insertedAt     DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
   achievements   WorkAchievement[]
-  organisation   Organisation?      @relation(fields: [organisationId], references: [id])
+  organisation   Organisation      @relation(fields: [organisationId], references: [id])
   resume         Resume            @relation(fields: [resumeId], references: [id])
 
   @@map("work_entries")
@@ -71,11 +71,11 @@ model WorkEntry {
 model EducationEntry {
   id             String                 @id @default(uuid()) @db.Uuid
   resumeId       String                 @db.Uuid
-  startDate      DateTime
+  startDate      DateTime?
   endDate        DateTime?
   location       Json?
-  domain         String                 @db.VarChar
-  type           String                 @db.VarChar
+  domain         String?                @db.VarChar
+  type           String?                @db.VarChar
   organisationId String                 @db.Uuid
   insertedAt     DateTime               @default(now())
   updatedAt      DateTime               @updatedAt
@@ -89,7 +89,7 @@ model EducationEntry {
 model ProjectEntry {
   id           String               @id @default(uuid()) @db.Uuid
   resumeId     String               @db.Uuid
-  startDate    DateTime
+  startDate    DateTime?
   endDate      DateTime?
   website      String?
   insertedAt   DateTime             @default(now())
@@ -102,7 +102,7 @@ model ProjectEntry {
 
 model Organisation {
   id               String           @id @default(uuid()) @db.Uuid
-  name             String           @db.VarChar
+  name             String?          @db.VarChar
   website          String?          @db.VarChar
   insertedAt       DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
@@ -115,7 +115,7 @@ model Organisation {
 model WorkAchievement {
   id          String    @id @default(uuid()) @db.Uuid
   workEntryId String    @db.Uuid
-  description String
+  description String?
   insertedAt  DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   workEntry   WorkEntry @relation(fields: [workEntryId], references: [id])
@@ -126,7 +126,7 @@ model WorkAchievement {
 model EducationAchievement {
   id               String         @id @default(uuid()) @db.Uuid
   educationEntryId String         @db.Uuid
-  description      String
+  description      String?
   insertedAt       DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   educationEntry   EducationEntry @relation(fields: [educationEntryId], references: [id])
@@ -137,7 +137,7 @@ model EducationAchievement {
 model ProjectAchievement {
   id             String       @id @default(uuid()) @db.Uuid
   projectEntryId String       @db.Uuid
-  description    String
+  description    String?
   insertedAt     DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   projectEntry   ProjectEntry @relation(fields: [projectEntryId], references: [id])

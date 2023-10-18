@@ -17,24 +17,24 @@ export default function Template1({ resume }) {
       <div className="flex flex-col items-center gap-2">
         <div className="flex flex-col items-center gap-2">
           <h1 className="text-4xl text-zinc-700 font-semibold">
-            {contactEntry.firstName} {contactEntry.lastName}
+            {contactEntry?.firstName} {contactEntry?.lastName}
           </h1>
-          {resume.label && <h2 className="text-md">{resume.label}</h2>}
+          {resume?.label && <h2 className="text-md">{resume?.label}</h2>}
         </div>
         <div className="flex flex-col items-center gap-2">
           <div className="flex flex-row gap-2">
-            <Link href={`mailto:${contactEntry.email}`}>
-              {contactEntry.email}
+            <Link href={`mailto:${contactEntry?.email}`}>
+              {contactEntry?.email}
             </Link>
             <Link
-              href={`tel:${contactEntry.phoneNumber.countryCode} ${contactEntry.phoneNumber.number}`}
+              href={`tel:${contactEntry?.phoneNumber?.countryCode} ${contactEntry?.phoneNumber?.number}`}
             >
-              {contactEntry.phoneNumber.countryCode}{" "}
-              {contactEntry.phoneNumber.number}
+              {contactEntry?.phoneNumber?.countryCode}{" "}
+              {contactEntry?.phoneNumber?.number}
             </Link>
           </div>
           <p>
-            {contactEntry.location.city}, {contactEntry.location.country}
+            <Location contactEntry={contactEntry} />
           </p>
         </div>
       </div>
@@ -45,16 +45,16 @@ export default function Template1({ resume }) {
           <div key={index}>
             {/* workEntry header */}
             <EntryHeader
-              title={workEntry.position}
-              subtitle={workEntry.organisation.name}
-              link={workEntry.organisation.website}
-              startDate={workEntry.startDate}
-              endDate={workEntry.endDate}
-              location={workEntry.location}
+              title={workEntry?.position}
+              subtitle={workEntry?.organisation?.name}
+              link={workEntry?.organisation?.website}
+              startDate={workEntry?.startDate}
+              endDate={workEntry?.endDate}
+              location={workEntry?.location}
             />
             {/* work description container */}
             <EntryAchievements
-              achievements={workEntry.achievements}
+              achievements={workEntry?.achievements}
               index={index}
             />
           </div>
@@ -67,17 +67,17 @@ export default function Template1({ resume }) {
           <div key={index}>
             {/* education header */}
             <EntryHeader
-              title={education.area}
-              link={education.organisation.website}
-              subtitle={education.organisation.name}
-              startDate={education.startDate}
-              endDate={education.endDate}
-              location={education.location}
+              title={education?.area}
+              link={education?.organisation?.website}
+              subtitle={education?.organisation?.name}
+              startDate={education?.startDate}
+              endDate={education?.endDate}
+              location={education?.location}
             />
 
             {/* education description container */}
             <EntryAchievements
-              achievements={education.achievements}
+              achievements={education?.achievements}
               index={index}
             />
           </div>
@@ -85,4 +85,16 @@ export default function Template1({ resume }) {
       </Section>
     </div>
   );
+}
+
+function Location({ contactEntry }) {
+  if (contactEntry?.location?.city && contactEntry?.location?.country) {
+    return (
+      <>
+        {contactEntry?.location?.city}, {contactEntry?.location?.country}
+      </>
+    );
+  } else {
+    return <></>;
+  }
 }

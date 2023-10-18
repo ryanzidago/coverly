@@ -6,7 +6,7 @@ import {
   updateWorkAchievement,
   deleteWorkAchievement,
   deleteWorkEntry,
-} from "./action";
+} from "../action";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
 
@@ -71,9 +71,15 @@ export default function WorkEntries({ resume }) {
   );
 }
 
-function WorkEntry({ resume, workEntry, showForm, toggleAddWorkEntryForm }) {
+function WorkEntry({
+  resume,
+  workEntry,
+  showForm: defaultShowForm,
+  toggleAddWorkEntryForm,
+}) {
   const router = useRouter();
   const [addAchievement, setAddAchievement] = useState(false);
+  const [showForm, setShowForm] = useState(defaultShowForm);
 
   function toggleAddAchievement() {
     setAddAchievement((prev) => !prev);
@@ -84,19 +90,26 @@ function WorkEntry({ resume, workEntry, showForm, toggleAddWorkEntryForm }) {
     router.refresh();
   }
 
+  function hideFormAndEmptyEntry() {
+    setShowForm(false);
+    if (workEntry.id === "empty_work_entry") {
+      toggleAddWorkEntryForm();
+    }
+  }
+
   return (
     <div className="flex flex-col gap-4 shadow rounded p-4">
       {showForm ? (
         <Form
           resume={resume}
           workEntry={workEntry}
-          onCancel={toggleAddWorkEntryForm}
-          onSubmit={toggleAddWorkEntryForm}
+          onSubmit={hideFormAndEmptyEntry}
+          onCancel={hideFormAndEmptyEntry}
         />
       ) : (
         <CheckboxedField>
           <div className="relative w-full flex flex-row justify-between">
-            <Summary workEntry={workEntry} onClick={toggleAddWorkEntryForm} />
+            <Summary workEntry={workEntry} onClick={setShowForm} />
             <WorkEntryDropDown
               onAddAchievement={toggleAddAchievement}
               onRemoveWorkEntry={() => removeWorkEntry(workEntry)}
