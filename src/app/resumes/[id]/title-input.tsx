@@ -24,22 +24,19 @@ export default function TitleInput({ resume, resumes }) {
       id="resume-metadata-form"
       action={updateResume}
       onChange={handleOnChange}
-      className="relative flex flex-row gap-8 justify-start items-center"
+      className="relative flex flex-row gap-8 justify-between items-center"
     >
-      <div className="mb-4">
-        <SelectResumeDropdown resumes={resumes} />
-      </div>
-      <h1 className="flex flex-row gap-2 items-center justify-center text-slate-600">
-        <input type="hidden" name="resumeId" value={resume.id} />
-        <input
-          type="text"
-          defaultValue={resume.title}
-          name="resumeTitle"
-          className="text-xl font-bold appearance-none rounded-md p-1 w-full"
-          placeholder="Resume title"
-        />
-        <button type="submit" />
-      </h1>
+      <SelectResumeDropdown resumes={resumes} />
+      <div />
+      <input type="hidden" name="resumeId" value={resume.id} />
+      <input
+        type="text"
+        defaultValue={resume.title}
+        name="resumeTitle"
+        className="text-xl font-semibold text-slate-700"
+        placeholder="Resume title"
+      />
+      <div />
       <ResumeMenuDropDown resume={resume} resumes={resumes} />
     </form>
   );
@@ -53,7 +50,7 @@ function SelectResumeDropdown({ resumes }) {
   }
 
   return (
-    <div className="absolute w-56">
+    <div className="absolute left-0 bg-white z-10">
       <Menu>
         <Menu.Button>
           <Image
@@ -73,7 +70,9 @@ function SelectResumeDropdown({ resumes }) {
           leaveTo="transform scale-95 opacity-0"
         >
           <Menu.Items
-            className={"absolute left-0 flex flex-col rounded shadow bg-white"}
+            className={
+              "absolute left-0 flex flex-col rounded shadow bg-white w-56"
+            }
           >
             {resumes.map((resume) => (
               <Menu.Item key={resume.id}>
@@ -109,7 +108,7 @@ function ResumeMenuDropDown({ resume, resumes }) {
   }
 
   return (
-    <div className="bg-sky-300 flex flex-col gap-2">
+    <div className="bg-white z-10 absolute right-0">
       <Menu>
         <Menu.Button>Menu</Menu.Button>
         <Transition
@@ -121,7 +120,9 @@ function ResumeMenuDropDown({ resume, resumes }) {
           leaveTo="transform scale-95 opacity-0"
         >
           <Menu.Items
-            className={"flex flex-col gap-2 justify-center items-center"}
+            className={
+              "absolute right-0 flex flex-col rounded shadow bg-white w-56"
+            }
           >
             <Menu.Item>
               <Menu.Button
