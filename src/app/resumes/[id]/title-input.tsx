@@ -104,11 +104,8 @@ function ResumeMenuDropDown({ resume, resumes }) {
     deleteResume(selectedResume);
   }
 
-  // maybe handle this action on the server
-  // so a user can be redirected to the newly created resume
   function handleCreateStarterResume() {
     createEmptyResume();
-    router.refresh();
   }
 
   return (

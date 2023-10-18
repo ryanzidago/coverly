@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "../../../prisma/client";
-
+import { redirect } from "next/navigation";
 import { EmploymentType } from "@prisma/client";
 
 export async function allResumesForUserId(userId) {
@@ -56,7 +56,8 @@ export async function createEmptyResume() {
     },
   };
 
-  return await prisma.resume.create({ data: data });
+  const resume = await prisma.resume.create({ data: data });
+  redirect(`/resumes/${resume.id}`);
 }
 
 export async function updateResume(formData) {
