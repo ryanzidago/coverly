@@ -13,8 +13,6 @@ export default function ContactEntry({ resume }) {
     router.refresh();
   }
 
-  console.log(resume);
-
   return (
     <form
       id="contact-entry-form"

@@ -4,6 +4,7 @@ import {
   allResumesForUserId,
   createEmptyResume,
   deleteResume,
+  duplicateResume,
   updateResume,
 } from "../action";
 import { Menu, Transition } from "@headlessui/react";
@@ -107,6 +108,10 @@ function ResumeMenuDropDown({ resume, resumes }) {
     createEmptyResume();
   }
 
+  function handleDuplicateResume() {
+    duplicateResume(resume);
+  }
+
   return (
     <div className="bg-white z-10 absolute right-0">
       <Menu>
@@ -130,6 +135,14 @@ function ResumeMenuDropDown({ resume, resumes }) {
                 className="hover:shadow rounded p-2"
               >
                 Create resume
+              </Menu.Button>
+            </Menu.Item>
+            <Menu.Item>
+              <Menu.Button
+                onClick={handleDuplicateResume}
+                className="hover:shadow rounded p-2"
+              >
+                Duplicate
               </Menu.Button>
             </Menu.Item>
             <Menu.Item>

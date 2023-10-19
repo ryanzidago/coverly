@@ -24,10 +24,6 @@ async function main() {
     },
   });
 
-  console.log(sona);
-  console.log(jobvalley);
-  console.log(theHackingProject);
-
   const users = await prisma.user.create({
     data: {
       firstName: "Ryan",
