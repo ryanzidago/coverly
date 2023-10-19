@@ -2,16 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  updateWorkEntry,
-  updateWorkAchievement,
-  deleteWorkAchievement,
-  deleteWorkEntry,
+  updateEducationEntry,
+  updateEducationAchievement,
+  deleteEducationAchievement,
+  deleteEducationEntry,
 } from "../action";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
 
-const EMPTY_WORK_ENTRY = {
-  id: "empty_work_entry",
+const EMPTY_EDUCATION_ENTRY = {
+  id: "empty_education_entry",
   position: "",
   organisation: { name: "", website: "" },
   startDate: null,
@@ -25,12 +25,12 @@ const EMPTY_ACHIEVEMENT = {
   description: "",
 };
 
-export default function WorkEntries({ resume }) {
-  const [addWorkEntry, setAddWorkEntry] = useState(false);
-  const workEntries = resume.workEntries;
+export default function EducationEntries({ resume }) {
+  const [addEducationEntry, setAddEducationEntry] = useState(false);
+  const educationEntries = resume.educationEntries;
 
-  function toggleAddWorkEntryForm() {
-    setAddWorkEntry((prev) => !prev);
+  function toggleAddEducationEntryForm() {
+    setAddEducationEntry((prev) => !prev);
   }
 
   return (
@@ -38,31 +38,31 @@ export default function WorkEntries({ resume }) {
       <section>
         <CheckboxedField>
           <div className="flex flex-row w-full justify-between">
-            <h2 className="text-xl font-semibold">Work</h2>
+            <h2 className="text-xl font-semibold">Education</h2>
             <div>
-              <button type="button" onClick={toggleAddWorkEntryForm}>
-                Add work
+              <button type="button" onClick={toggleAddEducationEntryForm}>
+                Add education
               </button>
             </div>
           </div>
         </CheckboxedField>
       </section>
       <div className="flex flex-col gap-8">
-        {addWorkEntry && (
-          <WorkEntry
+        {addEducationEntry && (
+          <EducationEntry
             resume={resume}
-            workEntry={EMPTY_WORK_ENTRY}
+            educationEntry={EMPTY_EDUCATION_ENTRY}
             showForm={true}
-            toggleAddWorkEntryForm={toggleAddWorkEntryForm}
+            toggleAddEducationEntryForm={toggleAddEducationEntryForm}
           />
         )}
-        {workEntries.map((workEntry) => {
+        {educationEntries.map((educationEntry) => {
           return (
-            <WorkEntry
-              key={workEntry.id}
+            <EducationEntry
+              key={educationEntry.id}
               resume={resume}
-              workEntry={workEntry}
-              toggleAddWorkEntryForm={toggleAddWorkEntryForm}
+              educationEntry={educationEntry}
+              toggleAddEducationEntryForm={toggleAddEducationEntryForm}
             />
           );
         })}
@@ -71,11 +71,11 @@ export default function WorkEntries({ resume }) {
   );
 }
 
-function WorkEntry({
+function EducationEntry({
   resume,
-  workEntry,
+  educationEntry,
   showForm: defaultShowForm,
-  toggleAddWorkEntryForm,
+  toggleAddEducationEntryForm,
 }) {
   const router = useRouter();
   const [addAchievement, setAddAchievement] = useState(false);
@@ -85,15 +85,15 @@ function WorkEntry({
     setAddAchievement((prev) => !prev);
   }
 
-  function removeWorkEntry(workEntry) {
-    deleteWorkEntry(workEntry.id);
+  function removeEducationEntry(educationEntry) {
+    deleteEducationEntry(educationEntry.id);
     router.refresh();
   }
 
   function hideFormAndEmptyEntry() {
     setShowForm(false);
-    if (workEntry.id === "empty_work_entry") {
-      toggleAddWorkEntryForm();
+    if (educationEntry.id === "empty_education_entry") {
+      toggleAddEducationEntryForm();
     }
   }
 
@@ -102,17 +102,19 @@ function WorkEntry({
       {showForm ? (
         <Form
           resume={resume}
-          workEntry={workEntry}
+          educationEntry={educationEntry}
           onSubmit={hideFormAndEmptyEntry}
           onCancel={hideFormAndEmptyEntry}
         />
       ) : (
         <CheckboxedField>
           <div className="relative w-full flex flex-row justify-between">
-            <Summary workEntry={workEntry} onClick={setShowForm} />
-            <WorkEntryDropDown
+            <Summary educationEntry={educationEntry} onClick={setShowForm} />
+            <EducationEntryDropDown
               onAddAchievement={toggleAddAchievement}
-              onRemoveWorkEntry={() => removeWorkEntry(workEntry)}
+              onRemoveEducationEntry={() =>
+                removeEducationEntry(educationEntry)
+              }
             />
           </div>
         </CheckboxedField>
@@ -122,15 +124,15 @@ function WorkEntry({
         <div>
           {addAchievement && (
             <Achievement
-              workEntry={workEntry}
+              educationEntry={educationEntry}
               achievement={EMPTY_ACHIEVEMENT}
               onRemove={toggleAddAchievement}
             />
           )}
-          {workEntry.achievements.map((achievement) => (
+          {educationEntry.achievements.map((achievement) => (
             <Achievement
               key={achievement.id}
-              workEntry={workEntry}
+              educationEntry={educationEntry}
               achievement={achievement}
             />
           ))}
@@ -149,17 +151,17 @@ function CheckboxedField({ children }) {
   );
 }
 
-function Summary({ workEntry, onClick }) {
-  const { position, startDate, organisation } = workEntry;
+function Summary({ educationEntry, onClick }) {
+  const { domain, type, startDate, organisation } = educationEntry;
 
   return (
     <div onClick={onClick}>
-      {position} at {organisation.name} in {startDate?.getFullYear()}
+      {type} in {domain} at {organisation.name} in {startDate?.getFullYear()}
     </div>
   );
 }
 
-function Form({ resume, workEntry, onCancel, onSubmit }) {
+function Form({ resume, educationEntry, onCancel, onSubmit }) {
   const router = useRouter();
 
   function handleOnCancel() {
@@ -167,28 +169,39 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
   }
 
   function handleOnSubmit() {
-    const formElement = document.getElementById(workEntry.id);
+    const formElement = document.getElementById(educationEntry.id);
     const formData = new FormData(formElement);
-    updateWorkEntry(formData);
+    updateEducationEntry(formData);
     router.refresh();
     onSubmit();
   }
 
   return (
     <form
-      id={workEntry.id}
+      id={educationEntry.id}
       onSubmit={handleOnSubmit}
       className="flex flex-col gap-4"
     >
-      <input type="hidden" name="workEntryId" defaultValue={workEntry.id} />
+      <input
+        type="hidden"
+        name="educationEntryId"
+        defaultValue={educationEntry.id}
+      />
       <input type="hidden" name="resumeId" defaultValue={resume.id} />
       <CheckboxedField>
         <input
           className="rounded p-2"
           type="text"
-          name="position"
-          placeholder="Position"
-          defaultValue={workEntry.position}
+          name="domain"
+          placeholder="Study Area"
+          defaultValue={educationEntry.domain}
+        />
+        <input
+          className="rounded p-2"
+          type="text"
+          name="studyType"
+          placeholder="Study Type"
+          defaultValue={educationEntry.type}
         />
       </CheckboxedField>
       <div className="flex flex-row gap-2">
@@ -197,14 +210,14 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
           type="text"
           name="organisationName"
           placeholder="Organisation name"
-          defaultValue={workEntry.organisation.name}
+          defaultValue={educationEntry.organisation.name}
         />
         <input
           className="rounded p-2"
           type="url"
           name="organisationWebsite"
           placeholder="Organisation website"
-          defaultValue={workEntry.organisation.website}
+          defaultValue={educationEntry.organisation.website}
         />
       </div>
       <div className="flex flex-row gap-2">
@@ -212,14 +225,14 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
           className="rounded p-2"
           type="text"
           name="startMonth"
-          defaultValue={workEntry.startDate?.getMonth() || ""}
+          defaultValue={educationEntry.startDate?.getMonth() || ""}
           placeholder="Start month"
         />
         <input
           className="rounded p-2"
           type="text"
           name="startYear"
-          defaultValue={workEntry.startDate?.getFullYear() || ""}
+          defaultValue={educationEntry.startDate?.getFullYear() || ""}
           placeholder="Start year"
         />
       </div>
@@ -228,14 +241,14 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
           className="rounded p-2"
           type="text"
           name="endMonth"
-          defaultValue={workEntry.endDate?.getMonth() || ""}
+          defaultValue={educationEntry.endDate?.getMonth() || ""}
           placeholder="End month"
         />
         <input
           className="rounded p-2"
           type="text"
           name="endYear"
-          defaultValue={workEntry.endDate?.getFullYear() || ""}
+          defaultValue={educationEntry.endDate?.getFullYear() || ""}
           placeholder="End year"
         />
       </div>
@@ -245,7 +258,7 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
             className="rounded p-2"
             type="checkbox"
             name="remote"
-            defaultChecked={workEntry.location.remote}
+            defaultChecked={educationEntry.location.remote}
             id="remote"
           />
           <label htmlFor="remote">Remote</label>
@@ -255,14 +268,14 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
             className="rounded p-2"
             type="text"
             name="city"
-            defaultValue={workEntry.location.city}
+            defaultValue={educationEntry.location.city}
             placeholder="City"
           />
           <input
             className="rounded p-2"
             type="text"
             name="country"
-            defaultValue={workEntry.location.country}
+            defaultValue={educationEntry.location.country}
             placeholder="Country"
           />
         </div>
@@ -280,7 +293,7 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
 }
 
 function Achievement({
-  workEntry,
+  educationEntry,
   achievement: { id, description },
   onRemove = () => {},
 }) {
@@ -291,7 +304,7 @@ function Achievement({
     if (id === "empty_achievement") {
       onRemove();
     } else {
-      deleteWorkAchievement(id);
+      deleteEducationAchievement(id);
     }
 
     router.refresh();
@@ -301,16 +314,22 @@ function Achievement({
     autoResizeTextArea(textAreaRef);
   }, []);
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
     const formElement = document.getElementById(id);
     const formData = new FormData(formElement);
-    updateWorkAchievement(formData);
+    updateEducationAchievement(formData);
+
     router.refresh();
   }
   return (
     <form id={id} onSubmit={handleSubmit}>
-      <input type="hidden" name="workEntryId" defaultValue={workEntry.id} />
-      <input type="hidden" name="workAchievementId" defaultValue={id} />
+      <input
+        type="hidden"
+        name="educationEntryId"
+        defaultValue={educationEntry.id}
+      />
+      <input type="hidden" name="educationAchievementId" defaultValue={id} />
       <label htmlFor={id}>
         <textarea
           ref={textAreaRef}
@@ -330,7 +349,7 @@ function Achievement({
   );
 }
 
-function WorkEntryDropDown({ onAddAchievement, onRemoveWorkEntry }) {
+function EducationEntryDropDown({ onAddAchievement, onRemoveEducationEntry }) {
   return (
     <div className="absolute right-0">
       <Menu>
@@ -360,7 +379,7 @@ function WorkEntryDropDown({ onAddAchievement, onRemoveWorkEntry }) {
                 <button
                   type="button"
                   className="hover:shadow p-2 rounded w-full"
-                  onClick={onRemoveWorkEntry}
+                  onClick={onRemoveEducationEntry}
                 >
                   Remove
                 </button>
