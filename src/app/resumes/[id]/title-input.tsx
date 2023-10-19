@@ -131,6 +131,14 @@ function ResumeMenuDropDown({ resume, resumes }) {
           >
             <Menu.Item>
               <Menu.Button
+                onClick={() => window.print()}
+                className="hover:shadow rounded p-2"
+              >
+                Download as PDF
+              </Menu.Button>
+            </Menu.Item>
+            <Menu.Item>
+              <Menu.Button
                 onClick={handleCreateStarterResume}
                 className="hover:shadow rounded p-2"
               >
