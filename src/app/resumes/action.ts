@@ -201,33 +201,7 @@ export async function duplicateResume(resume) {
 }
 
 export async function deleteResume(resume) {
-  const deleteWorkEntriesQuery = prisma.workEntry.deleteMany({
-    where: { resumeId: resume.id },
-  });
-
-  const deleteEducationEntriesQuery = prisma.educationEntry.deleteMany({
-    where: { resumeId: resume.id },
-  });
-
-  const deleteProjectEntriesQuery = prisma.projectEntry.deleteMany({
-    where: { resumeId: resume.id },
-  });
-
-  const deleteContactEntryQuery = prisma.contactEntry.deleteMany({
-    where: {
-      resumeId: resume.id,
-    },
-  });
-
-  const deleteResumeQuery = prisma.resume.delete({ where: { id: resume.id } });
-
-  const transaction = await prisma.$transaction([
-    deleteContactEntryQuery,
-    deleteWorkEntriesQuery,
-    deleteEducationEntriesQuery,
-    deleteProjectEntriesQuery,
-    deleteResumeQuery,
-  ]);
+  return await prisma.resume.delete({ where: { id: resume.id } });
 }
 
 export async function updateContactEntry(formData) {

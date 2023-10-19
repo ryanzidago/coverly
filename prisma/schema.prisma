@@ -63,7 +63,7 @@ model WorkEntry {
   updatedAt      DateTime          @updatedAt
   achievements   WorkAchievement[]
   organisation   Organisation      @relation(fields: [organisationId], references: [id])
-  resume         Resume            @relation(fields: [resumeId], references: [id])
+  resume         Resume            @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 
   @@map("work_entries")
 }
@@ -81,7 +81,7 @@ model EducationEntry {
   updatedAt      DateTime               @updatedAt
   achievements   EducationAchievement[]
   organisation   Organisation           @relation(fields: [organisationId], references: [id])
-  resume         Resume                 @relation(fields: [resumeId], references: [id])
+  resume         Resume                 @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 
   @@map("education_entries")
 }
@@ -95,7 +95,7 @@ model ProjectEntry {
   insertedAt   DateTime             @default(now())
   updatedAt    DateTime             @updatedAt
   achievements ProjectAchievement[]
-  resume       Resume               @relation(fields: [resumeId], references: [id])
+  resume       Resume               @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 
   @@map("project_entries")
 }
