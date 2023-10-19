@@ -40,3 +40,5 @@ dump
 .tool-versions
 
 *.pdf
+
+.env
