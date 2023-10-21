@@ -47,6 +47,18 @@ export async function getResume(id) {
   return resume;
 }
 
+export async function getLatestUpdatedResumeId(authorId) {
+  const resumeId = await prisma.resume.findFirst({
+    where: {
+      authorId: authorId,
+    },
+    orderBy: { updatedAt: "desc" },
+    select: { id: true },
+  });
+
+  return resumeId;
+}
+
 export async function createEmptyResume() {
   const data = {
     title: "My resume",
