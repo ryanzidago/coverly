@@ -6,14 +6,15 @@ import WorkEntries from "./work-entries";
 import Template1 from "../template1/template1";
 import { allResumesForUserId, getResume } from "../action";
 import EducationEntries from "./education-entries";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 
 export default async function Page({ params }) {
+  const session = await getServerSession(authOptions);
+
   const { id } = params;
   const resume = await getResume(id);
-
-  const resumes = await allResumesForUserId(
-    "e6e82fed-8b86-4c6a-a4e6-86a15c3ef33a",
-  );
+  const resumes = await allResumesForUserId(session.user.id);
 
   return (
     <div className="flex flex-col xl:flex-row items-center justify-center text-slate-700 text-justify">

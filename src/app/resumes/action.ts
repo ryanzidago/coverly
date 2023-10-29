@@ -47,29 +47,28 @@ export async function getResume(id) {
   return resume;
 }
 
-export async function getLatestUpdatedResumeId(authorId) {
+export async function getLatestUpdatedResume(authorId) {
   const resumeId = await prisma.resume.findFirst({
     where: {
       authorId: authorId,
     },
     orderBy: { updatedAt: "desc" },
-    select: { id: true },
   });
 
   return resumeId;
 }
 
-export async function createEmptyResume() {
+export async function createEmptyResume(authorId) {
   const data = {
     title: "My resume",
-    authorId: "e6e82fed-8b86-4c6a-a4e6-86a15c3ef33a",
+    authorId: authorId,
     contactEntry: {
       create: {},
     },
   };
 
   const resume = await prisma.resume.create({ data: data });
-  redirect(`/resumes/${resume.id}`);
+  return resume;
 }
 
 export async function updateResume(formData) {

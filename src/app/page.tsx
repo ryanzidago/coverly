@@ -1,15 +1,25 @@
-"use client";
-
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { getLatestUpdatedResumeId } from "./resumes/action";
+import { createEmptyResume, getLatestUpdatedResume } from "./resumes/action";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/auth-options";
 
-export default function Page() {
-  const { data: session, status } = useSession();
+export default async function Page() {
+  const session = await getServerSession(authOptions);
 
-  console.log("session and status", session, status);
+  if (session) {
+    const userId = session.user.id;
 
-  const isAuthenticated = status === "authenticated";
-
-  redirect("/resumes/7e14f150-b397-45fd-9518-42847adb7085");
+    const latestUpdatedResume = await getLatestUpdatedResume(userId);
+    if (latestUpdatedResume) {
+      redirect(`/resumes/${latestUpdatedResume.id}`);
+    } else {
+      const resume = await createEmptyResume(userId);
+      redirect(`/resumes/${resume.id}`);
+    }
+  } else {
+    redirect("/api/auth/signin");
+  }
 }
+
+// http://localhost:3000/api/auth/signin

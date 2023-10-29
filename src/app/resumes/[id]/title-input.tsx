@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
+
 import {
-  allResumesForUserId,
   createEmptyResume,
   deleteResume,
   duplicateResume,
@@ -9,6 +9,7 @@ import {
 } from "../action";
 import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 export default function TitleInput({ resume, resumes }) {
   const router = useRouter();
@@ -93,6 +94,7 @@ function SelectResumeDropdown({ resumes }) {
 }
 
 function ResumeMenuDropDown({ resume, resumes }) {
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   function handleDelete(selectedResume) {
@@ -105,7 +107,9 @@ function ResumeMenuDropDown({ resume, resumes }) {
   }
 
   function handleCreateStarterResume() {
-    createEmptyResume();
+    createEmptyResume(session?.user.id).then((resume) =>
+      router.push(`/resumes/${resume.id}`),
+    );
   }
 
   function handleDuplicateResume() {
