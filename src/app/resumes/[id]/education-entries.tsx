@@ -220,33 +220,57 @@ function Form({ resume, educationEntry, onCancel, onSubmit }) {
           defaultValue={educationEntry.organisation.website}
         />
       </div>
-      <div className="flex flex-row gap-2">
-        <input
-          className="rounded p-2"
-          type="text"
-          name="startMonth"
+      <div className="flex flex-row gap-2 items-center">
+        <label>Start date</label>
+        <select
           defaultValue={educationEntry.startDate?.getMonth() || ""}
-          placeholder="Start month"
-        />
+          name="startMonth"
+          className="bg-white shadow rounded p-2"
+        >
+          <option value={1}>January</option>
+          <option value={2}>February</option>
+          <option value={3}>March</option>
+          <option value={4}>April</option>
+          <option value={5}>May</option>
+          <option value={6}>June</option>
+          <option value={7}>July</option>
+          <option value={8}>August</option>
+          <option value={9}>September</option>
+          <option value={10}>October</option>
+          <option value={11}>November</option>
+          <option value={12}>December</option>
+        </select>
         <input
           className="rounded p-2"
-          type="text"
+          type="number"
           name="startYear"
           defaultValue={educationEntry.startDate?.getFullYear() || ""}
           placeholder="Start year"
         />
       </div>
-      <div className="flex flex-row gap-2">
-        <input
-          className="rounded p-2"
-          type="text"
-          name="endMonth"
+      <div className="flex flex-row gap-2 items-center">
+        <label>End date</label>
+        <select
           defaultValue={educationEntry.endDate?.getMonth() || ""}
-          placeholder="End month"
-        />
+          name="endMonth"
+          className="bg-white shadow rounded p-2"
+        >
+          <option value={1}>January</option>
+          <option value={2}>February</option>
+          <option value={3}>March</option>
+          <option value={4}>April</option>
+          <option value={5}>May</option>
+          <option value={6}>June</option>
+          <option value={7}>July</option>
+          <option value={8}>August</option>
+          <option value={9}>September</option>
+          <option value={10}>October</option>
+          <option value={11}>November</option>
+          <option value={12}>December</option>
+        </select>
         <input
           className="rounded p-2"
-          type="text"
+          type="number"
           name="endYear"
           defaultValue={educationEntry.endDate?.getFullYear() || ""}
           placeholder="End year"
