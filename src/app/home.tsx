@@ -9,7 +9,7 @@ export default function Home() {
   const isAuthenticated = status === "authenticated";
 
   return (
-    <Popover className={"relative p-2"}>
+    <Popover className={"relative p-2 print:hidden"}>
       <Popover.Button>
         <Image src={`/home.svg`} width={20} height={20} alt="home button" />
       </Popover.Button>
