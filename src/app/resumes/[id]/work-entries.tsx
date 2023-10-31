@@ -112,6 +112,7 @@ function WorkEntry({
           <div className="relative w-full flex flex-row justify-between">
             <Summary workEntry={workEntry} onClick={setShowForm} />
             <WorkEntryDropDown
+              onEditEntry={setShowForm}
               onAddAchievement={toggleAddAchievement}
               onRemoveWorkEntry={() => removeWorkEntry(workEntry)}
             />
@@ -355,7 +356,11 @@ function Achievement({
   );
 }
 
-function WorkEntryDropDown({ onAddAchievement, onRemoveWorkEntry }) {
+function WorkEntryDropDown({
+  onAddAchievement,
+  onRemoveWorkEntry,
+  onEditEntry,
+}) {
   return (
     <div className="absolute right-0">
       <Menu>
@@ -369,6 +374,15 @@ function WorkEntryDropDown({ onAddAchievement, onRemoveWorkEntry }) {
           leaveTo="transform scale-95 opacity-0"
         >
           <Menu.Items className={"flex flex-col p-2 rounded shadow bg-white"}>
+            <Menu.Item>
+              <button
+                type="button"
+                className="hover:shadow p-2 rounded w-full"
+                onClick={onEditEntry}
+              >
+                Edit
+              </button>
+            </Menu.Item>
             <Menu.Item>
               {({}) => (
                 <button
