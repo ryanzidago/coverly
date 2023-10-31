@@ -8,21 +8,20 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(uuid()) @db.Uuid
-  userId             String @db.Uuid
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
+  id                       String  @id @default(uuid()) @db.Uuid
+  userId                   String  @db.Uuid
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String?
   refresh_token_expires_in Int?
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  access_token             String?
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String?
+  session_state            String?
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -31,12 +30,13 @@ model Account {
 model Session {
   id           String   @id @default(uuid()) @db.Uuid
   sessionToken String   @unique
-  userId       String @db.Uuid
+  userId       String   @db.Uuid
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@map("sessions")
 }
+
 model User {
   id            String    @id @default(uuid()) @db.Uuid
   name          String?
@@ -44,8 +44,8 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
+  resumes       Resume[]
   sessions      Session[]
-  resumes Resume[]
 
   @@map("users")
 }
@@ -56,7 +56,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-
   @@map("verification_tokens")
 }
 
@@ -103,6 +102,7 @@ model WorkEntry {
   employmentType EmploymentType?
   insertedAt     DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
+  displayed      Boolean           @default(true)
   achievements   WorkAchievement[]
   organisation   Organisation      @relation(fields: [organisationId], references: [id])
   resume         Resume            @relation(fields: [resumeId], references: [id], onDelete: Cascade)
@@ -121,6 +121,7 @@ model EducationEntry {
   organisationId String                 @db.Uuid
   insertedAt     DateTime               @default(now())
   updatedAt      DateTime               @updatedAt
+  displayed      Boolean                @default(true)
   achievements   EducationAchievement[]
   organisation   Organisation           @relation(fields: [organisationId], references: [id])
   resume         Resume                 @relation(fields: [resumeId], references: [id], onDelete: Cascade)

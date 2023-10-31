@@ -6,6 +6,7 @@ import {
   updateWorkAchievement,
   deleteWorkAchievement,
   deleteWorkEntry,
+  updateDisplayWorkEntry,
 } from "../action";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
@@ -25,7 +26,6 @@ const EMPTY_ACHIEVEMENT = {
   description: "",
 };
 
-
 export default function WorkEntries({ resume }) {
   const [addWorkEntry, setAddWorkEntry] = useState(false);
   const workEntries = resume.workEntries;
@@ -37,16 +37,14 @@ export default function WorkEntries({ resume }) {
   return (
     <div className="flex flex-col gap-8">
       <section>
-        <CheckboxedField>
-          <div className="flex flex-row w-full justify-between">
-            <h2 className="text-xl font-semibold">Work</h2>
-            <div>
-              <button type="button" onClick={toggleAddWorkEntryForm}>
-                Add work
-              </button>
-            </div>
+        <div className="flex flex-row w-full justify-between">
+          <h2 className="text-xl font-semibold">Work</h2>
+          <div>
+            <button type="button" onClick={toggleAddWorkEntryForm}>
+              Add work
+            </button>
           </div>
-        </CheckboxedField>
+        </div>
       </section>
       <div className="flex flex-col gap-8">
         {addWorkEntry && (
@@ -99,7 +97,11 @@ function WorkEntry({
   }
 
   return (
-    <div className="flex flex-col gap-4 shadow rounded p-4">
+    <div
+      className={`flex flex-col gap-4 shadow rounded p-4 ${
+        workEntry.displayed ? "" : "opacity-50"
+      }`}
+    >
       {showForm ? (
         <Form
           resume={resume}
@@ -108,8 +110,8 @@ function WorkEntry({
           onCancel={hideFormAndEmptyEntry}
         />
       ) : (
-        <CheckboxedField>
-          <div className="relative w-full flex flex-row justify-between">
+        <CheckboxedField entry={workEntry}>
+          <div className={`relative w-full flex flex-row justify-between `}>
             <Summary workEntry={workEntry} onClick={setShowForm} />
             <WorkEntryDropDown
               onEditEntry={setShowForm}
@@ -142,10 +144,24 @@ function WorkEntry({
   );
 }
 
-function CheckboxedField({ children }) {
+function CheckboxedField({ children, entry }) {
+  const router = useRouter();
+
+  function handleUpdateDisplayWorkEntry(entry, displayed) {
+    updateDisplayWorkEntry(entry, displayed);
+    router.refresh();
+  }
+
   return (
     <div className="flex flex-row gap-2">
-      <input type="checkbox" defaultChecked={true} />
+      <input
+        type="checkbox"
+        name="displayEntry"
+        defaultChecked={entry.displayed}
+        onChange={(value) => {
+          handleUpdateDisplayWorkEntry(entry, value.target.checked);
+        }}
+      />
       {children}
     </div>
   );
@@ -189,15 +205,13 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
     >
       <input type="hidden" name="workEntryId" defaultValue={workEntry.id} />
       <input type="hidden" name="resumeId" defaultValue={resume.id} />
-      <CheckboxedField>
-        <input
-          className="rounded p-2"
-          type="text"
-          name="position"
-          placeholder="Position"
-          defaultValue={workEntry.position}
-        />
-      </CheckboxedField>
+      <input
+        className="rounded p-2"
+        type="text"
+        name="position"
+        placeholder="Position"
+        defaultValue={workEntry.position}
+      />
       <div className="flex flex-row gap-2">
         <input
           className="rounded p-2"

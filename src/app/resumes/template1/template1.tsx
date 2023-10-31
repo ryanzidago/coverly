@@ -40,25 +40,27 @@ export default function Template1({ resume }) {
       </div>
       {/* work section*/}
       <Section title="Work Experience">
-        {workEntries.map((workEntry, index: number) => (
-          // workEntry entry container
-          <div key={index}>
-            {/* workEntry header */}
-            <EntryHeader
-              title={workEntry?.position}
-              subtitle={workEntry?.organisation?.name}
-              link={workEntry?.organisation?.website}
-              startDate={workEntry?.startDate}
-              endDate={workEntry?.endDate}
-              location={workEntry?.location}
-            />
-            {/* work description container */}
-            <EntryAchievements
-              achievements={workEntry?.achievements}
-              index={index}
-            />
-          </div>
-        ))}
+        {workEntries
+          .filter((workEntry) => workEntry.displayed === true)
+          .map((workEntry, index: number) => (
+            // workEntry entry container
+            <div key={index}>
+              {/* workEntry header */}
+              <EntryHeader
+                title={workEntry?.position}
+                subtitle={workEntry?.organisation?.name}
+                link={workEntry?.organisation?.website}
+                startDate={workEntry?.startDate}
+                endDate={workEntry?.endDate}
+                location={workEntry?.location}
+              />
+              {/* work description container */}
+              <EntryAchievements
+                achievements={workEntry?.achievements}
+                index={index}
+              />
+            </div>
+          ))}
       </Section>
       {/* education section */}
       <Section title="Education">

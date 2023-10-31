@@ -12,7 +12,6 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 
 export default function TitleInput({ resume, resumes }) {
-  setPageTitle(resume);
   const router = useRouter();
 
   function handleOnChange() {
@@ -173,10 +172,4 @@ function ResumeMenuDropDown({ resume, resumes }) {
       </Menu>
     </div>
   );
-}
-
-function setPageTitle(resume) {
-  if (resume?.title) {
-    document.title = resume.title + " - Coverly";
-  }
 }

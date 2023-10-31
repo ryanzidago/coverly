@@ -241,6 +241,15 @@ export async function updateContactEntry(formData) {
   return contactEntry;
 }
 
+export async function updateDisplayWorkEntry(workEntry, displayed) {
+  const updatedWorkEntry = await prisma.workEntry.update({
+    where: { id: workEntry.id },
+    data: { displayed: displayed },
+  });
+
+  return updatedWorkEntry;
+}
+
 export async function updateWorkEntry(formData) {
   const id = formData.get("workEntryId");
   const resumeId = formData.get("resumeId");
