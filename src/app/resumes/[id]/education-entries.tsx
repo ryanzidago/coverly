@@ -163,7 +163,12 @@ function Summary({ educationEntry, onClick }) {
 }
 
 function Form({ resume, educationEntry, onCancel, onSubmit }) {
+  const [currentEducation, setCurrentEducation] = useState(false);
   const router = useRouter();
+
+  function toggleCurrentEducation() {
+    setCurrentEducation((prev) => !prev);
+  }
 
   function handleOnCancel() {
     onCancel();
@@ -222,6 +227,14 @@ function Form({ resume, educationEntry, onCancel, onSubmit }) {
         />
       </div>
       <div className="flex flex-row gap-2 items-center">
+        <input
+          type="checkbox"
+          name="currentEducation"
+          onClick={() => toggleCurrentEducation()}
+        />
+        <label htmlFor="currentEducation">Current education</label>
+      </div>
+      <div className="flex flex-row gap-2 items-center">
         <label>Start date</label>
         <select
           defaultValue={educationEntry.startDate?.getMonth() || ""}
@@ -249,7 +262,11 @@ function Form({ resume, educationEntry, onCancel, onSubmit }) {
           placeholder="Start year"
         />
       </div>
-      <div className="flex flex-row gap-2 items-center">
+      <div
+        className={`flex flex-row gap-2 items-center ${
+          currentEducation ? "opacity-50 pointer-events-none" : ""
+        }`}
+      >
         <label>End date</label>
         <select
           defaultValue={educationEntry.endDate?.getMonth() || ""}

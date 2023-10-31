@@ -254,6 +254,7 @@ export async function updateWorkEntry(formData) {
   const city = formData.get("city");
   const country = formData.get("country");
   const remote = formData.get("remote");
+  const currentWork = formData.get("currentWork");
   const employmentType = EmploymentType.SelfEmployed;
 
   let organisation = await prisma.organisation.findFirst({
@@ -269,7 +270,7 @@ export async function updateWorkEntry(formData) {
   const data = {
     position,
     startDate: new Date(startYear, startMonth),
-    endDate: new Date(endYear, endMonth),
+    endDate: currentWork ? null : new Date(endYear, endMonth),
     location: { city, country, remote },
     employmentType,
     organisationId: organisation.id,
@@ -300,6 +301,7 @@ export async function updateEducationEntry(formData) {
   const city = formData.get("city");
   const country = formData.get("country");
   const remote = formData.get("remote");
+  const currentEducation = formData.get("currentEducation");
 
   let organisation = await prisma.organisation.findFirst({
     where: { name: organisationName },
@@ -315,7 +317,7 @@ export async function updateEducationEntry(formData) {
     domain,
     type,
     startDate: new Date(startYear, startMonth),
-    endDate: new Date(endYear, endMonth),
+    endDate: currentEducation ? null : new Date(endYear, endMonth),
     location: { city, country, remote },
     organisationId: organisation.id,
     resumeId,

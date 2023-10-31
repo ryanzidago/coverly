@@ -163,6 +163,11 @@ function Summary({ workEntry, onClick }) {
 
 function Form({ resume, workEntry, onCancel, onSubmit }) {
   const router = useRouter();
+  const [currentWork, setCurrentWork] = useState(false);
+
+  function toggleCurrentWork() {
+    setCurrentWork((prev) => !prev);
+  }
 
   function handleOnCancel() {
     onCancel();
@@ -210,6 +215,14 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
         />
       </div>
       <div className="flex flex-row gap-2 items-center">
+        <input
+          type="checkbox"
+          name="currentWork"
+          onClick={() => toggleCurrentWork()}
+        />
+        <label htmlFor="currentWork">Current work</label>
+      </div>
+      <div className="flex flex-row gap-2 items-center">
         <label>Start date</label>
         <select
           defaultValue={workEntry.startDate?.getMonth() || ""}
@@ -237,7 +250,11 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
           placeholder="Start year"
         />
       </div>
-      <div className="flex flex-row gap-2 items-center">
+      <div
+        className={`flex flex-row gap-2 items-center ${
+          currentWork ? "opacity-50 pointer-events-none" : ""
+        }`}
+      >
         <label>End date</label>
         <select
           defaultValue={workEntry.endDate?.getMonth() || ""}
