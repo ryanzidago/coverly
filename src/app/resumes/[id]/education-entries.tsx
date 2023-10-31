@@ -156,7 +156,7 @@ function Summary({ educationEntry, onClick }) {
   const { domain, type, startDate, organisation } = educationEntry;
 
   return (
-    <div onClick={onClick}>
+    <div className="hover:cursor-pointer" onClick={onClick}>
       {type} in {domain} at {organisation.name} in {startDate?.getFullYear()}
     </div>
   );
