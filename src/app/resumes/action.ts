@@ -250,6 +250,16 @@ export async function updateDisplayWorkEntry(workEntry, displayed) {
   return updatedWorkEntry;
 }
 
+
+export async function updateDisplayEducationEntry(educationEntry, displayed) {
+  const updatedEducationEntry = await prisma.educationEntry.update({
+    where: { id: educationEntry.id },
+    data: { displayed: displayed },
+  });
+
+  return updatedEducationEntry;
+}
+
 export async function updateWorkEntry(formData) {
   const id = formData.get("workEntryId");
   const resumeId = formData.get("resumeId");

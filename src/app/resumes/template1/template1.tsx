@@ -41,7 +41,7 @@ export default function Template1({ resume }) {
       {/* work section*/}
       <Section title="Work Experience">
         {workEntries
-          .filter((workEntry) => workEntry.displayed === true)
+          .filter((workEntry) => workEntry.displayed)
           .map((workEntry, index: number) => (
             // workEntry entry container
             <div key={index}>
@@ -64,26 +64,28 @@ export default function Template1({ resume }) {
       </Section>
       {/* education section */}
       <Section title="Education">
-        {educationEntries.map((education, index: number) => (
-          // education container
-          <div key={index}>
-            {/* education header */}
-            <EntryHeader
-              title={education?.area}
-              link={education?.organisation?.website}
-              subtitle={education?.organisation?.name}
-              startDate={education?.startDate}
-              endDate={education?.endDate}
-              location={education?.location}
-            />
+        {educationEntries
+          .filter((education) => education.displayed)
+          .map((education, index: number) => (
+            // education container
+            <div key={index}>
+              {/* education header */}
+              <EntryHeader
+                title={education?.area}
+                link={education?.organisation?.website}
+                subtitle={education?.organisation?.name}
+                startDate={education?.startDate}
+                endDate={education?.endDate}
+                location={education?.location}
+              />
 
-            {/* education description container */}
-            <EntryAchievements
-              achievements={education?.achievements}
-              index={index}
-            />
-          </div>
-        ))}
+              {/* education description container */}
+              <EntryAchievements
+                achievements={education?.achievements}
+                index={index}
+              />
+            </div>
+          ))}
       </Section>
     </div>
   );
