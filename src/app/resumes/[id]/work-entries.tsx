@@ -8,6 +8,7 @@ import {
   deleteWorkEntry,
   updateDisplayWorkEntry,
   updateDisplayWorkAchievement,
+  createEmptyWorkAchievement,
 } from "../action";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
@@ -20,12 +21,6 @@ const EMPTY_WORK_ENTRY = {
   endDate: null,
   location: { city: "", country: "", remote: false },
   achievements: [],
-  displayed: true,
-};
-
-const EMPTY_ACHIEVEMENT = {
-  id: "empty_achievement",
-  description: "",
   displayed: true,
 };
 
@@ -80,11 +75,11 @@ function WorkEntry({
   toggleAddWorkEntryForm,
 }) {
   const router = useRouter();
-  const [addAchievement, setAddAchievement] = useState(false);
   const [showForm, setShowForm] = useState(defaultShowForm);
 
-  function toggleAddAchievement() {
-    setAddAchievement((prev) => !prev);
+  function handleAddAchievement() {
+    createEmptyWorkAchievement(workEntry.id);
+    router.refresh();
   }
 
   function removeWorkEntry(workEntry) {
@@ -118,7 +113,7 @@ function WorkEntry({
             <Summary workEntry={workEntry} onClick={setShowForm} />
             <WorkEntryDropDown
               onEditEntry={setShowForm}
-              onAddAchievement={toggleAddAchievement}
+              onAddAchievement={handleAddAchievement}
               onRemoveWorkEntry={() => removeWorkEntry(workEntry)}
             />
           </div>
@@ -127,14 +122,6 @@ function WorkEntry({
 
       {!showForm && (
         <div>
-          {addAchievement && (
-            <Achievement
-              workEntry={workEntry}
-              achievement={EMPTY_ACHIEVEMENT}
-              onRemove={toggleAddAchievement}
-              onAdd={toggleAddAchievement}
-            />
-          )}
           {workEntry.achievements.map((achievement) => (
             <Achievement
               key={achievement.id}
@@ -340,24 +327,14 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
   );
 }
 
-function Achievement({
-  workEntry,
-  achievement,
-  onRemove = () => {},
-  onAdd = () => {},
-}) {
+function Achievement({ workEntry, achievement }) {
   const textAreaRef = useRef();
   const router = useRouter();
 
   const { id, description, displayed } = achievement;
 
   function handleRemove() {
-    if (id === "empty_achievement") {
-      onRemove();
-    } else {
-      deleteWorkAchievement(id);
-    }
-
+    deleteWorkAchievement(id);
     router.refresh();
   }
 
@@ -369,7 +346,6 @@ function Achievement({
     const formElement = document.getElementById(id);
     const formData = new FormData(formElement);
     updateWorkAchievement(formData);
-    onAdd();
     router.refresh();
   }
 

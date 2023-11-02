@@ -8,6 +8,7 @@ import {
   deleteEducationEntry,
   updateDisplayEducationEntry,
   updateDisplayEducationAchievement,
+  createEmptyEducationAchievement,
 } from "../action";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
@@ -80,14 +81,11 @@ function EducationEntry({
   toggleAddEducationEntryForm,
 }) {
   const router = useRouter();
-  const [addAchievement, setAddAchievement] = useState(false);
   const [showForm, setShowForm] = useState(defaultShowForm);
 
-  function toggleAddAchievement() {
-    console.log("toggle add achievement called");
-    console.log(addAchievement);
-
-    setAddAchievement((prev) => !prev);
+  function handleAddAchievement() {
+    createEmptyEducationAchievement(educationEntry.id);
+    router.refresh();
   }
 
   function removeEducationEntry(educationEntry) {
@@ -121,7 +119,7 @@ function EducationEntry({
             <Summary educationEntry={educationEntry} onClick={setShowForm} />
             <EducationEntryDropDown
               onEditEntry={setShowForm}
-              onAddAchievement={toggleAddAchievement}
+              onAddAchievement={handleAddAchievement}
               onRemoveEducationEntry={() =>
                 removeEducationEntry(educationEntry)
               }
@@ -132,14 +130,6 @@ function EducationEntry({
 
       {!showForm && (
         <div>
-          {addAchievement && (
-            <Achievement
-              educationEntry={educationEntry}
-              achievement={EMPTY_ACHIEVEMENT}
-              onRemove={toggleAddAchievement}
-              onAdd={toggleAddAchievement}
-            />
-          )}
           {educationEntry.achievements.map((achievement) => (
             <Achievement
               key={achievement.id}
@@ -354,23 +344,13 @@ function Form({ resume, educationEntry, onCancel, onSubmit }) {
   );
 }
 
-function Achievement({
-  educationEntry,
-  achievement,
-  onRemove = () => {},
-  onAdd = () => {},
-}) {
+function Achievement({ educationEntry, achievement }) {
   const textAreaRef = useRef();
   const router = useRouter();
   const { id, description, displayed } = achievement;
 
   function handleRemove() {
-    if (id === "empty_achievement") {
-      onRemove();
-    } else {
-      deleteEducationAchievement(id);
-    }
-
+    deleteEducationAchievement(id);
     router.refresh();
   }
 
@@ -383,8 +363,6 @@ function Achievement({
     const formElement = document.getElementById(id);
     const formData = new FormData(formElement);
     updateEducationAchievement(formData);
-
-    onAdd();
     router.refresh();
   }
 
@@ -393,48 +371,48 @@ function Achievement({
     router.refresh();
   }
 
-    function handleEducationAchievementChange(e) {
-      const value = e.target.value;
-      value ? handleSubmit(e) : handleRemove();
-    }
+  function handleEducationAchievementChange(e) {
+    const value = e.target.value;
+    value ? handleSubmit(e) : handleRemove();
+  }
 
-    return (
-      <form
-        id={id}
-        onSubmit={handleSubmit}
-        className={`ml-10 py-2 ${displayed ? "" : "opacity-50"}`}
-      >
+  return (
+    <form
+      id={id}
+      onSubmit={handleSubmit}
+      className={`ml-10 py-2 ${displayed ? "" : "opacity-50"}`}
+    >
+      <input
+        type="hidden"
+        name="educationEntryId"
+        defaultValue={educationEntry.id}
+      />
+      <input type="hidden" name="educationAchievementId" defaultValue={id} />
+      <label htmlFor={id} className="flex flex-row items-start gap-2 w-full">
         <input
-          type="hidden"
-          name="educationEntryId"
-          defaultValue={educationEntry.id}
+          type="checkbox"
+          className="mt-1"
+          name="displayed"
+          value={displayed}
+          defaultChecked={displayed}
+          onChange={(e) =>
+            handleUpdateDisplayEducationAchievement(
+              achievement,
+              e.target.checked,
+            )
+          }
         />
-        <input type="hidden" name="educationAchievementId" defaultValue={id} />
-        <label htmlFor={id} className="flex flex-row items-start gap-2 w-full">
-          <input
-            type="checkbox"
-            className="mt-1"
-            name="displayed"
-            value={displayed}
-            defaultChecked={displayed}
-            onChange={(e) =>
-              handleUpdateDisplayEducationAchievement(
-                achievement,
-                e.target.checked,
-              )
-            }
-          />
-          <textarea
-            ref={textAreaRef}
-            defaultValue={description}
-            name="description"
-            className="w-full rounded"
-            placeholder="Tell us about what you've achieved!"
-            onChange={handleEducationAchievementChange}
-          />
-        </label>
-      </form>
-    );
+        <textarea
+          ref={textAreaRef}
+          defaultValue={description}
+          name="description"
+          className="w-full rounded"
+          placeholder="Tell us about what you've achieved!"
+          onChange={handleEducationAchievementChange}
+        />
+      </label>
+    </form>
+  );
 }
 
 function EducationEntryDropDown({

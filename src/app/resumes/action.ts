@@ -250,6 +250,14 @@ export async function updateDisplayWorkEntry(workEntry, displayed) {
   return updatedWorkEntry;
 }
 
+export async function createEmptyWorkAchievement(workEntryId) {
+  const emptyWorkAchievement = await prisma.workAchievement.create({
+    data: { workEntryId },
+  });
+
+  return emptyWorkAchievement;
+}
+
 export async function updateDisplayWorkAchievement(workAchievement, displayed) {
   const updatedWorkAchievement = await prisma.workAchievement.update({
     where: { id: workAchievement.id },
@@ -257,6 +265,14 @@ export async function updateDisplayWorkAchievement(workAchievement, displayed) {
   });
 
   return updatedWorkAchievement;
+}
+
+export async function createEmptyEducationAchievement(educationEntryId) {
+  const emptyEducationAchievement = await prisma.educationAchievement.create({
+    data: { educationEntryId },
+  });
+
+  return emptyEducationAchievement;
 }
 
 export async function updateDisplayEducationEntry(educationEntry, displayed) {
@@ -387,47 +403,26 @@ export async function deleteEducationEntry(educationEntryId) {
 
 export async function updateWorkAchievement(formData) {
   const workAchievementId = formData.get("workAchievementId");
-  const workEntryId = formData.get("workEntryId");
   const description = formData.get("description");
-  let displayed = formData.get("displayed");
+  const displayed = formData.get("displayed") == "on" ? true : false;
 
-  if (displayed == "on") {
-    displayed = true;
-  } else {
-    displayed = false;
-  }
-
-  let workAchievement;
-  if (workAchievementId === "empty_achievement") {
-    workAchievement = await prisma.workAchievement.create({
-      data: { workEntryId, description, displayed },
-    });
-  } else {
-    workAchievement = await prisma.workAchievement.update({
-      where: { id: workAchievementId },
-      data: { description, displayed },
-    });
-  }
+  const workAchievement = await prisma.workAchievement.update({
+    where: { id: workAchievementId },
+    data: { description, displayed },
+  });
 
   return workAchievement;
 }
 
 export async function updateEducationAchievement(formData) {
   const educationAchievementId = formData.get("educationAchievementId");
-  const educationEntryId = formData.get("educationEntryId");
   const description = formData.get("description");
+  const displayed = formData.get("displayed");
 
-  let educationAchievement;
-  if (educationAchievementId === "empty_achievement") {
-    educationAchievement = await prisma.educationAchievement.create({
-      data: { educationEntryId, description },
-    });
-  } else {
-    educationAchievement = await prisma.educationAchievement.update({
-      where: { id: educationAchievementId },
-      data: { description },
-    });
-  }
+  const educationAchievement = await prisma.educationAchievement.update({
+    where: { id: educationAchievementId },
+    data: { description, displayed: Boolean(displayed) },
+  });
 
   return educationAchievement;
 }
