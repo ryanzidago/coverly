@@ -161,6 +161,7 @@ model WorkAchievement {
   description String?
   insertedAt  DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  displayed   Boolean   @default(true)
   workEntry   WorkEntry @relation(fields: [workEntryId], references: [id], onDelete: Cascade)
 
   @@map("work_achievements")
@@ -172,6 +173,7 @@ model EducationAchievement {
   description      String?
   insertedAt       DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
+  displayed        Boolean        @default(true)
   educationEntry   EducationEntry @relation(fields: [educationEntryId], references: [id], onDelete: Cascade)
 
   @@map("education_achievements")
