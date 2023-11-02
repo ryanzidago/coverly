@@ -396,53 +396,55 @@ function WorkEntryDropDown({
   onEditEntry,
 }) {
   return (
-    <div className="absolute right-0">
-      <Menu>
-        <Menu.Button className={"absolute right-0"}>Menu</Menu.Button>
-        <Transition
-          enter="transition duration-100 ease-out"
-          enterFrom="transform scale-95 opacity-0"
-          enterTo="transform scale-100 opacity-100"
-          leave="transition duration-75 ease-out"
-          leaveFrom="transform scale-100 opacity-100"
-          leaveTo="transform scale-95 opacity-0"
+    <Menu as={"div"} className={"absolute right-0"}>
+      <Menu.Button className={"absolute right-0"}>Menu</Menu.Button>
+      <Transition
+        enter="transition duration-100 ease-out"
+        enterFrom="transform scale-95 opacity-0"
+        enterTo="transform scale-100 opacity-100"
+        leave="transition duration-75 ease-out"
+        leaveFrom="transform scale-100 opacity-100"
+        leaveTo="transform scale-95 opacity-0"
+      >
+        <Menu.Items
+          className={
+            "flex flex-col p-2 rounded shadow bg-white absolute right-12 top-6"
+          }
         >
-          <Menu.Items className={"flex flex-col p-2 rounded shadow bg-white"}>
-            <Menu.Item>
+          <Menu.Item>
+            <button
+              type="button"
+              className="hover:shadow p-2 rounded w-full"
+              onClick={onEditEntry}
+            >
+              Edit
+            </button>
+          </Menu.Item>
+          <Menu.Item>
+            {({}) => (
               <button
                 type="button"
                 className="hover:shadow p-2 rounded w-full"
-                onClick={onEditEntry}
+                onClick={onAddAchievement}
               >
-                Edit
+                Add achievement
               </button>
-            </Menu.Item>
-            <Menu.Item>
-              {({}) => (
-                <button
-                  type="button"
-                  className="hover:shadow p-2 rounded w-full"
-                  onClick={onAddAchievement}
-                >
-                  Add achievement
-                </button>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({}) => (
-                <button
-                  type="button"
-                  className="hover:shadow p-2 rounded w-full"
-                  onClick={onRemoveWorkEntry}
-                >
-                  Remove
-                </button>
-              )}
-            </Menu.Item>
-          </Menu.Items>
-        </Transition>
-      </Menu>
-    </div>
+            )}
+          </Menu.Item>
+          <Menu.Item>
+            {({}) => (
+              <button
+                type="button"
+                className="hover:shadow p-2 rounded w-full"
+                onClick={onRemoveWorkEntry}
+              >
+                Remove
+              </button>
+            )}
+          </Menu.Item>
+        </Menu.Items>
+      </Transition>
+    </Menu>
   );
 }
 
