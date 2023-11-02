@@ -393,50 +393,48 @@ function Achievement({
     router.refresh();
   }
 
-  return (
-    <form
-      id={id}
-      onSubmit={handleSubmit}
-      className={`ml-10 py-2 ${displayed ? "" : "opacity-50"}`}
-    >
-      <input
-        type="hidden"
-        name="educationEntryId"
-        defaultValue={educationEntry.id}
-      />
-      <input type="hidden" name="educationAchievementId" defaultValue={id} />
-      <label htmlFor={id} className="flex flex-row items-start gap-2 w-full">
+    function handleEducationAchievementChange(e) {
+      const value = e.target.value;
+      value ? handleSubmit(e) : handleRemove();
+    }
+
+    return (
+      <form
+        id={id}
+        onSubmit={handleSubmit}
+        className={`ml-10 py-2 ${displayed ? "" : "opacity-50"}`}
+      >
         <input
-          type="checkbox"
-          className="mt-1"
-          name="displayed"
-          value={displayed}
-          defaultChecked={displayed}
-          onChange={(e) =>
-            handleUpdateDisplayEducationAchievement(
-              achievement,
-              e.target.checked,
-            )
-          }
+          type="hidden"
+          name="educationEntryId"
+          defaultValue={educationEntry.id}
         />
-        <textarea
-          ref={textAreaRef}
-          defaultValue={description}
-          name="description"
-          className="w-full rounded"
-          placeholder="Tell us about what you've achieved!"
-        />
-      </label>
-      <div className="flex flex-row justify-between">
-        <button type="button" onClick={handleRemove}>
-          Remove
-        </button>
-        <button type="submit" onClick={handleSubmit}>
-          Save
-        </button>
-      </div>
-    </form>
-  );
+        <input type="hidden" name="educationAchievementId" defaultValue={id} />
+        <label htmlFor={id} className="flex flex-row items-start gap-2 w-full">
+          <input
+            type="checkbox"
+            className="mt-1"
+            name="displayed"
+            value={displayed}
+            defaultChecked={displayed}
+            onChange={(e) =>
+              handleUpdateDisplayEducationAchievement(
+                achievement,
+                e.target.checked,
+              )
+            }
+          />
+          <textarea
+            ref={textAreaRef}
+            defaultValue={description}
+            name="description"
+            className="w-full rounded"
+            placeholder="Tell us about what you've achieved!"
+            onChange={handleEducationAchievementChange}
+          />
+        </label>
+      </form>
+    );
 }
 
 function EducationEntryDropDown({
