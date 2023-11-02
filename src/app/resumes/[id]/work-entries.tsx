@@ -371,11 +371,16 @@ function Achievement({ workEntry, achievement, onRemove = () => {} }) {
     router.refresh();
   }
 
+  function handleWorkAchievementChange(e) {
+    const value = e.target.value;
+    value ? handleSubmit() : handleRemove();
+  }
+
   return (
     <form
       id={id}
       onSubmit={handleSubmit}
-      className={`py-2 ${displayed ? "" : "opacity-50"}`}
+      className={`ml-10 py-2 ${displayed ? "" : "opacity-50"}`}
     >
       <input type="hidden" name="workEntryId" defaultValue={workEntry.id} />
       <input type="hidden" name="workAchievementId" defaultValue={id} />
@@ -383,6 +388,7 @@ function Achievement({ workEntry, achievement, onRemove = () => {} }) {
         <input
           type="checkbox"
           className="mt-1"
+          name="displayed"
           defaultChecked={displayed}
           onChange={(value) =>
             handleUpdateDisplayWorkAchievement(
@@ -397,14 +403,15 @@ function Achievement({ workEntry, achievement, onRemove = () => {} }) {
           name="description"
           className="w-full rounded"
           placeholder="Tell us about what you've achieved!"
+          onChange={handleWorkAchievementChange}
         />
       </label>
-      <div className="flex flex-row justify-between">
+      {/* <div className="flex flex-row justify-between">
         <button type="button" onClick={handleRemove}>
           Remove
         </button>
         <button type="submit">Save</button>
-      </div>
+      </div> */}
     </form>
   );
 }

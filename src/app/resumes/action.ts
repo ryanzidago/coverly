@@ -378,16 +378,23 @@ export async function updateWorkAchievement(formData) {
   const workAchievementId = formData.get("workAchievementId");
   const workEntryId = formData.get("workEntryId");
   const description = formData.get("description");
+  let displayed = formData.get("displayed");
+
+  if (displayed == "on") {
+    displayed = true;
+  } else {
+    displayed = false;
+  }
 
   let workAchievement;
   if (workAchievementId === "empty_achievement") {
     workAchievement = await prisma.workAchievement.create({
-      data: { workEntryId, description },
+      data: { workEntryId, description, displayed },
     });
   } else {
     workAchievement = await prisma.workAchievement.update({
       where: { id: workAchievementId },
-      data: { description },
+      data: { description, displayed },
     });
   }
 
