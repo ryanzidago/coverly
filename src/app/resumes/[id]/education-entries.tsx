@@ -7,6 +7,7 @@ import {
   deleteEducationAchievement,
   deleteEducationEntry,
   updateDisplayEducationEntry,
+  updateDisplayEducationAchievement,
 } from "../action";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
@@ -19,11 +20,13 @@ const EMPTY_EDUCATION_ENTRY = {
   endDate: null,
   location: { city: "", country: "", remote: false },
   achievements: [],
+  displayed: true,
 };
 
 const EMPTY_ACHIEVEMENT = {
   id: "empty_achievement",
   description: "",
+  displayed: true,
 };
 
 export default function EducationEntries({ resume }) {
@@ -81,6 +84,9 @@ function EducationEntry({
   const [showForm, setShowForm] = useState(defaultShowForm);
 
   function toggleAddAchievement() {
+    console.log("toggle add achievement called");
+    console.log(addAchievement);
+
     setAddAchievement((prev) => !prev);
   }
 
@@ -131,6 +137,7 @@ function EducationEntry({
               educationEntry={educationEntry}
               achievement={EMPTY_ACHIEVEMENT}
               onRemove={toggleAddAchievement}
+              onAdd={toggleAddAchievement}
             />
           )}
           {educationEntry.achievements.map((achievement) => (
@@ -349,11 +356,13 @@ function Form({ resume, educationEntry, onCancel, onSubmit }) {
 
 function Achievement({
   educationEntry,
-  achievement: { id, description },
+  achievement,
   onRemove = () => {},
+  onAdd = () => {},
 }) {
   const textAreaRef = useRef();
   const router = useRouter();
+  const { id, description, displayed } = achievement;
 
   function handleRemove() {
     if (id === "empty_achievement") {
@@ -375,22 +384,46 @@ function Achievement({
     const formData = new FormData(formElement);
     updateEducationAchievement(formData);
 
+    onAdd();
     router.refresh();
   }
+
+  function handleUpdateDisplayEducationAchievement(achievement, displayed) {
+    updateDisplayEducationAchievement(achievement, displayed);
+    router.refresh();
+  }
+
   return (
-    <form id={id} onSubmit={handleSubmit}>
+    <form
+      id={id}
+      onSubmit={handleSubmit}
+      className={`ml-10 py-2 ${displayed ? "" : "opacity-50"}`}
+    >
       <input
         type="hidden"
         name="educationEntryId"
         defaultValue={educationEntry.id}
       />
       <input type="hidden" name="educationAchievementId" defaultValue={id} />
-      <label htmlFor={id}>
+      <label htmlFor={id} className="flex flex-row items-start gap-2 w-full">
+        <input
+          type="checkbox"
+          className="mt-1"
+          name="displayed"
+          value={displayed}
+          defaultChecked={displayed}
+          onChange={(e) =>
+            handleUpdateDisplayEducationAchievement(
+              achievement,
+              e.target.checked,
+            )
+          }
+        />
         <textarea
           ref={textAreaRef}
           defaultValue={description}
           name="description"
-          className="w-full p-2 rounded"
+          className="w-full rounded"
           placeholder="Tell us about what you've achieved!"
         />
       </label>
@@ -398,7 +431,9 @@ function Achievement({
         <button type="button" onClick={handleRemove}>
           Remove
         </button>
-        <button type="submit">Save</button>
+        <button type="submit" onClick={handleSubmit}>
+          Save
+        </button>
       </div>
     </form>
   );

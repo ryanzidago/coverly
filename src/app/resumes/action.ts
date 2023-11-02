@@ -259,7 +259,6 @@ export async function updateDisplayWorkAchievement(workAchievement, displayed) {
   return updatedWorkAchievement;
 }
 
-
 export async function updateDisplayEducationEntry(educationEntry, displayed) {
   const updatedEducationEntry = await prisma.educationEntry.update({
     where: { id: educationEntry.id },
@@ -267,6 +266,18 @@ export async function updateDisplayEducationEntry(educationEntry, displayed) {
   });
 
   return updatedEducationEntry;
+}
+
+export async function updateDisplayEducationAchievement(
+  educationAchievement,
+  displayed,
+) {
+  const updatedEducationAchievement = await prisma.educationAchievement.update({
+    where: { id: educationAchievement.id },
+    data: { displayed },
+  });
+
+  return updatedEducationAchievement;
 }
 
 export async function updateWorkEntry(formData) {

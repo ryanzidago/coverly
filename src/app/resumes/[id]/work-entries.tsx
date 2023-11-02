@@ -390,11 +390,8 @@ function Achievement({ workEntry, achievement, onRemove = () => {} }) {
           className="mt-1"
           name="displayed"
           defaultChecked={displayed}
-          onChange={(value) =>
-            handleUpdateDisplayWorkAchievement(
-              achievement,
-              value.target.checked,
-            )
+          onChange={(e) =>
+            handleUpdateDisplayWorkAchievement(achievement, e.target.checked)
           }
         />
         <textarea
