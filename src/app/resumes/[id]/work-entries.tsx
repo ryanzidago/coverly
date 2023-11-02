@@ -406,12 +406,6 @@ function Achievement({ workEntry, achievement, onRemove = () => {} }) {
           onChange={handleWorkAchievementChange}
         />
       </label>
-      {/* <div className="flex flex-row justify-between">
-        <button type="button" onClick={handleRemove}>
-          Remove
-        </button>
-        <button type="submit">Save</button>
-      </div> */}
     </form>
   );
 }
