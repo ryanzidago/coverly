@@ -132,6 +132,7 @@ function WorkEntry({
               workEntry={workEntry}
               achievement={EMPTY_ACHIEVEMENT}
               onRemove={toggleAddAchievement}
+              onAdd={toggleAddAchievement}
             />
           )}
           {workEntry.achievements.map((achievement) => (
@@ -339,7 +340,12 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
   );
 }
 
-function Achievement({ workEntry, achievement, onRemove = () => {} }) {
+function Achievement({
+  workEntry,
+  achievement,
+  onRemove = () => {},
+  onAdd = () => {},
+}) {
   const textAreaRef = useRef();
   const router = useRouter();
 
@@ -363,6 +369,7 @@ function Achievement({ workEntry, achievement, onRemove = () => {} }) {
     const formElement = document.getElementById(id);
     const formData = new FormData(formElement);
     updateWorkAchievement(formData);
+    onAdd();
     router.refresh();
   }
 
