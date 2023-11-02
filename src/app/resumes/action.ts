@@ -26,19 +26,19 @@ export async function getResume(id) {
       workEntries: {
         include: {
           organisation: true,
-          achievements: true,
+          achievements: { orderBy: { insertedAt: "desc" } },
         },
         orderBy: { startDate: "desc" },
       },
       educationEntries: {
         include: {
           organisation: true,
-          achievements: true,
+          achievements: { orderBy: { insertedAt: "desc" } },
         },
       },
       projectEntries: {
         include: {
-          achievements: true,
+          achievements: { orderBy: { insertedAt: "desc" } },
         },
       },
     },
@@ -248,6 +248,15 @@ export async function updateDisplayWorkEntry(workEntry, displayed) {
   });
 
   return updatedWorkEntry;
+}
+
+export async function updateDisplayWorkAchievement(workAchievement, displayed) {
+  const updatedWorkAchievement = await prisma.workAchievement.update({
+    where: { id: workAchievement.id },
+    data: { displayed },
+  });
+
+  return updatedWorkAchievement;
 }
 
 

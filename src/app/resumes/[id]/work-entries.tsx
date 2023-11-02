@@ -7,6 +7,7 @@ import {
   deleteWorkAchievement,
   deleteWorkEntry,
   updateDisplayWorkEntry,
+  updateDisplayWorkAchievement,
 } from "../action";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
@@ -25,6 +26,7 @@ const EMPTY_WORK_ENTRY = {
 const EMPTY_ACHIEVEMENT = {
   id: "empty_achievement",
   description: "",
+  displayed: true,
 };
 
 export default function WorkEntries({ resume }) {
@@ -337,13 +339,11 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
   );
 }
 
-function Achievement({
-  workEntry,
-  achievement: { id, description },
-  onRemove = () => {},
-}) {
+function Achievement({ workEntry, achievement, onRemove = () => {} }) {
   const textAreaRef = useRef();
   const router = useRouter();
+
+  const { id, description, displayed } = achievement;
 
   function handleRemove() {
     if (id === "empty_achievement") {
@@ -365,16 +365,37 @@ function Achievement({
     updateWorkAchievement(formData);
     router.refresh();
   }
+
+  function handleUpdateDisplayWorkAchievement(achievement, displayed) {
+    updateDisplayWorkAchievement(achievement, displayed);
+    router.refresh();
+  }
+
   return (
-    <form id={id} onSubmit={handleSubmit}>
+    <form
+      id={id}
+      onSubmit={handleSubmit}
+      className={`py-2 ${displayed ? "" : "opacity-50"}`}
+    >
       <input type="hidden" name="workEntryId" defaultValue={workEntry.id} />
       <input type="hidden" name="workAchievementId" defaultValue={id} />
-      <label htmlFor={id}>
+      <label htmlFor={id} className="flex flex-row items-start gap-2 w-full">
+        <input
+          type="checkbox"
+          className="mt-1"
+          defaultChecked={displayed}
+          onChange={(value) =>
+            handleUpdateDisplayWorkAchievement(
+              achievement,
+              value.target.checked,
+            )
+          }
+        />
         <textarea
           ref={textAreaRef}
           defaultValue={description}
           name="description"
-          className="w-full p-2 rounded"
+          className="w-full rounded"
           placeholder="Tell us about what you've achieved!"
         />
       </label>
