@@ -197,7 +197,7 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
       <input type="hidden" name="workEntryId" defaultValue={workEntry.id} />
       <input type="hidden" name="resumeId" defaultValue={resume.id} />
       <input
-        className="rounded p-2"
+        className="rounded p-2 hover:shadow-inner"
         type="text"
         name="position"
         placeholder="Position"
@@ -205,34 +205,38 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
       />
       <div className="flex flex-row gap-2">
         <input
-          className="rounded p-2"
+          className="rounded p-2 hover:shadow-inner"
           type="text"
           name="organisationName"
           placeholder="Organisation name"
           defaultValue={workEntry.organisation.name}
         />
         <input
-          className="rounded p-2"
+          className="rounded p-2 hover:shadow-inner"
           type="url"
           name="organisationWebsite"
           placeholder="Organisation website"
           defaultValue={workEntry.organisation.website}
         />
       </div>
-      <div className="flex flex-row gap-2 items-center">
+      <div className="flex flex-row gap-2 items-center hover:shadow hover:cursor-pointer w-fit p-2 rounded">
         <input
           type="checkbox"
+          id="currentWork"
           name="currentWork"
+          className="hover:cursor-pointer"
           onClick={() => toggleCurrentWork()}
         />
-        <label htmlFor="currentWork">Current work</label>
+        <label htmlFor="currentWork" className="hover:cursor-pointer">
+          Current work
+        </label>
       </div>
       <div className="flex flex-row gap-2 items-center">
         <label>Start date</label>
         <select
           defaultValue={workEntry.startDate?.getMonth() || ""}
           name="startMonth"
-          className="bg-white shadow rounded p-2"
+          className="bg-white rounded p-2 hover:cursor-pointer hover:shadow"
         >
           <option value={1}>January</option>
           <option value={2}>February</option>
@@ -248,7 +252,7 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
           <option value={12}>December</option>
         </select>
         <input
-          className="rounded p-2"
+          className="rounded p-2 hover:shadow-inner"
           type="number"
           name="startYear"
           defaultValue={workEntry.startDate?.getFullYear() || ""}
@@ -264,7 +268,7 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
         <select
           defaultValue={workEntry.endDate?.getMonth() || ""}
           name="endMonth"
-          className="bg-white shadow rounded p-2"
+          className="bg-white rounded p-2 hover:cursor-pointer hover:shadow"
         >
           <option value={1}>January</option>
           <option value={2}>February</option>
@@ -280,7 +284,7 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
           <option value={12}>December</option>
         </select>
         <input
-          className="rounded p-2"
+          className="rounded p-2 hover:shadow-inner"
           type="number"
           name="endYear"
           defaultValue={workEntry.endDate?.getFullYear() || ""}
@@ -288,26 +292,28 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
         />
       </div>
       <div className="flex flex-col gap-2">
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row gap-2 hover:cursor-pointer hover:shadow rounded w-fit p-2">
           <input
-            className="rounded p-2"
+            className="rounded p-2 hover:cursor-pointer"
             type="checkbox"
             name="remote"
             defaultChecked={workEntry.location.remote}
             id="remote"
           />
-          <label htmlFor="remote">Remote</label>
+          <label htmlFor="remote" className="hover:cursor-pointer">
+            Remote
+          </label>
         </div>
         <div className="flex flex-row gap-2 items-center">
           <input
-            className="rounded p-2"
+            className="rounded p-2 hover:shadow-inner"
             type="text"
             name="city"
             defaultValue={workEntry.location.city}
             placeholder="City"
           />
           <input
-            className="rounded p-2"
+            className="rounded p-2 hover:shadow-inner"
             type="text"
             name="country"
             defaultValue={workEntry.location.country}
@@ -316,10 +322,18 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
         </div>
       </div>
       <div className="flex flex-row justify-between">
-        <button type="button" onClick={handleOnCancel}>
+        <button
+          type="button"
+          className="hover:shadow p-2 rounded"
+          onClick={handleOnCancel}
+        >
           Cancel
         </button>
-        <button type="submit" onClick={handleOnSubmit}>
+        <button
+          type="submit"
+          className="hover:shadow p-2 rounded"
+          onClick={handleOnSubmit}
+        >
           Submit
         </button>
       </div>

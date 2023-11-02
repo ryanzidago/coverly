@@ -201,14 +201,14 @@ function Form({ resume, educationEntry, onCancel, onSubmit }) {
       />
       <input type="hidden" name="resumeId" defaultValue={resume.id} />
       <input
-        className="rounded p-2"
+        className="rounded p-2 hover:shadow-inner"
         type="text"
         name="domain"
         placeholder="Study Area"
         defaultValue={educationEntry.domain}
       />
       <input
-        className="rounded p-2"
+        className="rounded p-2  hover:shadow-inner"
         type="text"
         name="studyType"
         placeholder="Study Type"
@@ -216,27 +216,31 @@ function Form({ resume, educationEntry, onCancel, onSubmit }) {
       />
       <div className="flex flex-row gap-2">
         <input
-          className="rounded p-2"
+          className="rounded p-2 hover:shadow-inner"
           type="text"
           name="organisationName"
           placeholder="Organisation name"
           defaultValue={educationEntry.organisation.name}
         />
         <input
-          className="rounded p-2"
+          className="rounded p-2 hover:shadow-inner"
           type="url"
           name="organisationWebsite"
           placeholder="Organisation website"
           defaultValue={educationEntry.organisation.website}
         />
       </div>
-      <div className="flex flex-row gap-2 items-center">
+      <div className="flex flex-row gap-2 items-center hover:shadow hover:cursor-pointer w-fit rounded p-2">
         <input
           type="checkbox"
+          id="currentEducation"
           name="currentEducation"
+          className="hover:cursor-pointer"
           onClick={() => toggleCurrentEducation()}
         />
-        <label htmlFor="currentEducation">Current education</label>
+        <label htmlFor="currentEducation" className="hover:cursor-pointer">
+          Current education
+        </label>
       </div>
       <div className="flex flex-row gap-2 items-center">
         <label>Start date</label>
@@ -259,7 +263,7 @@ function Form({ resume, educationEntry, onCancel, onSubmit }) {
           <option value={12}>December</option>
         </select>
         <input
-          className="rounded p-2"
+          className="rounded p-2 hover:shadow-inner"
           type="number"
           name="startYear"
           defaultValue={educationEntry.startDate?.getFullYear() || ""}
@@ -291,7 +295,7 @@ function Form({ resume, educationEntry, onCancel, onSubmit }) {
           <option value={12}>December</option>
         </select>
         <input
-          className="rounded p-2"
+          className="rounded p-2  hover:shadow-inner"
           type="number"
           name="endYear"
           defaultValue={educationEntry.endDate?.getFullYear() || ""}
@@ -299,26 +303,28 @@ function Form({ resume, educationEntry, onCancel, onSubmit }) {
         />
       </div>
       <div className="flex flex-col gap-2">
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row gap-2 hover:shadow hover:cursor-pointer w-fit rounded p-2">
           <input
-            className="rounded p-2"
+            className="rounded p-2 hover:cursor-pointer"
             type="checkbox"
             name="remote"
             defaultChecked={educationEntry.location.remote}
             id="remote"
           />
-          <label htmlFor="remote">Remote</label>
+          <label htmlFor="remote" className="hover:cursor-pointer">
+            Remote
+          </label>
         </div>
         <div className="flex flex-row gap-2 items-center">
           <input
-            className="rounded p-2"
+            className="rounded p-2 hover:shadow-inner"
             type="text"
             name="city"
             defaultValue={educationEntry.location.city}
             placeholder="City"
           />
           <input
-            className="rounded p-2"
+            className="rounded p-2 hover:shadow-inner"
             type="text"
             name="country"
             defaultValue={educationEntry.location.country}
@@ -327,10 +333,18 @@ function Form({ resume, educationEntry, onCancel, onSubmit }) {
         </div>
       </div>
       <div className="flex flex-row justify-between">
-        <button type="button" onClick={handleOnCancel}>
+        <button
+          type="button"
+          className="hover:shadow p-2 rounded"
+          onClick={handleOnCancel}
+        >
           Cancel
         </button>
-        <button type="submit" onClick={handleOnSubmit}>
+        <button
+          type="submit"
+          className="hover:shadow p-2 rounded"
+          onClick={handleOnSubmit}
+        >
           Submit
         </button>
       </div>
