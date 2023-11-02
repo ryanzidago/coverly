@@ -19,6 +19,7 @@ const EMPTY_WORK_ENTRY = {
   endDate: null,
   location: { city: "", country: "", remote: false },
   achievements: [],
+  displayed: true,
 };
 
 const EMPTY_ACHIEVEMENT = {
