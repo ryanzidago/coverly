@@ -24,12 +24,6 @@ const EMPTY_EDUCATION_ENTRY = {
   displayed: true,
 };
 
-const EMPTY_ACHIEVEMENT = {
-  id: "empty_achievement",
-  description: "",
-  displayed: true,
-};
-
 export default function EducationEntries({ resume }) {
   const [addEducationEntry, setAddEducationEntry] = useState(false);
   const educationEntries = resume.educationEntries;
@@ -432,7 +426,11 @@ function EducationEntryDropDown({
           leaveFrom="transform scale-100 opacity-100"
           leaveTo="transform scale-95 opacity-0"
         >
-          <Menu.Items className={"flex flex-col p-2 rounded shadow bg-white"}>
+          <Menu.Items
+            className={
+              "flex flex-col p-2 rounded shadow bg-white absolute right-12 top-6"
+            }
+          >
             <Menu.Item>
               <button
                 type="button"
