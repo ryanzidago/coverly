@@ -11,8 +11,14 @@ import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+import { Resume } from "@prisma/client";
 
-export default function TitleInput({ resume, resumes }) {
+type TitleInputProps = {
+  resume: Resume;
+  resumes: Resume[];
+};
+
+export default function TitleInput({ resume, resumes }: TitleInputProps) {
   const router = useRouter();
 
   useEffect(() => {
@@ -21,7 +27,7 @@ export default function TitleInput({ resume, resumes }) {
 
   function handleOnChange() {
     const formElement = document.getElementById("resume-metadata-form");
-    const formData = new FormData(formElement);
+    const formData = new FormData(formElement as HTMLFormElement);
     updateResume(formData);
     router.refresh();
   }
@@ -38,7 +44,7 @@ export default function TitleInput({ resume, resumes }) {
       <input type="hidden" name="resumeId" value={resume.id} />
       <input
         type="text"
-        defaultValue={resume.title}
+        defaultValue={resume.title || ""}
         name="resumeTitle"
         className="text-xl font-semibold text-slate-700"
         placeholder="Resume title"
@@ -49,10 +55,14 @@ export default function TitleInput({ resume, resumes }) {
   );
 }
 
-function SelectResumeDropdown({ resumes }) {
+type SelectResumeDropdownProps = {
+  resumes: Resume[];
+};
+
+function SelectResumeDropdown({ resumes }: SelectResumeDropdownProps) {
   const router = useRouter();
 
-  function navigateToResume(resume) {
+  function navigateToResume(resume: Resume) {
     router.push(`/resumes/${resume.id}`);
   }
 
@@ -98,11 +108,16 @@ function SelectResumeDropdown({ resumes }) {
   );
 }
 
-function ResumeMenuDropDown({ resume, resumes }) {
+type ResumeMenuDropDown = {
+  resume: Resume;
+  resumes: Resume[];
+};
+
+function ResumeMenuDropDown({ resume, resumes }: ResumeMenuDropDown) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  function handleDelete(selectedResume) {
+  function handleDelete(selectedResume: Resume) {
     const newSelectedResume = resumes.filter(
       (resume) => resume.id !== selectedResume.id,
     )[0];

@@ -9,7 +9,7 @@ import EducationEntries from "./education-entries";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 
-export default async function Page({ params }) {
+export default async function Page({ params }: any) {
   const session = await getServerSession(authOptions);
   const { user } = session;
 

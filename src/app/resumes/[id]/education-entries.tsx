@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Ref, useEffect, useRef, useState } from "react";
 import {
   updateEducationEntry,
   updateEducationAchievement,
@@ -12,6 +12,7 @@ import {
 } from "../action";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
+import { EducationAchievement, EducationEntry, Resume } from "@prisma/client";
 
 const EMPTY_EDUCATION_ENTRY = {
   id: "empty_education_entry",
@@ -24,7 +25,11 @@ const EMPTY_EDUCATION_ENTRY = {
   displayed: true,
 };
 
-export default function EducationEntries({ resume }) {
+type EducationEntriesProps = {
+  resume: Resume;
+};
+
+export default function EducationEntries({ resume }: EducationEntriesProps) {
   const [addEducationEntry, setAddEducationEntry] = useState(false);
   const educationEntries = resume.educationEntries;
 
@@ -124,23 +129,28 @@ function EducationEntry({
 
       {!showForm && (
         <div>
-          {educationEntry.achievements.map((achievement) => (
-            <Achievement
-              key={achievement.id}
-              educationEntry={educationEntry}
-              achievement={achievement}
-            />
-          ))}
+          {educationEntry.achievements.map(
+            (achievement: EducationAchievement) => (
+              <Achievement
+                key={achievement.id}
+                educationEntry={educationEntry}
+                achievement={achievement}
+              />
+            ),
+          )}
         </div>
       )}
     </div>
   );
 }
 
-function CheckboxedField({ children, entry }) {
+function CheckboxedField({ children, entry }: any) {
   const router = useRouter();
 
-  function handleUpdateDisplayEducationEntry(entry, displayed) {
+  function handleUpdateDisplayEducationEntry(
+    entry: EducationEntry,
+    displayed: boolean,
+  ) {
     updateDisplayEducationEntry(entry, displayed);
     router.refresh();
   }
@@ -158,7 +168,7 @@ function CheckboxedField({ children, entry }) {
   );
 }
 
-function Summary({ educationEntry, onClick }) {
+function Summary({ educationEntry, onClick }: any) {
   const { domain, type, startDate, organisation } = educationEntry;
 
   return (
@@ -168,7 +178,7 @@ function Summary({ educationEntry, onClick }) {
   );
 }
 
-function Form({ resume, educationEntry, onCancel, onSubmit }) {
+function Form({ resume, educationEntry, onCancel, onSubmit }: any) {
   const [currentEducation, setCurrentEducation] = useState(false);
   const router = useRouter();
 
@@ -427,7 +437,7 @@ function EducationEntryDropDown({
   onAddAchievement,
   onRemoveEducationEntry,
   onEditEntry,
-}) {
+}: any) {
   return (
     <div className="absolute right-0">
       <Menu>
@@ -483,7 +493,7 @@ function EducationEntryDropDown({
   );
 }
 
-function autoResizeTextArea(textAreaRef) {
+function autoResizeTextArea(textAreaRef: any) {
   if (textAreaRef.current) {
     textAreaRef.current.style.height = "auto";
     textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";

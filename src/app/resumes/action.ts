@@ -1,10 +1,18 @@
 "use server";
 
 import prisma from "../../../prisma/client";
+import {
+  EducationAchievement,
+  EducationEntry,
+  Resume,
+  WorkAchievement,
+  WorkEntry,
+} from "@prisma/client";
+
 import { redirect } from "next/navigation";
 import { EmploymentType } from "@prisma/client";
 
-export async function allResumesForUserId(userId) {
+export async function allResumesForUserId(userId: string) {
   const resumes = await prisma.resume.findMany({
     where: {
       authorId: userId,
@@ -15,7 +23,7 @@ export async function allResumesForUserId(userId) {
   return resumes;
 }
 
-export async function getResume(authorId, resumeId) {
+export async function getResume(authorId: string, resumeId: string) {
   const resume = await prisma.resume.findUnique({
     where: {
       id: resumeId,
@@ -48,7 +56,7 @@ export async function getResume(authorId, resumeId) {
   return resume;
 }
 
-export async function getLatestUpdatedResume(authorId) {
+export async function getLatestUpdatedResume(authorId: string) {
   const resumeId = await prisma.resume.findFirst({
     where: {
       authorId: authorId,
@@ -59,7 +67,7 @@ export async function getLatestUpdatedResume(authorId) {
   return resumeId;
 }
 
-export async function createEmptyResume(authorId) {
+export async function createEmptyResume(authorId: string) {
   const data = {
     title: "My resume",
     authorId: authorId,
@@ -84,7 +92,7 @@ export async function updateResume(formData) {
   });
 }
 
-export async function duplicateResume(resume) {
+export async function duplicateResume(resume: Resume) {
   // Create a new resume record with a new UUID
   const newResume = await prisma.resume.create({
     data: {
@@ -212,11 +220,11 @@ export async function duplicateResume(resume) {
   // };
 }
 
-export async function deleteResume(resume) {
+export async function deleteResume(resume: Resume) {
   return await prisma.resume.delete({ where: { id: resume.id } });
 }
 
-export async function updateContactEntry(formData) {
+export async function updateContactEntry(formData: any) {
   const id = formData.get("contactEntryId");
   const firstName = formData.get("firstName");
   const lastName = formData.get("lastName");
@@ -242,7 +250,10 @@ export async function updateContactEntry(formData) {
   return contactEntry;
 }
 
-export async function updateDisplayWorkEntry(workEntry, displayed) {
+export async function updateDisplayWorkEntry(
+  workEntry: WorkEntry,
+  displayed: boolean,
+) {
   const updatedWorkEntry = await prisma.workEntry.update({
     where: { id: workEntry.id },
     data: { displayed: displayed },
@@ -251,7 +262,7 @@ export async function updateDisplayWorkEntry(workEntry, displayed) {
   return updatedWorkEntry;
 }
 
-export async function createEmptyWorkAchievement(workEntryId) {
+export async function createEmptyWorkAchievement(workEntryId: string) {
   const emptyWorkAchievement = await prisma.workAchievement.create({
     data: { workEntryId },
   });
@@ -259,7 +270,10 @@ export async function createEmptyWorkAchievement(workEntryId) {
   return emptyWorkAchievement;
 }
 
-export async function updateDisplayWorkAchievement(workAchievement, displayed) {
+export async function updateDisplayWorkAchievement(
+  workAchievement: WorkAchievement,
+  displayed: boolean,
+) {
   const updatedWorkAchievement = await prisma.workAchievement.update({
     where: { id: workAchievement.id },
     data: { displayed },
@@ -268,7 +282,9 @@ export async function updateDisplayWorkAchievement(workAchievement, displayed) {
   return updatedWorkAchievement;
 }
 
-export async function createEmptyEducationAchievement(educationEntryId) {
+export async function createEmptyEducationAchievement(
+  educationEntryId: string,
+) {
   const emptyEducationAchievement = await prisma.educationAchievement.create({
     data: { educationEntryId },
   });
@@ -276,7 +292,10 @@ export async function createEmptyEducationAchievement(educationEntryId) {
   return emptyEducationAchievement;
 }
 
-export async function updateDisplayEducationEntry(educationEntry, displayed) {
+export async function updateDisplayEducationEntry(
+  educationEntry: EducationEntry,
+  displayed: boolean,
+) {
   const updatedEducationEntry = await prisma.educationEntry.update({
     where: { id: educationEntry.id },
     data: { displayed: displayed },
@@ -286,8 +305,8 @@ export async function updateDisplayEducationEntry(educationEntry, displayed) {
 }
 
 export async function updateDisplayEducationAchievement(
-  educationAchievement,
-  displayed,
+  educationAchievement: EducationAchievement,
+  displayed: boolean,
 ) {
   const updatedEducationAchievement = await prisma.educationAchievement.update({
     where: { id: educationAchievement.id },
@@ -297,7 +316,7 @@ export async function updateDisplayEducationAchievement(
   return updatedEducationAchievement;
 }
 
-export async function updateWorkEntry(formData) {
+export async function updateWorkEntry(formData: any) {
   const id = formData.get("workEntryId");
   const resumeId = formData.get("resumeId");
   const position = formData.get("position");
@@ -343,7 +362,7 @@ export async function updateWorkEntry(formData) {
   return workEntry;
 }
 
-export async function updateEducationEntry(formData) {
+export async function updateEducationEntry(formData: any) {
   const id = formData.get("educationEntryId");
   const resumeId = formData.get("resumeId");
   const domain = formData.get("domain");
@@ -392,17 +411,17 @@ export async function updateEducationEntry(formData) {
   return educationEntry;
 }
 
-export async function deleteWorkEntry(workEntryId) {
+export async function deleteWorkEntry(workEntryId: string) {
   return await prisma.workEntry.delete({ where: { id: workEntryId } });
 }
 
-export async function deleteEducationEntry(educationEntryId) {
+export async function deleteEducationEntry(educationEntryId: string) {
   return await prisma.educationEntry.delete({
     where: { id: educationEntryId },
   });
 }
 
-export async function updateWorkAchievement(formData) {
+export async function updateWorkAchievement(formData: any) {
   const workAchievementId = formData.get("workAchievementId");
   const description = formData.get("description");
   const displayed = formData.get("displayed") == "on" ? true : false;
@@ -415,7 +434,7 @@ export async function updateWorkAchievement(formData) {
   return workAchievement;
 }
 
-export async function updateEducationAchievement(formData) {
+export async function updateEducationAchievement(formData: any) {
   const educationAchievementId = formData.get("educationAchievementId");
   const description = formData.get("description");
   const displayed = formData.get("displayed");
@@ -428,12 +447,12 @@ export async function updateEducationAchievement(formData) {
   return educationAchievement;
 }
 
-export async function deleteWorkAchievement(id) {
+export async function deleteWorkAchievement(id: string) {
   return await prisma.workAchievement.delete({
     where: { id },
   });
 }
 
-export async function deleteEducationAchievement(id) {
+export async function deleteEducationAchievement(id: string) {
   return await prisma.educationAchievement.delete({ where: { id } });
 }

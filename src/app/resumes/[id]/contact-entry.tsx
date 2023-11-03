@@ -2,13 +2,18 @@
 
 import { useRouter } from "next/navigation";
 import { updateContactEntry } from "../action";
+import { Resume } from "@prisma/client";
 
-export default function ContactEntry({ resume }) {
+type ContactEntryProps = {
+  resume: Resume;
+};
+
+export default function ContactEntry({ resume }: ContactEntryProps) {
   const router = useRouter();
 
   function handleOnChange() {
     const formElement = document.getElementById("contact-entry-form");
-    const formData = new FormData(formElement);
+    const formData = new FormData(formElement as HTMLFormElement);
     updateContactEntry(formData);
     router.refresh();
   }
@@ -23,7 +28,7 @@ export default function ContactEntry({ resume }) {
       <input
         type="hidden"
         name="contactEntryId"
-        value={resume.contactEntry.id}
+        value={resume?.contactEntry?.id}
       />
       <div className="flex flex-row gap-2">
         <input

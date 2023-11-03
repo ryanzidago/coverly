@@ -12,6 +12,7 @@ import {
 } from "../action";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
+import { Resume, WorkAchievement, WorkEntry } from "@prisma/client";
 
 const EMPTY_WORK_ENTRY = {
   id: "empty_work_entry",
@@ -24,7 +25,11 @@ const EMPTY_WORK_ENTRY = {
   displayed: true,
 };
 
-export default function WorkEntries({ resume }) {
+type WorkEntriesProps = {
+  resume: Resume;
+};
+
+export default function WorkEntries({ resume }: WorkEntriesProps) {
   const [addWorkEntry, setAddWorkEntry] = useState(false);
   const workEntries = resume.workEntries;
 
@@ -53,7 +58,7 @@ export default function WorkEntries({ resume }) {
             toggleAddWorkEntryForm={toggleAddWorkEntryForm}
           />
         )}
-        {workEntries.map((workEntry) => {
+        {workEntries.map((workEntry: WorkEntry) => {
           return (
             <WorkEntry
               key={workEntry.id}
@@ -71,9 +76,9 @@ export default function WorkEntries({ resume }) {
 function WorkEntry({
   resume,
   workEntry,
-  showForm: defaultShowForm,
+  showForm: defaultShowForm = false,
   toggleAddWorkEntryForm,
-}) {
+}: any) {
   const router = useRouter();
   const [showForm, setShowForm] = useState(defaultShowForm);
 
@@ -82,7 +87,7 @@ function WorkEntry({
     router.refresh();
   }
 
-  function removeWorkEntry(workEntry) {
+  function removeWorkEntry(workEntry: WorkEntry) {
     deleteWorkEntry(workEntry.id);
     router.refresh();
   }
@@ -122,7 +127,7 @@ function WorkEntry({
 
       {!showForm && (
         <div>
-          {workEntry.achievements.map((achievement) => (
+          {workEntry.achievements.map((achievement: WorkAchievement) => (
             <Achievement
               key={achievement.id}
               workEntry={workEntry}
@@ -135,10 +140,10 @@ function WorkEntry({
   );
 }
 
-function CheckboxedField({ children, entry }) {
+function CheckboxedField({ children, entry }: any) {
   const router = useRouter();
 
-  function handleUpdateDisplayWorkEntry(entry, displayed) {
+  function handleUpdateDisplayWorkEntry(entry: WorkEntry, displayed: boolean) {
     updateDisplayWorkEntry(entry, displayed);
     router.refresh();
   }
@@ -158,7 +163,7 @@ function CheckboxedField({ children, entry }) {
   );
 }
 
-function Summary({ workEntry, onClick }) {
+function Summary({ workEntry, onClick }: any) {
   const { position, startDate, organisation } = workEntry;
 
   return (
@@ -168,7 +173,7 @@ function Summary({ workEntry, onClick }) {
   );
 }
 
-function Form({ resume, workEntry, onCancel, onSubmit }) {
+function Form({ resume, workEntry, onCancel, onSubmit }: any) {
   const router = useRouter();
   const [currentWork, setCurrentWork] = useState(false);
 
@@ -182,7 +187,7 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
 
   function handleOnSubmit() {
     const formElement = document.getElementById(workEntry.id);
-    const formData = new FormData(formElement);
+    const formData = new FormData(formElement as HTMLFormElement);
     updateWorkEntry(formData);
     router.refresh();
     onSubmit();
@@ -341,7 +346,7 @@ function Form({ resume, workEntry, onCancel, onSubmit }) {
   );
 }
 
-function Achievement({ workEntry, achievement }) {
+function Achievement({ workEntry, achievement }: any) {
   const textAreaRef = useRef();
   const router = useRouter();
 
@@ -358,17 +363,20 @@ function Achievement({ workEntry, achievement }) {
 
   function handleSubmit() {
     const formElement = document.getElementById(id);
-    const formData = new FormData(formElement);
+    const formData = new FormData(formElement as HTMLFormElement);
     updateWorkAchievement(formData);
     router.refresh();
   }
 
-  function handleUpdateDisplayWorkAchievement(achievement, displayed) {
+  function handleUpdateDisplayWorkAchievement(
+    achievement: WorkAchievement,
+    displayed: boolean,
+  ) {
     updateDisplayWorkAchievement(achievement, displayed);
     router.refresh();
   }
 
-  function handleWorkAchievementChange(e) {
+  function handleWorkAchievementChange(e: any) {
     const value = e.target.value;
     value ? handleSubmit() : handleRemove();
   }
@@ -408,7 +416,7 @@ function WorkEntryDropDown({
   onAddAchievement,
   onRemoveWorkEntry,
   onEditEntry,
-}) {
+}: any) {
   return (
     <Menu as={"div"} className={"absolute right-0"}>
       <Menu.Button className={"absolute right-0"}>Menu</Menu.Button>
@@ -462,7 +470,7 @@ function WorkEntryDropDown({
   );
 }
 
-function autoResizeTextArea(textAreaRef) {
+function autoResizeTextArea(textAreaRef: any) {
   if (textAreaRef.current) {
     textAreaRef.current.style.height = "auto";
     textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";

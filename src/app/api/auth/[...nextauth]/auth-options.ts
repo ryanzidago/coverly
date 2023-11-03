@@ -11,13 +11,13 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn({ user, account, profile, email, credentials }: any) {
       return true;
     },
-    async redirect({ url, baseUrl }) {
+    async redirect({ url, baseUrl }: any) {
       return baseUrl;
     },
-    async session({ session, user, token }) {
+    async session({ session, user, token }: any) {
       if (session) {
         if (session.user) {
           session.user.id = user.id;
@@ -25,7 +25,7 @@ export const authOptions = {
       }
       return session;
     },
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user, account, profile }: any) {
       return token;
     },
   },
