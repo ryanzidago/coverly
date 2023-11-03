@@ -2,15 +2,6 @@ import { Location } from "@/types/location-type";
 import Link from "./link";
 import { formattedDateTime } from "@/utils/datetime-formatter";
 
-// type EntryProps = {
-//   title: string;
-//   subtitle: string;
-//   startDate: DateSimple;
-//   endDate: DateSimple;
-//   location: Location;
-//   link: string;
-// };
-
 export default function EntryHeader(props) {
   function buildLocation(location: Location) {
     if (location.remote) {
