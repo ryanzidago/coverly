@@ -10,9 +10,14 @@ import {
 import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 export default function TitleInput({ resume, resumes }) {
   const router = useRouter();
+
+  useEffect(() => {
+    window.document.title = resume.title + " - Coverly";
+  }, []);
 
   function handleOnChange() {
     const formElement = document.getElementById("resume-metadata-form");
