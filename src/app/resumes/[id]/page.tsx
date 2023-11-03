@@ -11,10 +11,12 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
+  const { user } = session;
 
-  const { id } = params;
-  const resume = await getResume(id);
-  const resumes = await allResumesForUserId(session.user.id);
+  const { id: resumeId } = params;
+
+  const resume = await getResume(user.id, resumeId);
+  const resumes = await allResumesForUserId(user.id);
 
   return (
     <div className="flex flex-col xl:flex-row items-center justify-center text-slate-700 text-justify">

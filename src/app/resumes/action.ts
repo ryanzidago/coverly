@@ -15,10 +15,11 @@ export async function allResumesForUserId(userId) {
   return resumes;
 }
 
-export async function getResume(id) {
+export async function getResume(authorId, resumeId) {
   const resume = await prisma.resume.findUnique({
     where: {
-      id: id,
+      id: resumeId,
+      authorId: authorId,
     },
     include: {
       author: true,
