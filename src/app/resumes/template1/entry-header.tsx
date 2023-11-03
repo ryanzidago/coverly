@@ -1,8 +1,8 @@
-import { Location } from "@/types/location-type";
+import { Location } from "@/app/types";
 import Link from "./link";
 import { formattedDateTime } from "@/utils/datetime-formatter";
 
-export default function EntryHeader(props) {
+export default function EntryHeader(props: any) {
   function buildLocation(location: Location) {
     if (location.remote) {
       return "Remote";

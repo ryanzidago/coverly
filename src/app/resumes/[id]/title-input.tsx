@@ -115,6 +115,7 @@ type ResumeMenuDropDown = {
 
 function ResumeMenuDropDown({ resume, resumes }: ResumeMenuDropDown) {
   const { data: session, status } = useSession();
+  const user = session?.user as any;
   const router = useRouter();
 
   function handleDelete(selectedResume: Resume) {
@@ -127,7 +128,7 @@ function ResumeMenuDropDown({ resume, resumes }: ResumeMenuDropDown) {
   }
 
   function handleCreateStarterResume() {
-    createEmptyResume(session?.user?.id).then((resume) =>
+    createEmptyResume(user?.id).then((resume) =>
       router.push(`/resumes/${resume.id}`),
     );
   }

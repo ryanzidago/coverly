@@ -1,4 +1,4 @@
-export default function Section(props) {
+export default function Section(props: any) {
   return (
     <div className="flex flex-col gap-2 w-full">
       <h2 className="text-xl font-light w-full divide border-b border-slate-20 mb-4">

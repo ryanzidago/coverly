@@ -5,32 +5,37 @@ import {
   WorkAchievement as WorkAchievementModel,
   EducationEntry as EducationEntryModel,
   EducationAchievement as EducationAchievementModel,
+  Organisation as OrganisationModel,
 } from "@prisma/client";
 
 export type Resume = ResumeModel & {
-  contactEntry: ContactEntry;
-  workEntries: WorkEntry[];
-  educationEntries: EducationEntry[];
+  contactEntry?: ContactEntry;
+  workEntries?: WorkEntry[];
+  educationEntries?: EducationEntry[];
 };
 
 export type ContactEntry = ContactEntryModel & {
-  phoneNumber: PhoneNumber;
-  location: Location;
+  phoneNumber?: PhoneNumber;
+  location?: Location;
 };
 
 export type EducationEntry = EducationEntryModel & {
-  location: Location;
-  achievements: EducationAchievement[];
+  location?: Location;
+  organisation?: Organisation;
+  achievements?: EducationAchievement[];
 };
 
 export type EducationAchievement = EducationAchievementModel;
 
 export type WorkEntry = WorkEntryModel & {
-  location: Location;
-  achievements: WorkAchievement[];
+  location?: Location;
+  organisation?: Organisation;
+  achievements?: WorkAchievement[];
 };
 
 export type WorkAchievement = WorkAchievementModel;
 
-export type Location = { city: string; country: string; remote: boolean };
-export type PhoneNumber = { countryCode: string; number: string };
+export type Organisation = OrganisationModel;
+
+export type Location = { city?: string; country?: string; remote?: boolean };
+export type PhoneNumber = { countryCode?: string; number?: string };

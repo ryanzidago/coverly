@@ -1,11 +1,12 @@
 "use client";
 
+import { ContactEntry, Resume } from "@/app/types";
 import EntryAchievements from "./entry-description";
 import EntryHeader from "./entry-header";
 import Link from "./link";
 import Section from "./section";
 
-export default function Template1({ resume }) {
+export default function Template1({ resume }: { resume: Resume }) {
   const { contactEntry, workEntries, educationEntries } = resume;
 
   return (
@@ -34,14 +35,14 @@ export default function Template1({ resume }) {
             </Link>
           </div>
           <p>
-            <Location contactEntry={contactEntry} />
+            <Location contactEntry={contactEntry as ContactEntry} />
           </p>
         </div>
       </div>
       {/* work section*/}
       <Section title="Work Experience">
         {workEntries
-          .filter((workEntry) => workEntry.displayed)
+          ?.filter((workEntry) => workEntry.displayed)
           .map((workEntry, index: number) => (
             // workEntry entry container
             <div key={index}>
@@ -65,13 +66,13 @@ export default function Template1({ resume }) {
       {/* education section */}
       <Section title="Education">
         {educationEntries
-          .filter((education) => education.displayed)
+          ?.filter((education) => education.displayed)
           .map((education, index: number) => (
             // education container
             <div key={index}>
               {/* education header */}
               <EntryHeader
-                title={education?.area}
+                title={education?.domain}
                 link={education?.organisation?.website}
                 subtitle={education?.organisation?.name}
                 startDate={education?.startDate}
@@ -91,7 +92,7 @@ export default function Template1({ resume }) {
   );
 }
 
-function Location({ contactEntry }) {
+function Location({ contactEntry }: { contactEntry: ContactEntry }) {
   if (contactEntry?.location?.city && contactEntry?.location?.country) {
     return (
       <>

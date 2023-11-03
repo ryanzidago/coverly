@@ -1,4 +1,4 @@
-export default function Link(props) {
+export default function Link(props: any) {
   return (
     <a
       className="text-sky-500 font-light hover:text-sky-300 duration-200"

@@ -12,7 +12,7 @@ import {
 } from "../action";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
-import { Resume, WorkAchievement, WorkEntry } from "@prisma/client";
+import { Resume, WorkAchievement, WorkEntry } from "@/app/types";
 
 const EMPTY_WORK_ENTRY = {
   id: "empty_work_entry",
@@ -58,7 +58,7 @@ export default function WorkEntries({ resume }: WorkEntriesProps) {
             toggleAddWorkEntryForm={toggleAddWorkEntryForm}
           />
         )}
-        {workEntries.map((workEntry: WorkEntry) => {
+        {workEntries?.map((workEntry: WorkEntry) => {
           return (
             <WorkEntry
               key={workEntry.id}
@@ -347,7 +347,7 @@ function Form({ resume, workEntry, onCancel, onSubmit }: any) {
 }
 
 function Achievement({ workEntry, achievement }: any) {
-  const textAreaRef = useRef();
+  const textAreaRef = useRef(null);
   const router = useRouter();
 
   const { id, description, displayed } = achievement;

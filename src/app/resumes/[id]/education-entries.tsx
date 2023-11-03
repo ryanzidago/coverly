@@ -59,16 +59,17 @@ export default function EducationEntries({ resume }: EducationEntriesProps) {
             toggleAddEducationEntryForm={toggleAddEducationEntryForm}
           />
         )}
-        {educationEntries.map((educationEntry) => {
-          return (
-            <EducationEntry
-              key={educationEntry.id}
-              resume={resume}
-              educationEntry={educationEntry}
-              toggleAddEducationEntryForm={toggleAddEducationEntryForm}
-            />
-          );
-        })}
+        {educationEntries &&
+          educationEntries.map((educationEntry) => {
+            return (
+              <EducationEntry
+                key={educationEntry.id}
+                resume={resume}
+                educationEntry={educationEntry}
+                toggleAddEducationEntryForm={toggleAddEducationEntryForm}
+              />
+            );
+          })}
       </div>
     </div>
   );

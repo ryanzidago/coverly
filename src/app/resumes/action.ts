@@ -7,7 +7,7 @@ import {
   Resume,
   WorkAchievement,
   WorkEntry,
-} from "@prisma/client";
+} from "@/app/types";
 
 import { redirect } from "next/navigation";
 import { EmploymentType } from "@prisma/client";
@@ -80,7 +80,7 @@ export async function createEmptyResume(authorId: string) {
   return resume;
 }
 
-export async function updateResume(formData) {
+export async function updateResume(formData: any) {
   const id = formData.get("resumeId");
   const title = formData.get("resumeTitle");
 
@@ -105,108 +105,120 @@ export async function duplicateResume(resume: Resume) {
   // Create new associated records for the new resume
   const newContactEntry = await prisma.contactEntry.create({
     data: {
-      firstName: resume.contactEntry.firstName,
-      lastName: resume.contactEntry.lastName,
-      email: resume.contactEntry.email,
-      phoneNumber: resume.contactEntry.phoneNumber,
-      location: resume.contactEntry.location,
-      externalLinks: resume.contactEntry.externalLinks,
+      firstName: resume?.contactEntry?.firstName,
+      lastName: resume?.contactEntry?.lastName,
+      email: resume?.contactEntry?.email,
+      phoneNumber: resume?.contactEntry?.phoneNumber,
+      location: resume?.contactEntry?.location,
+      // externalLinks: resume?.contactEntry?.externalLinks,
       resumeId: newResume.id,
     },
   });
 
-  const newEducationEntries = await Promise.all(
-    resume.educationEntries.map(async (educationEntry) => {
-      const newEducationEntry = await prisma.educationEntry.create({
-        data: {
-          startDate: educationEntry.startDate,
-          endDate: educationEntry.endDate,
-          location: educationEntry.location,
-          domain: educationEntry.domain,
-          type: educationEntry.type,
-          organisationId: educationEntry.organisationId,
-          resumeId: newResume.id,
-        },
-      });
+  if (resume.educationEntries) {
+    const newEducationEntries = await Promise.all(
+      resume.educationEntries.map(async (educationEntry) => {
+        const newEducationEntry = await prisma.educationEntry.create({
+          data: {
+            startDate: educationEntry.startDate,
+            endDate: educationEntry.endDate,
+            location: educationEntry.location,
+            domain: educationEntry.domain,
+            type: educationEntry.type,
+            organisationId: educationEntry.organisationId,
+            resumeId: newResume.id,
+          },
+        });
 
-      const newEducationAchievements = await Promise.all(
-        educationEntry.achievements.map(async (achievement) => {
-          return prisma.educationAchievement.create({
-            data: {
-              description: achievement.description,
-              educationEntryId: newEducationEntry.id,
-            },
-          });
-        }),
-      );
+        let newEducationAchievements;
 
-      return {
-        ...newEducationEntry,
-        achievements: newEducationAchievements,
-      };
-    }),
-  );
+        if (educationEntry.achievements) {
+          newEducationAchievements = await Promise.all(
+            educationEntry.achievements.map(async (achievement) => {
+              return prisma.educationAchievement.create({
+                data: {
+                  description: achievement.description,
+                  educationEntryId: newEducationEntry.id,
+                },
+              });
+            }),
+          );
+        }
 
-  const newProjectEntries = await Promise.all(
-    resume.projectEntries.map(async (projectEntry) => {
-      const newProjectEntry = await prisma.projectEntry.create({
-        data: {
-          startDate: projectEntry.startDate,
-          endDate: projectEntry.endDate,
-          website: projectEntry.website,
-          resumeId: newResume.id,
-        },
-      });
+        return {
+          ...newEducationEntry,
+          achievements: newEducationAchievements,
+        };
+      }),
+    );
+  }
 
-      const newProjectAchievements = await Promise.all(
-        projectEntry.achievements.map(async (achievement) => {
-          return prisma.projectAchievement.create({
-            data: {
-              description: achievement.description,
-              projectEntryId: newProjectEntry.id,
-            },
-          });
-        }),
-      );
+  // const newProjectEntries = await Promise.all(
+  //   resume.projectEntries.map(async (projectEntry) => {
+  //     const newProjectEntry = await prisma.projectEntry.create({
+  //       data: {
+  //         startDate: projectEntry.startDate,
+  //         endDate: projectEntry.endDate,
+  //         website: projectEntry.website,
+  //         resumeId: newResume.id,
+  //       },
+  //     });
 
-      return {
-        ...newProjectEntry,
-        achievements: newProjectAchievements,
-      };
-    }),
-  );
+  //     const newProjectAchievements = await Promise.all(
+  //       projectEntry.achievements.map(async (achievement) => {
+  //         return prisma.projectAchievement.create({
+  //           data: {
+  //             description: achievement.description,
+  //             projectEntryId: newProjectEntry.id,
+  //           },
+  //         });
+  //       }),
+  //     );
 
-  const newWorkEntries = await Promise.all(
-    resume.workEntries.map(async (workEntry) => {
-      const newWorkEntry = await prisma.workEntry.create({
-        data: {
-          position: workEntry.position,
-          startDate: workEntry.startDate,
-          endDate: workEntry.endDate,
-          location: workEntry.location,
-          organisationId: workEntry.organisationId,
-          employmentType: workEntry.employmentType,
-          resumeId: newResume.id,
-        },
-      });
+  //     return {
+  //       ...newProjectEntry,
+  //       achievements: newProjectAchievements,
+  //     };
+  //   }),
+  // );
 
-      const newWorkAchievements = await Promise.all(
-        workEntry.achievements.map(async (achievement) => {
-          return prisma.workAchievement.create({
-            data: {
-              description: achievement.description,
-              workEntryId: newWorkEntry.id,
-            },
-          });
-        }),
-      );
+  if (resume.workEntries) {
+    const newWorkEntries = await Promise.all(
+      resume.workEntries.map(async (workEntry) => {
+        const newWorkEntry = await prisma.workEntry.create({
+          data: {
+            position: workEntry.position,
+            startDate: workEntry.startDate,
+            endDate: workEntry.endDate,
+            location: workEntry.location,
+            organisationId: workEntry.organisationId,
+            employmentType: workEntry.employmentType,
+            resumeId: newResume.id,
+          },
+        });
 
-      return {
-        ...newWorkEntry,
-        achievements: newWorkAchievements,
-      };
-    }),
-  );
+        let newWorkAchievements;
+
+        if (workEntry.achievements) {
+          newWorkAchievements = await Promise.all(
+            workEntry.achievements.map(async (achievement) => {
+              return prisma.workAchievement.create({
+                data: {
+                  description: achievement.description,
+                  workEntryId: newWorkEntry.id,
+                },
+              });
+            }),
+          );
+        }
+
+        return {
+          ...newWorkEntry,
+          achievements: newWorkAchievements,
+        };
+      }),
+    );
+  }
 
   redirect(`/resumes/${newResume.id}`);
 
