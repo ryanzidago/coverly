@@ -1,6 +1,6 @@
 "use client";
 
-import { Ref, useEffect, useRef, useState } from "react";
+import { LegacyRef, Ref, useEffect, useRef, useState } from "react";
 import {
   updateEducationEntry,
   updateEducationAchievement,
@@ -12,7 +12,8 @@ import {
 } from "../action";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
-import { EducationAchievement, EducationEntry, Resume } from "@prisma/client";
+
+import { EducationAchievement, EducationEntry, Resume } from "@/app/types";
 
 const EMPTY_EDUCATION_ENTRY = {
   id: "empty_education_entry",
@@ -76,9 +77,9 @@ export default function EducationEntries({ resume }: EducationEntriesProps) {
 function EducationEntry({
   resume,
   educationEntry,
-  showForm: defaultShowForm,
+  showForm: defaultShowForm = false,
   toggleAddEducationEntryForm,
-}) {
+}: any) {
   const router = useRouter();
   const [showForm, setShowForm] = useState(defaultShowForm);
 
@@ -87,7 +88,7 @@ function EducationEntry({
     router.refresh();
   }
 
-  function removeEducationEntry(educationEntry) {
+  function removeEducationEntry(educationEntry: EducationEntry) {
     deleteEducationEntry(educationEntry.id);
     router.refresh();
   }
@@ -192,7 +193,7 @@ function Form({ resume, educationEntry, onCancel, onSubmit }: any) {
 
   function handleOnSubmit() {
     const formElement = document.getElementById(educationEntry.id);
-    const formData = new FormData(formElement);
+    const formData = new FormData(formElement as HTMLFormElement);
     updateEducationEntry(formData);
     router.refresh();
     onSubmit();
@@ -362,8 +363,14 @@ function Form({ resume, educationEntry, onCancel, onSubmit }: any) {
   );
 }
 
-function Achievement({ educationEntry, achievement }) {
-  const textAreaRef = useRef();
+function Achievement({
+  educationEntry,
+  achievement,
+}: {
+  educationEntry: EducationEntry;
+  achievement: EducationAchievement;
+}) {
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
   const { id, description, displayed } = achievement;
 
@@ -376,20 +383,23 @@ function Achievement({ educationEntry, achievement }) {
     autoResizeTextArea(textAreaRef);
   }, []);
 
-  function handleSubmit(e) {
+  function handleSubmit(e: any) {
     e.preventDefault();
     const formElement = document.getElementById(id);
-    const formData = new FormData(formElement);
+    const formData = new FormData(formElement as HTMLFormElement);
     updateEducationAchievement(formData);
     router.refresh();
   }
 
-  function handleUpdateDisplayEducationAchievement(achievement, displayed) {
+  function handleUpdateDisplayEducationAchievement(
+    achievement: EducationAchievement,
+    displayed: boolean,
+  ) {
     updateDisplayEducationAchievement(achievement, displayed);
     router.refresh();
   }
 
-  function handleEducationAchievementChange(e) {
+  function handleEducationAchievementChange(e: any) {
     const value = e.target.value;
     value ? handleSubmit(e) : handleRemove();
   }
@@ -411,7 +421,7 @@ function Achievement({ educationEntry, achievement }) {
           type="checkbox"
           className="mt-1"
           name="displayed"
-          value={displayed}
+          value={`${displayed}` || ""}
           defaultChecked={displayed}
           onChange={(e) =>
             handleUpdateDisplayEducationAchievement(
@@ -422,7 +432,7 @@ function Achievement({ educationEntry, achievement }) {
         />
         <textarea
           ref={textAreaRef}
-          defaultValue={description}
+          defaultValue={description || ""}
           name="description"
           className="w-full rounded"
           placeholder="Tell us about what you've achieved!"

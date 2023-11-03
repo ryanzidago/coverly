@@ -8,6 +8,7 @@ import { allResumesForUserId, getResume } from "../action";
 import EducationEntries from "./education-entries";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
+import { Resume } from "@/app/types";
 
 export default async function Page({ params }: any) {
   const session = await getServerSession(authOptions);

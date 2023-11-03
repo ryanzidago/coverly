@@ -11,7 +11,7 @@ import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { Resume } from "@prisma/client";
+import { Resume } from "@/app/types";
 
 type TitleInputProps = {
   resume: Resume;
@@ -127,7 +127,7 @@ function ResumeMenuDropDown({ resume, resumes }: ResumeMenuDropDown) {
   }
 
   function handleCreateStarterResume() {
-    createEmptyResume(session?.user.id).then((resume) =>
+    createEmptyResume(session?.user?.id).then((resume) =>
       router.push(`/resumes/${resume.id}`),
     );
   }
